@@ -1,0 +1,16 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Dependencias y compilados (si se agregan en el futuro)
+node_modules/
+build/
+
+# Variables de entorno
+.env
+.env.*

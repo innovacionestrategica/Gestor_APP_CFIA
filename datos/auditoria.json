@@ -1,0 +1,22 @@
+[
+  {
+    "id": "carga-inicial",
+    "accion": "crear",
+    "cambios": [],
+    "fecha": "2026-10-12T22:50:00.000Z",
+    "modulo": "tramites",
+    "nota": "Se cargaron 5 trámites con WebView y la Sede Central CFIA a partir de las historias de usuario.",
+    "registroId": "",
+    "registroNombre": "Carga inicial de datos"
+  },
+  {
+    "id": "ejemplo-carga-datos",
+    "accion": "crear",
+    "cambios": [],
+    "fecha": "2026-11-03T22:10:00.000Z",
+    "modulo": "regalias",
+    "nota": "Se cargaron sedes, regalías, reservas, anuncios y novedades de ejemplo, y se asignó «Trámite para» a los trámites existentes.",
+    "registroId": "",
+    "registroNombre": "Carga de datos de ejemplo"
+  }
+]

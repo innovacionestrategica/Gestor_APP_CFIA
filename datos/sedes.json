@@ -1,0 +1,102 @@
+[
+  {
+    "id": "ejemplo-sede-cacr",
+    "activo": true,
+    "actualizadoEn": "2026-10-05T14:00:00.000Z",
+    "colegio": "CACR",
+    "correos": [
+      "regalias.cacr@ejemplo.cr"
+    ],
+    "creadoEn": "2026-10-05T14:00:00.000Z",
+    "direccion": "Edificio CFIA, Curridabat, San José (dato de ejemplo)",
+    "horario": [
+      {
+        "dias": "Lunes a viernes",
+        "horas": "8:00 a. m. a 4:00 p. m."
+      }
+    ],
+    "mapa": "",
+    "nombre": "Sede CACR (ejemplo)",
+    "notas": "Registro de ejemplo para pruebas.",
+    "provincia": "San José",
+    "telefonos": [
+      "2103-2400"
+    ]
+  },
+  {
+    "id": "ejemplo-sede-ciemi",
+    "activo": true,
+    "actualizadoEn": "2026-10-05T14:20:00.000Z",
+    "colegio": "CIEMI",
+    "correos": [
+      "regalias.ciemi@ejemplo.cr"
+    ],
+    "creadoEn": "2026-10-05T14:20:00.000Z",
+    "direccion": "Heredia centro (dato de ejemplo)",
+    "horario": [
+      {
+        "dias": "Lunes a jueves",
+        "horas": "9:00 a. m. a 5:00 p. m."
+      }
+    ],
+    "mapa": "",
+    "nombre": "Sede CIEMI Heredia (ejemplo)",
+    "notas": "Registro de ejemplo para pruebas.",
+    "provincia": "Heredia",
+    "telefonos": [
+      "2260-0000",
+      "8800-0000"
+    ]
+  },
+  {
+    "id": "ejemplo-sede-guanacaste",
+    "activo": true,
+    "actualizadoEn": "2026-10-05T14:10:00.000Z",
+    "colegio": "CFIA",
+    "correos": [
+      "guanacaste@ejemplo.cr"
+    ],
+    "creadoEn": "2026-10-05T14:10:00.000Z",
+    "direccion": "Liberia, Guanacaste (dato de ejemplo)",
+    "horario": [
+      {
+        "dias": "Lunes a viernes",
+        "horas": "8:00 a. m. a 4:00 p. m."
+      },
+      {
+        "dias": "Sábados",
+        "horas": "8:00 a. m. a 12:00 m. d."
+      }
+    ],
+    "mapa": "",
+    "nombre": "Sede Regional Guanacaste (ejemplo)",
+    "notas": "Registro de ejemplo para pruebas.",
+    "provincia": "Guanacaste",
+    "telefonos": [
+      "2666-0000"
+    ]
+  },
+  {
+    "id": "sede-central-cfia",
+    "activo": true,
+    "actualizadoEn": "2026-10-12T22:50:00.000Z",
+    "colegio": "CFIA",
+    "correos": [],
+    "creadoEn": "2026-10-12T22:50:00.000Z",
+    "direccion": "Contiguo al Indoor Club de Curridabat, San José, Costa Rica",
+    "horario": [
+      {
+        "dias": "Lunes a viernes",
+        "horas": "Por confirmar"
+      }
+    ],
+    "mapa": "",
+    "nombre": "Sede Central CFIA",
+    "notas": "Completar correo y horario oficial de atención.",
+    "provincia": "San José",
+    "telefonos": [
+      "2103-2200",
+      "2103-2342"
+    ]
+  }
+]

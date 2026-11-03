@@ -1,0 +1,161 @@
+[
+  {
+    "id": "ejemplo-camiseta",
+    "activo": true,
+    "actualizadoEn": "2026-10-25T16:00:00.000Z",
+    "atributos": [
+      {
+        "nombre": "Tallas",
+        "valor": "S, M, L, XL"
+      },
+      {
+        "nombre": "Material",
+        "valor": "Algodón"
+      },
+      {
+        "nombre": "Color",
+        "valor": "Gris"
+      }
+    ],
+    "campana": 2027,
+    "cantidadTotal": 80,
+    "colegio": "CACR",
+    "creadoEn": "2026-10-10T15:10:00.000Z",
+    "descripcion": "Camiseta de algodón con el logo del colegio.",
+    "disponible": 79,
+    "envioCorreos": false,
+    "fin": "2026-12-15",
+    "inicio": "2026-10-15",
+    "limitePorPersona": 1,
+    "nombre": "Camiseta conmemorativa",
+    "sedes": [
+      "ejemplo-sede-cacr"
+    ]
+  },
+  {
+    "id": "ejemplo-libreta",
+    "activo": true,
+    "actualizadoEn": "2026-10-30T15:00:00.000Z",
+    "atributos": [
+      {
+        "nombre": "Hojas",
+        "valor": "120"
+      },
+      {
+        "nombre": "Tamaño",
+        "valor": "A5"
+      }
+    ],
+    "campana": 2027,
+    "cantidadTotal": 100,
+    "colegio": "CIT",
+    "creadoEn": "2026-10-30T15:00:00.000Z",
+    "descripcion": "Libreta de campo con hojas cuadriculadas y tapa resistente al agua.",
+    "disponible": 100,
+    "envioCorreos": false,
+    "fin": "2027-02-28",
+    "inicio": "2027-01-10",
+    "limitePorPersona": 1,
+    "nombre": "Libreta técnica",
+    "sedes": [
+      "sede-central-cfia"
+    ]
+  },
+  {
+    "id": "ejemplo-mochila",
+    "activo": true,
+    "actualizadoEn": "2026-10-29T16:00:00.000Z",
+    "atributos": [
+      {
+        "nombre": "Capacidad",
+        "valor": "20 L"
+      },
+      {
+        "nombre": "Color",
+        "valor": "Negro"
+      }
+    ],
+    "campana": 2027,
+    "cantidadTotal": 2,
+    "colegio": "CIEMI",
+    "creadoEn": "2026-10-14T15:00:00.000Z",
+    "descripcion": "Mochila con compartimento acolchado para equipos de hasta 15 pulgadas. Edición limitada.",
+    "disponible": 0,
+    "envioCorreos": false,
+    "fin": "2026-12-31",
+    "inicio": "2026-10-15",
+    "limitePorPersona": 1,
+    "nombre": "Mochila para laptop",
+    "sedes": [
+      "ejemplo-sede-ciemi"
+    ]
+  },
+  {
+    "id": "ejemplo-paraguas",
+    "activo": true,
+    "actualizadoEn": "2026-10-28T16:00:00.000Z",
+    "atributos": [
+      {
+        "nombre": "Dimensiones",
+        "valor": "60x10x10 cm"
+      },
+      {
+        "nombre": "Color",
+        "valor": "Negro y naranja"
+      },
+      {
+        "nombre": "Material",
+        "valor": "Poliéster"
+      }
+    ],
+    "campana": 2027,
+    "cantidadTotal": 120,
+    "colegio": "CACR",
+    "costoEnvio": 3500,
+    "creadoEn": "2026-10-10T15:00:00.000Z",
+    "descripcion": "Paraguas de doble capa con apertura invertida, ideal para la temporada lluviosa.",
+    "disponible": 116,
+    "envioCorreos": true,
+    "fin": "2026-12-15",
+    "inicio": "2026-10-15",
+    "instruccionesPago": "SINPE Móvil 8888-0000 a nombre de Regalías CACR (dato de ejemplo). Indique su número de carné en el detalle.",
+    "limitePorPersona": 1,
+    "nombre": "Paraguas Antigoteo",
+    "sedes": [
+      "ejemplo-sede-cacr",
+      "sede-central-cfia"
+    ]
+  },
+  {
+    "id": "ejemplo-termo",
+    "activo": true,
+    "actualizadoEn": "2026-10-30T16:00:00.000Z",
+    "atributos": [
+      {
+        "nombre": "Capacidad",
+        "valor": "750 ml"
+      },
+      {
+        "nombre": "Material",
+        "valor": "Acero inoxidable"
+      }
+    ],
+    "campana": 2027,
+    "cantidadTotal": 60,
+    "colegio": "CIVILES",
+    "costoEnvio": 3000,
+    "creadoEn": "2026-10-12T15:00:00.000Z",
+    "descripcion": "Termo de doble pared que mantiene la temperatura por 12 horas.",
+    "disponible": 58,
+    "envioCorreos": true,
+    "fin": "2026-11-30",
+    "inicio": "2026-10-20",
+    "instruccionesPago": "Depósito a la cuenta CR00 0000 0000 0000 0000 00 (dato de ejemplo).",
+    "limitePorPersona": 1,
+    "nombre": "Termo de acero",
+    "sedes": [
+      "sede-central-cfia",
+      "ejemplo-sede-guanacaste"
+    ]
+  }
+]

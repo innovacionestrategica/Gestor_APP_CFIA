@@ -1,0 +1,99 @@
+[
+  {
+    "id": "ejemplo-an-cacr",
+    "accion": "regalias",
+    "activo": true,
+    "actualizadoEn": "2026-10-14T16:00:00.000Z",
+    "btnPrimario": "IR A RESERVAR MI REGALÍA",
+    "btnSecundario": "RECORDARME MÁS TARDE",
+    "colegios": [
+      "CACR"
+    ],
+    "creadoEn": "2026-10-14T16:00:00.000Z",
+    "fin": "2026-12-15T23:59",
+    "frecuencia": "hasta_accion",
+    "inicio": "2026-10-15T08:00",
+    "mensaje": "Conozca las Regalías [AÑO] que [NOMBRE COLEGIO MIEMBRO] tiene para usted y reserve la suya seleccionando la opción IR A RESERVAR MI REGALÍA.",
+    "ocultarSiReservo": true,
+    "prioridad": 1,
+    "publico": "colegios",
+    "titulo": "¡Ya disponibles las Regalías [NOMBRE COLEGIO MIEMBRO] [AÑO]!"
+  },
+  {
+    "id": "ejemplo-an-ciemi",
+    "accion": "cerrar",
+    "activo": true,
+    "actualizadoEn": "2026-10-01T16:00:00.000Z",
+    "btnPrimario": "ENTENDIDO",
+    "btnSecundario": "",
+    "colegios": [
+      "CIEMI"
+    ],
+    "creadoEn": "2026-10-01T16:00:00.000Z",
+    "fin": "2026-10-31T23:59",
+    "frecuencia": "una_vez",
+    "inicio": "2026-10-01T08:00",
+    "mensaje": "Gracias por participar. Las mochilas del [NOMBRE COLEGIO MIEMBRO] se agotaron.",
+    "prioridad": 1,
+    "publico": "colegios",
+    "titulo": "Mochilas agotadas"
+  },
+  {
+    "id": "ejemplo-an-cit-citec",
+    "accion": "cerrar",
+    "activo": true,
+    "actualizadoEn": "2026-11-02T16:00:00.000Z",
+    "btnPrimario": "ENTENDIDO",
+    "btnSecundario": "",
+    "colegios": [
+      "CIT",
+      "CITEC"
+    ],
+    "creadoEn": "2026-11-02T16:00:00.000Z",
+    "fin": "2027-01-20T23:59",
+    "frecuencia": "una_vez",
+    "inicio": "2027-01-05T08:00",
+    "mensaje": "En enero abriremos las reservas de regalías para su colegio. ¡Esté atento!",
+    "prioridad": 3,
+    "publico": "colegios",
+    "titulo": "Próximamente: Regalías [AÑO]"
+  },
+  {
+    "id": "ejemplo-an-civiles",
+    "accion": "regalias",
+    "activo": true,
+    "actualizadoEn": "2026-10-19T16:00:00.000Z",
+    "btnPrimario": "IR A RESERVAR MI REGALÍA",
+    "btnSecundario": "RECORDARME MÁS TARDE",
+    "colegios": [
+      "CIVILES"
+    ],
+    "creadoEn": "2026-10-19T16:00:00.000Z",
+    "fin": "2026-11-30T23:59",
+    "frecuencia": "diaria",
+    "inicio": "2026-10-20T08:00",
+    "mensaje": "El [NOMBRE COLEGIO MIEMBRO] le obsequia un termo de acero. Resérvelo antes del 30 de noviembre.",
+    "ocultarSiReservo": true,
+    "prioridad": 1,
+    "publico": "colegios",
+    "titulo": "Su termo 2027 lo espera"
+  },
+  {
+    "id": "ejemplo-an-todos",
+    "accion": "tramite",
+    "activo": true,
+    "actualizadoEn": "2026-09-30T16:00:00.000Z",
+    "btnPrimario": "SOLICITAR AHORA",
+    "btnSecundario": "",
+    "colegios": [],
+    "creadoEn": "2026-09-30T16:00:00.000Z",
+    "destinoTramite": "certificaciones-digitales",
+    "fin": "2026-11-30T23:59",
+    "frecuencia": "una_vez",
+    "inicio": "2026-10-01T08:00",
+    "mensaje": "Ahora puede solicitar sus certificaciones de membresía desde Trámites y servicios.",
+    "prioridad": 2,
+    "publico": "todos",
+    "titulo": "Nuevo: Certificaciones Digitales en el App"
+  }
+]
