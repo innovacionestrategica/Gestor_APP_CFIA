@@ -1,99 +1,91 @@
 [
   {
     "id": "ejemplo-an-cacr",
-    "accion": "regalias",
     "activo": true,
-    "actualizadoEn": "2026-10-14T16:00:00.000Z",
-    "btnPrimario": "IR A RESERVAR MI REGALÍA",
-    "btnSecundario": "RECORDARME MÁS TARDE",
+    "actualizadoEn": "2026-11-04T16:00:00.000Z",
     "colegios": [
       "CACR"
     ],
     "creadoEn": "2026-10-14T16:00:00.000Z",
-    "fin": "2026-12-15T23:59",
+    "destinoUrl": "https://cacrarquitectos.com/",
+    "fin": "2026-11-28T23:59",
     "frecuencia": "hasta_accion",
-    "inicio": "2026-10-15T08:00",
-    "mensaje": "Conozca las Regalías [AÑO] que [NOMBRE COLEGIO MIEMBRO] tiene para usted y reserve la suya seleccionando la opción IR A RESERVAR MI REGALÍA.",
-    "ocultarSiReservo": true,
+    "inicio": "2026-11-04T08:00",
+    "mensaje": "Le invitamos a la Asamblea General Ordinaria del [NOMBRE COLEGIO MIEMBRO] el sábado 28 de noviembre (dato de ejemplo).",
     "prioridad": 1,
     "publico": "colegios",
-    "titulo": "¡Ya disponibles las Regalías [NOMBRE COLEGIO MIEMBRO] [AÑO]!"
+    "registradoPor": "CACR",
+    "titulo": "Asamblea General Ordinaria [AÑO] (ejemplo)"
   },
   {
     "id": "ejemplo-an-ciemi",
-    "accion": "cerrar",
     "activo": true,
     "actualizadoEn": "2026-10-01T16:00:00.000Z",
-    "btnPrimario": "ENTENDIDO",
-    "btnSecundario": "",
     "colegios": [
       "CIEMI"
     ],
     "creadoEn": "2026-10-01T16:00:00.000Z",
+    "destinoUrl": "",
     "fin": "2026-10-31T23:59",
     "frecuencia": "una_vez",
     "inicio": "2026-10-01T08:00",
-    "mensaje": "Gracias por participar. Las mochilas del [NOMBRE COLEGIO MIEMBRO] se agotaron.",
+    "mensaje": "El [NOMBRE COLEGIO MIEMBRO] realizó con éxito su jornada de capacitación de octubre. ¡Gracias por participar! (dato de ejemplo)",
     "prioridad": 1,
     "publico": "colegios",
-    "titulo": "Mochilas agotadas"
+    "registradoPor": "CIEMI",
+    "titulo": "Gracias por participar (ejemplo)"
   },
   {
     "id": "ejemplo-an-cit-citec",
-    "accion": "cerrar",
     "activo": true,
     "actualizadoEn": "2026-11-02T16:00:00.000Z",
-    "btnPrimario": "ENTENDIDO",
-    "btnSecundario": "",
     "colegios": [
       "CIT",
       "CITEC"
     ],
     "creadoEn": "2026-11-02T16:00:00.000Z",
+    "destinoUrl": "",
     "fin": "2027-01-20T23:59",
     "frecuencia": "una_vez",
     "inicio": "2027-01-05T08:00",
-    "mensaje": "En enero abriremos las reservas de regalías para su colegio. ¡Esté atento!",
+    "mensaje": "Las oficinas del CFIA atenderán en horario especial durante la primera semana de enero (dato de ejemplo).",
     "prioridad": 3,
     "publico": "colegios",
-    "titulo": "Próximamente: Regalías [AÑO]"
+    "registradoPor": "admin",
+    "titulo": "Horario especial de enero (ejemplo)"
   },
   {
     "id": "ejemplo-an-civiles",
-    "accion": "regalias",
     "activo": true,
-    "actualizadoEn": "2026-10-19T16:00:00.000Z",
-    "btnPrimario": "IR A RESERVAR MI REGALÍA",
-    "btnSecundario": "RECORDARME MÁS TARDE",
+    "actualizadoEn": "2026-11-04T16:05:00.000Z",
     "colegios": [
       "CIVILES"
     ],
     "creadoEn": "2026-10-19T16:00:00.000Z",
+    "destinoUrl": "",
     "fin": "2026-11-30T23:59",
     "frecuencia": "diaria",
-    "inicio": "2026-10-20T08:00",
-    "mensaje": "El [NOMBRE COLEGIO MIEMBRO] le obsequia un termo de acero. Resérvelo antes del 30 de noviembre.",
-    "ocultarSiReservo": true,
+    "inicio": "2026-11-04T08:00",
+    "mensaje": "El [NOMBRE COLEGIO MIEMBRO] le invita a la charla sobre diseño sísmico de puentes, el jueves 26 de noviembre (dato de ejemplo).",
     "prioridad": 1,
     "publico": "colegios",
-    "titulo": "Su termo 2027 lo espera"
+    "registradoPor": "CIVILES",
+    "titulo": "Charla técnica: diseño sísmico (ejemplo)"
   },
   {
     "id": "ejemplo-an-todos",
-    "accion": "tramite",
     "activo": true,
-    "actualizadoEn": "2026-09-30T16:00:00.000Z",
-    "btnPrimario": "SOLICITAR AHORA",
-    "btnSecundario": "",
+    "actualizadoEn": "2026-11-04T16:10:00.000Z",
     "colegios": [],
     "creadoEn": "2026-09-30T16:00:00.000Z",
-    "destinoTramite": "certificaciones-digitales",
+    "destinoUrl": "https://servicios.cfia.or.cr/certificaciones/WizardSolicitud.aspx",
     "fin": "2026-11-30T23:59",
     "frecuencia": "una_vez",
     "inicio": "2026-10-01T08:00",
-    "mensaje": "Ahora puede solicitar sus certificaciones de membresía desde Trámites y servicios.",
+    "mensaje": "Ahora puede solicitar sus certificaciones de membresía desde Trámites y servicios. Toque este aviso para conocer más.",
     "prioridad": 2,
     "publico": "todos",
+    "registradoPor": "dep-CFIA",
     "titulo": "Nuevo: Certificaciones Digitales en el App"
   }
 ]

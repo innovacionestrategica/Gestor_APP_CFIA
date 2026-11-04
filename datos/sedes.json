@@ -3,12 +3,14 @@
     "id": "ejemplo-sede-cacr",
     "activo": true,
     "actualizadoEn": "2026-10-05T14:00:00.000Z",
+    "canton": "Curridabat",
     "colegio": "CACR",
     "correos": [
       "regalias.cacr@ejemplo.cr"
     ],
     "creadoEn": "2026-10-05T14:00:00.000Z",
     "direccion": "Edificio CFIA, Curridabat, San José (dato de ejemplo)",
+    "distrito": "Curridabat",
     "horario": [
       {
         "dias": "Lunes a viernes",
@@ -27,12 +29,14 @@
     "id": "ejemplo-sede-ciemi",
     "activo": true,
     "actualizadoEn": "2026-10-05T14:20:00.000Z",
+    "canton": "Heredia",
     "colegio": "CIEMI",
     "correos": [
       "regalias.ciemi@ejemplo.cr"
     ],
     "creadoEn": "2026-10-05T14:20:00.000Z",
     "direccion": "Heredia centro (dato de ejemplo)",
+    "distrito": "Heredia",
     "horario": [
       {
         "dias": "Lunes a jueves",
@@ -52,12 +56,14 @@
     "id": "ejemplo-sede-guanacaste",
     "activo": true,
     "actualizadoEn": "2026-10-05T14:10:00.000Z",
+    "canton": "Liberia",
     "colegio": "CFIA",
     "correos": [
       "guanacaste@ejemplo.cr"
     ],
     "creadoEn": "2026-10-05T14:10:00.000Z",
     "direccion": "Liberia, Guanacaste (dato de ejemplo)",
+    "distrito": "Liberia",
     "horario": [
       {
         "dias": "Lunes a viernes",
@@ -80,10 +86,12 @@
     "id": "sede-central-cfia",
     "activo": true,
     "actualizadoEn": "2026-10-12T22:50:00.000Z",
+    "canton": "Curridabat",
     "colegio": "CFIA",
     "correos": [],
     "creadoEn": "2026-10-12T22:50:00.000Z",
     "direccion": "Contiguo al Indoor Club de Curridabat, San José, Costa Rica",
+    "distrito": "",
     "horario": [
       {
         "dias": "Lunes a viernes",

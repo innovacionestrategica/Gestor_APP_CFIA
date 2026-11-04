@@ -35,15 +35,15 @@ Fuera de claude.ai, el gestor funciona en **modo demostración**: carga los dato
 | Módulo | Qué permite |
 |---|---|
 | Resumen | Indicadores, inventario de regalías, próximos eventos y últimos cambios. |
-| Trámites y servicios | Enlaces que el App abre en WebView o en el navegador. Cada trámite indica si es para **colegiados, empresas o ambos**. |
-| Sedes | Dirección, horario, teléfonos y correos de cada lugar de retiro. |
-| Anuncios | Modales sobre la pantalla de Inicio del App. El Administrador CFIA elige uno, varios o todos los colegios; un usuario de colegio publica automáticamente solo para su colegio. |
+| Trámites y servicios | Enlaces que el App abre en WebView o en el navegador. Cada trámite indica si es para **colegiados, empresas o ambos**. Se exporta a Excel según los filtros. |
+| Sedes | Sedes del CFIA donde se retiran las regalías: provincia, cantón, distrito, dirección, horario, teléfonos y correos. No se asocian a un colegio. |
+| Avisos | Avisos emergentes sobre la pantalla de Inicio del App para informar eventos específicos. No tienen botones: se cierran con la X y, opcionalmente, abren un enlace en WebView al tocarlos. El Administrador CFIA y los departamentos eligen los colegios; un colegio publica solo para el suyo. Las regalías no se registran aquí: el App muestra su aviso automáticamente. |
 | Regalías | Productos por colegio con atributos libres, inventario, período de solicitud, sedes de retiro y opción de **envío por Correos de Costa Rica**, con costo del envío y medios de pago (cuentas, bancos o SINPE Móvil) obligatorios. |
-| Reservas | Registro y edición de reservas, retiro en sede o envío por Correos, con los datos de envío y el **comprobante de pago** (imagen o PDF) que sube el profesional en el App. |
-| Novedades y eventos | Contenido de la sección «Novedades CFIA». Los eventos pueden tener una fecha específica o un rango de fechas. |
+| Reservas | Registro y edición de reservas, con retiro en sede o envío por Correos de Costa Rica. El envío usa los mismos campos y validaciones del App, incluido el **comprobante de pago** obligatorio (JPG, PNG o PDF, máximo 5 MB). Se exporta a Excel según los filtros. |
+| Eventos, novedades y anuncios | Contenido de «Novedades CFIA» y «VER TODAS» del App, que hasta ahora se alimentaba del WordPress del CFIA. Botón principal obligatorio y botón secundario opcional, cada uno con acción «Abrir un enlace en WebView» o «Abrir en navegador del dispositivo». Los eventos pueden tener una fecha específica o un rango de fechas. Pueden registrarlos los colegios y los departamentos del CFIA. |
 | Auditoría | Quién creó, modificó o eliminó cada registro, con el valor anterior y el nuevo de cada campo. |
 
-**Exportación:** cada módulo descarga sus registros en JSON. Reservas y Auditoría también tienen **«Exportar Excel»**, que respeta los filtros y la búsqueda aplicados. La generación del Excel usa SheetJS desde cdnjs, por lo que necesita conexión a internet.
+**Exportación:** cada módulo descarga sus registros en JSON. Trámites y servicios, Reservas y Auditoría también tienen **«Exportar Excel»**, que respeta los filtros y la búsqueda aplicados. La generación del Excel usa SheetJS desde cdnjs, por lo que necesita conexión a internet.
 
 ### Datos de envío por Correos de Costa Rica
 
@@ -51,7 +51,7 @@ Nombre completo de la persona o empresa; número de teléfono; provincia, cantó
 
 ### Perfil de acceso (prueba)
 
-Mientras no exista el inicio de sesión institucional, la barra lateral tiene un selector **«Perfil de acceso (prueba)»** para simular al Administrador CFIA o al gestor de cada colegio. Se guarda en el navegador de cada persona.
+Mientras no exista el inicio de sesión institucional, la barra lateral tiene un selector **«Perfil de acceso (prueba)»** para simular al Administrador CFIA, a un departamento del CFIA (CENDEPRO, CFIA u Oficinas Regionales) o al gestor de cada colegio. En producción, el departamento o colegio lo indica el SSO del CFIA. Los departamentos y colegios solo ven los anuncios y publicaciones que registraron. Se guarda en el navegador de cada persona.
 
 ## Datos de ejemplo
 
@@ -68,7 +68,7 @@ Todos los registros de ejemplo son ficticios: se identifican con «(ejemplo)», 
 
 ## Modelo de datos
 
-Colecciones: `tramites`, `sedes`, `anuncios`, `regalias`, `reservas`, `novedades` y `auditoria`. Cada documento guarda los campos definidos en `MODS[...].fields` de `src/app.js`, más `creadoEn`, `creadoPor`, `actualizadoEn` y `actualizadoPor`.
+Colecciones: `tramites`, `sedes`, `anuncios`, `regalias`, `reservas`, `novedades` (eventos, novedades y anuncios) y `auditoria`. Cada documento guarda los campos definidos en `MODS[...].fields` de `src/app.js`, más `creadoEn`, `creadoPor`, `actualizadoEn` y `actualizadoPor`.
 
 Cada movimiento de `auditoria` registra `fecha`, `actorId`, `modulo`, `registroId`, `registroNombre`, `accion` (`crear`, `modificar` o `eliminar`), `cambios` (lista de `{campo, etiqueta, antes, despues}`) y `nota`.
 

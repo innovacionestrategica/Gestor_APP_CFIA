@@ -85,6 +85,8 @@ const COLEGIOS = [
   ["CITEC","Colegio de Ingenieros Tecnólogos"]
 ];
 const DIRIGIDO = [["colegiados","Colegiados"],["empresas","Empresas"],["ambos","Colegiados y empresas"]];
+const ACCIONES_BTN = [["webview","Abrir un enlace en WebView"],["navegador","Abrir en navegador del dispositivo"]];
+const TIPOS_PUB = [["evento","Evento"],["novedad","Novedad / noticia"],["anuncio","Anuncio"]];
 const COLEGIOS_MIEMBRO = COLEGIOS.filter(c => c[0] !== "CFIA");
 const colName = id => (COLEGIOS.find(c => c[0] === id) || [id, id || "—"])[1];
 const colShort = id => id === "CFIA" ? "CFIA" : (id || "—");
@@ -158,11 +160,19 @@ const who = id => `<span class="who" data-uid="${esc(id||"")}"><img class="hidde
 
 function perfil(){ try { return localStorage.getItem("cfia-gestor-perfil") || "admin"; } catch(e){ return S.perfilMem || "admin"; } }
 function esAdmin(){ return perfil() === "admin"; }
+const DEPARTAMENTOS = [["dep-CENDEPRO","CENDEPRO"],["dep-CFIA","CFIA"],["dep-OR","Oficinas Regionales"]];
+const PERFILES = [["admin","Administrador CFIA"]].concat(DEPARTAMENTOS, COLEGIOS_MIEMBRO.map(c => [c[0], c[0]]));
+function esDepto(){ return perfil().startsWith("dep-"); }
+function esColegio(){ return COLEGIOS_MIEMBRO.some(c => c[0] === perfil()); }
+function perfilNombre(p){ return (PERFILES.find(x => x[0] === p) || [p, p || "—"])[1]; }
+function registrador(r){ return r.registradoPor || (r.publico === "colegios" && (r.colegios||[]).length === 1 ? r.colegios[0] : "admin"); }
+const puedeVer = r => esAdmin() || registrador(r) === perfil();
 function perfilSelect(){
   return `<label style="display:block;margin-top:10px;font-size:12px;color:var(--gris7)">Perfil de acceso (prueba)
     <select id="perfilSel" style="margin-top:4px;width:100%;min-height:34px;padding:4px 8px;background:#2F2A2B;color:#fff;border:1px solid #3A3536;border-radius:6px;font-size:13px">
       <option value="admin" ${esAdmin() ? "selected" : ""}>Administrador CFIA</option>
-      ${COLEGIOS_MIEMBRO.map(c => `<option value="${c[0]}" ${perfil() === c[0] ? "selected" : ""}>Gestor ${esc(c[0])}</option>`).join("")}
+      <optgroup label="Departamentos del CFIA">${DEPARTAMENTOS.map(d => `<option value="${d[0]}" ${perfil() === d[0] ? "selected" : ""}>${esc(d[1])}</option>`).join("")}</optgroup>
+      <optgroup label="Colegios miembros">${COLEGIOS_MIEMBRO.map(c => `<option value="${c[0]}" ${perfil() === c[0] ? "selected" : ""}>Gestor ${esc(c[0])}</option>`).join("")}</optgroup>
     </select></label>`;
 }
 function renderMe(){
@@ -280,9 +290,9 @@ const pill = ([t, c]) => `<span class="pill ${c}">${esc(t)}</span>`;
    Definición de módulos
    ===================================================================== */
 const sedeOpts = colegio => S.data.sedes
-  .filter(s => s.activo !== false && (!colegio || s.colegio === colegio || s.colegio === "CFIA"))
+  .filter(s => s.activo !== false)
   .sort((a,b) => (a.nombre||"").localeCompare(b.nombre||""))
-  .map(s => [s.id, s.nombre + (s.colegio === "CFIA" ? " (CFIA)" : "")]);
+  .map(s => [s.id, s.nombre]);
 
 const MODS = {
   tramites:{
@@ -341,14 +351,15 @@ const MODS = {
 
   sedes:{
     nuevo:"Nueva sede", crear:"Crear sede", coll:"sedes", nameKey:"nombre", title:"Sedes", singular:"sede", icon:"pin",
-    intro:"Sedes del CFIA y de los colegios miembros. Se usan como lugares de retiro de regalías y como datos de contacto.",
-    defaults:() => ({ colegio:"CFIA", provincia:"San José", activo:true, telefonos:[""], correos:[""], horario:[{dias:"Lunes a viernes", horas:"8:00 a. m. a 4:00 p. m."}] }),
+    intro:"Sedes del CFIA donde se retiran las regalías. Se muestran en el App en «Ubicación de entrega» y en los correos de confirmación.",
+    defaults:() => ({ provincia:"San José", activo:true, telefonos:[""], correos:[""], horario:[{dias:"Lunes a viernes", horas:"8:00 a. m. a 4:00 p. m."}] }),
     fields:[
       {sec:"Datos generales"},
       {key:"nombre", label:"Nombre de la sede", type:"text", req:true, ph:"Ej. Sede Central CFIA"},
-      {key:"colegio", label:"Pertenece a", type:"select", req:true, options:() => COLEGIOS},
       {sec:"Ubicación"},
       {key:"provincia", label:"Provincia", type:"select", req:true, options:() => PROVINCIAS},
+      {key:"canton", label:"Cantón", type:"text", req:true, ph:"Ej. Curridabat"},
+      {key:"distrito", label:"Distrito", type:"text", req:true, ph:"Ej. Curridabat"},
       {key:"mapa", label:"Enlace de mapa (opcional)", type:"url", ph:"https://maps.app.goo.gl/…"},
       {key:"direccion", label:"Dirección", type:"textarea", req:true, span:2, ph:"Ej. Contiguo al Indoor Club de Curridabat, San José"},
       {sec:"Contacto"},
@@ -361,13 +372,13 @@ const MODS = {
       {key:"notas", label:"Notas internas", type:"textarea", span:2}
     ],
     filters:[
-      {key:"colegio", label:"Todos los colegios", options:COLEGIOS, test:(r,v) => r.colegio === v},
+      {key:"provincia", label:"Todas las provincias", options:PROVINCIAS, test:(r,v) => r.provincia === v},
       {key:"estado", label:"Todos los estados", options:[["activo","Activas"],["inactivo","Inactivas"]], test:(r,v) => v === "activo" ? r.activo !== false : r.activo === false}
     ],
     sort:(a,b) => (a.nombre||"").localeCompare(b.nombre||""),
     columns:[
-      {label:"Sede", cell:r => `<div class="t1">${esc(r.nombre)}</div><div class="sub">${esc(colName(r.colegio))}</div>`},
-      {label:"Dirección", cell:r => `<div class="sub" style="white-space:normal;max-width:36ch">${esc(r.provincia)} · ${esc(r.direccion)}</div>`},
+      {label:"Sede", cell:r => `<div class="t1">${esc(r.nombre)}</div>`},
+      {label:"Ubicación", cell:r => `<div>${esc([r.provincia, r.canton, r.distrito].filter(Boolean).join(", "))}</div><div class="sub" style="white-space:normal;max-width:36ch">${esc(r.direccion)}</div>`},
       {label:"Teléfonos", cell:r => (r.telefonos||[]).filter(Boolean).map(t => `<span class="tag mono">${esc(t)}</span>`).join("") || "—"},
       {label:"Correos", cell:r => (r.correos||[]).filter(Boolean).map(t => `<div class="sub">${esc(t)}</div>`).join("") || "—"},
       {label:"Horario", cell:r => (r.horario||[]).map(h => `<div class="sub">${esc(h.dias)}: ${esc(h.horas)}</div>`).join("") || "—"},
@@ -391,64 +402,63 @@ const MODS = {
   },
 
   anuncios:{
-    nuevo:"Nuevo anuncio", crear:"Crear anuncio", coll:"anuncios", nameKey:"titulo", title:"Anuncios", singular:"anuncio", icon:"mega",
-    intro:"Modales informativos que se muestran sobre la pantalla de Inicio del App, como el anuncio de campaña de regalías.",
-    defaults:() => ({ btnPrimario:"IR A RESERVAR MI REGALÍA", accion:"regalias", btnSecundario:"RECORDARME MÁS TARDE", publico:"todos", colegios:[], frecuencia:"hasta_accion", prioridad:1, ocultarSiReservo:true, activo:true }),
+    nuevo:"Nuevo aviso", crear:"Crear aviso", coll:"anuncios", nameKey:"titulo", title:"Avisos", singular:"aviso", icon:"mega",
+    intro:"Avisos emergentes que se muestran sobre la pantalla de Inicio del App para informar eventos específicos. Todo aviso se cierra con la X. Las regalías no se registran aquí: el App las muestra automáticamente al colegio del profesional cuando hay disponibles y están en su período de solicitud.",
+    defaults:() => ({ publico:"todos", colegios:[], frecuencia:"hasta_accion", prioridad:1, activo:true }),
     fields:[
       {sec:"Contenido"},
-      {key:"titulo", label:"Título", type:"text", req:true, span:2, max:90, ph:"¡Ya disponibles las Regalías [NOMBRE COLEGIO MIEMBRO] [AÑO]!", help:"Puede usar las variables [NOMBRE COLEGIO MIEMBRO] y [AÑO]; el App las reemplaza con los datos de cada profesional."},
+      {key:"titulo", label:"Título", type:"text", req:true, span:2, max:90, ph:"Ej. Asamblea General Ordinaria [AÑO]", help:"Puede usar las variables [NOMBRE COLEGIO MIEMBRO] y [AÑO]; el App las reemplaza con los datos de cada profesional."},
       {key:"mensaje", label:"Mensaje", type:"textarea", req:true, span:2, max:280},
-      {key:"imagen", label:"Imagen promocional", type:"image", span:2, help:"Recomendado: 600 × 600 px, JPG o PNG."},
-      {sec:"Botones"},
-      {key:"btnPrimario", label:"Texto del botón principal", type:"text", req:true, max:32},
-      {key:"accion", label:"Acción del botón principal", type:"select", req:true, options:() => [["regalias","Abrir Regalías Disponibles"],["tramite","Abrir un trámite del App"],["url","Abrir un enlace en WebView"],["cerrar","Solo cerrar el anuncio"]]},
-      {key:"destinoTramite", label:"Trámite a abrir", type:"select", req:true, when:r => r.accion === "tramite", options:() => S.data.tramites.map(t => [t.id, t.nombre])},
-      {key:"destinoUrl", label:"Enlace a abrir", type:"url", req:true, when:r => r.accion === "url", ph:"https://…"},
-      {key:"btnSecundario", label:"Texto del botón secundario", type:"text", max:32, help:"Déjelo vacío para no mostrarlo."},
+      {key:"imagen", label:"Imagen", type:"image", span:2, help:"Recomendado: 600 × 600 px, JPG o PNG."},
+      {sec:"Enlace (opcional)"},
+      {key:"destinoUrl", label:"Abrir un enlace en WebView", type:"url", span:2, ph:"https://…", help:"Opcional. Si se indica, al tocar el aviso se abre este enlace en un WebView dentro del App. El aviso no tiene botones y siempre se puede cerrar con la X."},
       {sec:"Público y vigencia"},
-      {key:"_avisoColegio", type:"info", when:() => !esAdmin(), text:() => `Este anuncio se publicará únicamente para los profesionales del ${colName(perfil())}.`},
-      {key:"publico", label:"Colegios a los que se dirige", type:"select", req:true, when:() => esAdmin(), options:() => [["todos","Todos los colegios"],["colegios","Uno o varios colegios"]]},
-      {key:"prioridad", label:"Prioridad", type:"number", min:1, req:true, help:"1 es la más alta. Si hay varios anuncios vigentes, se muestra primero el de menor número."},
-      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => esAdmin() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO},
+      {key:"_avisoColegio", type:"info", when:() => esColegio(), text:() => `Este aviso se publicará únicamente para los profesionales del ${colName(perfil())}.`},
+      {key:"_avisoDepto", type:"info", when:() => esDepto(), text:() => `Este aviso quedará registrado a nombre de ${perfilNombre(perfil())}, según su usuario del SSO del CFIA.`},
+      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => PERFILES},
+      {key:"publico", label:"Colegios a los que se dirige", type:"select", req:true, when:() => !esColegio(), options:() => [["todos","Todos los colegios"],["colegios","Uno o varios colegios"]]},
+      {key:"prioridad", label:"Prioridad", type:"number", min:1, req:true, help:"1 es la más alta. Si hay varios avisos vigentes, se muestra primero el de menor número."},
+      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO},
       {key:"inicio", label:"Visible desde", type:"datetime", req:true},
       {key:"fin", label:"Visible hasta", type:"datetime", req:true},
-      {key:"frecuencia", label:"Frecuencia", type:"select", req:true, span:2, options:() => [["hasta_accion","En cada inicio hasta que el profesional toque el botón principal"],["diaria","Una vez al día"],["una_vez","Una sola vez"]]},
-      {key:"ocultarSiReservo", label:"Ocultar a quien ya reservó su regalía", type:"toggle", when:r => r.accion === "regalias"},
-      {key:"activo", label:"Anuncio activo", type:"toggle"}
+      {key:"frecuencia", label:"Frecuencia", type:"select", req:true, span:2, options:() => [["hasta_accion","En cada inicio de sesión mientras esté vigente"],["diaria","Una vez al día"],["una_vez","Una sola vez"]]},
+      {key:"activo", label:"Aviso activo", type:"toggle"}
     ],
     filters:[
       {key:"estado", label:"Todos los estados", options:[["Vigente","Vigentes"],["Programado","Programados"],["Finalizado","Finalizados"],["Inactivo","Inactivos"]], test:(r,v) => vigencia(r.inicio, r.fin, r.activo)[0] === v}
     ],
-    beforeSave:r => { if(!esAdmin()){ r.publico = "colegios"; r.colegios = [perfil()]; } return r; },
-    visible:r => esAdmin() || (r.publico === "colegios" && (r.colegios||[]).length === 1 && r.colegios[0] === perfil()),
+    beforeSave:(r, prev) => { r.registradoPor = prev ? registrador(prev) : perfil(); if(esColegio()){ r.publico = "colegios"; r.colegios = [perfil()]; } return r; },
+    visible:puedeVer,
     sort:(a,b) => (a.prioridad||9) - (b.prioridad||9),
     columns:[
       {label:"", cell:r => imgSrc(r.imagen) ? `<img class="thumb" src="${esc(imgSrc(r.imagen))}" alt="">` : `<div class="thumb"></div>`},
-      {label:"Anuncio", cell:r => `<div class="t1">${esc(r.titulo)}</div><div class="sub">${esc(r.mensaje)}</div>`},
+      {label:"Aviso", cell:r => `<div class="t1">${esc(r.titulo)}</div><div class="sub">${esc(r.mensaje)}</div>`},
+      {label:"Registrado por", cell:r => `<span class="tag">${esc(perfilNombre(registrador(r)))}</span>`},
       {label:"Público", cell:r => r.publico === "colegios" ? (r.colegios||[]).map(c => `<span class="tag">${esc(c)}</span>`).join("") : "Todos"},
+      {label:"Enlace", cell:r => r.destinoUrl ? `<span class="tag">WebView</span>` : "—"},
       {label:"Vigencia", cell:r => `<div class="sub mono">${fmtDate(r.inicio,true)}<br>${fmtDate(r.fin,true)}</div>`},
       {label:"Prioridad", cell:r => `<span class="mono">${esc(r.prioridad)}</span>`},
       {label:"Estado", cell:r => pill(vigencia(r.inicio, r.fin, r.activo))}
     ],
     preview:r => {
       const year = r.inicio ? new Date(r.inicio).getFullYear() : new Date().getFullYear();
-      const pub = !esAdmin() ? perfil() : (r.publico === "colegios" && (r.colegios||[])[0]);
+      const pub = esColegio() ? perfil() : (r.publico === "colegios" && (r.colegios||[])[0]);
       const col = pub ? colName(pub) : "Colegio de Arquitectos de Costa Rica";
       const v = s => esc(s || "").replace(/\[NOMBRE (DE )?COLEGIO MIEMBRO\]/gi, col).replace(/\[AÑO\]/gi, year);
       const src = imgSrc(r.imagen);
       return `<h3>Así se verá en el App</h3><div class="phone"><div class="screen">
         <div class="sb"><img src="assets/cfia_logo.png" alt=""><span></span></div><div class="hello">¡Hola, Mariana!</div>
-        <div class="ov"><div class="mdl"><div class="top"><h4>${v(r.titulo) || "Título del anuncio"}</h4><span style="font-size:16px;line-height:1">✕</span></div>
-          <p>${v(r.mensaje) || "Mensaje del anuncio."}</p>
+        <div class="ov"><div class="mdl"><div class="top"><h4>${v(r.titulo) || "Título del aviso"}</h4><span style="font-size:16px;line-height:1">✕</span></div>
+          <p>${v(r.mensaje) || "Mensaje del aviso."}</p>
           <div class="img" ${src ? `style="background:url('${esc(src)}') center/cover no-repeat"` : ""}></div>
-          <span class="b1">${esc(r.btnPrimario || "BOTÓN")}</span>${r.btnSecundario ? `<span class="b2">${esc(r.btnSecundario)}</span>` : ""}
+          ${r.destinoUrl ? `<p style="font-size:10px;color:#76777B;margin:8px 0 0">Al tocar el aviso se abre en WebView: ${esc(r.destinoUrl)}</p>` : ""}
         </div></div></div></div>
-        <p class="help" style="font-size:13px;color:var(--muted);margin:12px 4px 0">Vista previa con datos de ejemplo de un profesional del ${esc(col)}.</p>`;
+        <p class="help" style="font-size:13px;color:var(--muted);margin:12px 4px 0">Vista previa con datos de ejemplo de un profesional del ${esc(col)}. El aviso no tiene botones: se cierra con la X${r.destinoUrl ? " y al tocarlo abre el enlace" : ""}.</p>`;
     },
     validate:r => {
       const e = {};
       if(r.inicio && r.fin && new Date(r.fin) <= new Date(r.inicio)) e.fin = "Debe ser posterior a la fecha de inicio.";
-      if(r.accion === "url" && r.destinoUrl && !/^https:\/\//i.test(r.destinoUrl)) e.destinoUrl = "Debe iniciar con https://";
+      if(r.destinoUrl && !/^https:\/\//i.test(r.destinoUrl)) e.destinoUrl = "Debe iniciar con https://";
       return e;
     }
   },
@@ -476,8 +486,8 @@ const MODS = {
       {key:"activo", label:"Regalía activa", type:"toggle"},
       {sec:"Envío por Correos de Costa Rica"},
       {key:"envioCorreos", label:"Permitir envío por Correos de Costa Rica", type:"toggle", span:2, help:"El profesional podrá elegir el envío en el App y deberá subir el comprobante de pago del envío."},
-      {key:"costoEnvio", label:"Costo del envío (₡)", type:"number", req:true, min:0, when:r => r.envioCorreos === true, help:"Se muestra en el App como {monto} en «Pasos para enviar por Correos de Costa Rica»."},
-      {key:"instruccionesPago", label:"Medios de pago del envío", type:"textarea", req:true, span:2, when:r => r.envioCorreos === true, ph:"Ej. Banco Nacional, cuenta IBAN CR00 0000 0000 0000 0000 00 a nombre de …\nSINPE Móvil 8888-0000 a nombre de …", help:"Describa el o los números de cuenta y bancos y/o el número SINPE Móvil. Se muestran en el App como {descripción} en «Pasos para enviar por Correos de Costa Rica»."},
+      {key:"costoEnvio", label:"Costo del envío (₡)", type:"number", req:true, min:0, when:r => r.envioCorreos === true, help:"Se muestra en el App en el campo «Costo de envío» y como {monto} en la pantalla «¿Cómo solicitar el envío de la regalía a través de Correos de Costa Rica?»."},
+      {key:"instruccionesPago", label:"Medios de pago del envío", type:"textarea", req:true, span:2, when:r => r.envioCorreos === true, ph:"Ej. Banco Nacional, cuenta IBAN CR00 0000 0000 0000 0000 00 a nombre de …\nSINPE Móvil 8888-0000 a nombre de …", help:"Describa el o los números de cuenta y bancos y/o el número SINPE Móvil. Se muestran en el App como {descripción} en la pantalla «¿Cómo solicitar el envío de la regalía a través de Correos de Costa Rica?»."},
       {sec:"Retiro"},
       {key:"sedes", label:"Sedes de retiro habilitadas", type:"checks", span:2, req:true, dependsOn:["colegio"], options:r => sedeOpts(r.colegio), empty:"Primero registre sedes en el módulo Sedes, o seleccione un colegio."}
     ],
@@ -528,7 +538,7 @@ const MODS = {
   reservas:{
     nuevo:"Nueva reserva", crear:"Registrar reserva", coll:"reservas", nameKey:"numero", title:"Reservas de regalías", singular:"reserva", icon:"clip",
     intro:"Reservas realizadas desde el App o registradas manualmente. El inventario de cada regalía se ajusta automáticamente al crear, cambiar de estado o anular una reserva.",
-    defaults:() => ({ cantidad:1, estado:"reservada", canal:"gestor", modalidad:"sede", estadoPago:"pendiente", envioTipoDestino:"direccion" }),
+    defaults:() => ({ cantidad:1, estado:"reservada", canal:"gestor", modalidad:"sede", estadoPago:"pendiente" }),
     fields:[
       {sec:"Regalía"},
       {key:"regalia", label:"Regalía", type:"select", req:true, span:2, options:r => S.data.regalias
@@ -546,16 +556,14 @@ const MODS = {
       {key:"telefono", label:"Teléfono", type:"tel", req:true, ph:"0000-0000"},
       {key:"correo", label:"Correo electrónico", type:"email", req:true, span:2, ph:"correo@ejemplo.com"},
       {sec:"Envío por Correos de Costa Rica", when:r => r.modalidad === "correos"},
-      {key:"envioNombre", label:"Nombre completo de la persona o empresa", type:"text", req:true, span:2, when:r => r.modalidad === "correos", ph:"Nombre y apellidos, o razón social"},
-      {key:"envioTelefono", label:"Número de teléfono", type:"tel", req:true, when:r => r.modalidad === "correos", ph:"0000-0000"},
-      {key:"envioCedula", label:"Número de cédula", type:"text", when:r => r.modalidad === "correos", ph:"0-0000-0000", help:"Opcional para envíos nacionales, pero recomendado."},
+      {key:"envioNombre", label:"Nombre de quien recibe", type:"text", req:true, span:2, when:r => r.modalidad === "correos", ph:"Nombre y apellidos, o razón social"},
+      {key:"envioTelefono", label:"Teléfono", type:"tel", req:true, when:r => r.modalidad === "correos", ph:"0000-0000"},
+      {key:"envioCedula", label:"Número de cédula", type:"text", when:r => r.modalidad === "correos", ph:"000000000", help:"Opcional para envíos nacionales, pero recomendado."},
       {key:"envioProvincia", label:"Provincia", type:"select", req:true, when:r => r.modalidad === "correos", options:() => PROVINCIAS},
       {key:"envioCanton", label:"Cantón", type:"text", req:true, when:r => r.modalidad === "correos"},
       {key:"envioDistrito", label:"Distrito", type:"text", req:true, when:r => r.modalidad === "correos"},
-      {key:"envioTipoDestino", label:"Entregar en", type:"select", req:true, when:r => r.modalidad === "correos", options:() => [["direccion","Dirección exacta"],["api","Apartado Postal Inteligente (API) / Locker"]]},
-      {key:"envioDireccion", label:"Señas exactas de la dirección de entrega", type:"textarea", req:true, span:2, when:r => r.modalidad === "correos" && r.envioTipoDestino !== "api"},
-      {key:"envioApi", label:"Código del Apartado Postal Inteligente (API) / Locker", type:"text", req:true, span:2, when:r => r.modalidad === "correos" && r.envioTipoDestino === "api"},
-      {key:"comprobante", label:"Comprobante de pago del envío", type:"file", span:2, when:r => r.modalidad === "correos", help:"Lo sube el profesional desde el App. En un registro manual puede adjuntarse aquí (JPG, PNG o PDF)."},
+      {key:"envioDireccion", label:"Dirección exacta", type:"textarea", req:true, span:2, when:r => r.modalidad === "correos", ph:"Señas exactas de la dirección de entrega o el código del Apartado Postal Inteligente (API) / Locker si utiliza esta modalidad"},
+      {key:"comprobante", label:"Comprobante de pago del envío", type:"file", req:true, span:2, when:r => r.modalidad === "correos", help:"Obligatorio. JPG, PNG o PDF, con un peso máximo de 5 MB. Lo sube el profesional desde el App; en un registro manual se adjunta aquí."},
       {key:"estadoPago", label:"Revisión del comprobante", type:"select", req:true, when:r => r.modalidad === "correos", options:() => ESTADOS_PAGO},
       {sec:"Estado"},
       {key:"estado", label:"Estado", type:"select", req:true, options:() => ESTADOS_RES},
@@ -574,7 +582,7 @@ const MODS = {
       {label:"Profesional", cell:r => `<div class="t1">${esc(r.profesional)}</div><div class="sub mono">${esc(r.carne)}</div>`},
       {label:"Regalía", cell:r => { const g = byId("regalias", r.regalia); return g ? `<div>${esc(g.nombre)}</div><div class="sub">${esc(colShort(g.colegio))} · ${esc(g.campana)} · ${esc(r.cantidad)} u.</div>` : `<span class="sub">Regalía eliminada</span>`; }},
       {label:"Entrega", cell:r => r.modalidad === "correos"
-        ? `<div>Correos de Costa Rica</div><div class="sub">${esc(r.envioNombre || "")}</div><div class="sub">${r.envioTipoDestino === "api" ? "API / Locker " + esc(r.envioApi || "") : esc(r.envioProvincia || "") + (r.envioCanton ? ", " + esc(r.envioCanton) : "")}</div>${r.comprobante ? `<button class="btn sm" data-comp="${esc(r.id)}" style="margin-top:6px">${ic("eye")}Ver comprobante</button> ${pagoPill(r.estadoPago)}` : `<span class="pill warn" style="margin-top:6px">Sin comprobante</span>`}`
+        ? `<div>Correos de Costa Rica</div><div class="sub">${esc(r.envioNombre || "")}</div><div class="sub">${esc([r.envioProvincia, r.envioCanton, r.envioDistrito].filter(Boolean).join(", "))}</div>${r.comprobante ? `<button class="btn sm" data-comp="${esc(r.id)}" style="margin-top:6px">${ic("eye")}Ver comprobante</button> ${pagoPill(r.estadoPago)}` : `<span class="pill warn" style="margin-top:6px">Sin comprobante</span>`}`
         : esc((byId("sedes", r.sede)||{}).nombre || "—")},
       {label:"Registrada", cell:r => `<span class="sub mono">${fmtDate(r.creadoEn, true)}</span>`},
       {label:"Estado", cell:r => resPill(r.estado)}
@@ -621,12 +629,12 @@ const MODS = {
   },
 
   novedades:{
-    nuevo:"Nueva novedad o evento", crear:"Crear publicación", coll:"novedades", nameKey:"titulo", title:"Novedades y eventos", singular:"novedad o evento", icon:"news",
-    intro:"Contenido de la sección «Novedades CFIA» de la pantalla de Inicio: congresos, webinars, actividades y noticias.",
-    defaults:() => ({ tipo:"evento", duracion:"fecha", textoBoton:"CONOCER MÁS", publico:"todos", colegios:[], estado:"borrador", destacado:false }),
+    nuevo:"Nuevo evento, novedad o anuncio", crear:"Crear publicación", coll:"novedades", nameKey:"titulo", title:"Eventos, novedades y anuncios", singular:"evento, novedad o anuncio", icon:"news",
+    intro:"Contenido de la sección «Novedades CFIA» de la pantalla de Inicio: eventos, novedades y anuncios de los colegios y de los departamentos del CFIA (CENDEPRO, CFIA y Oficinas Regionales).",
+    defaults:() => ({ tipo:"evento", duracion:"fecha", btnPrimario:"CONOCER MÁS", accionPrimario:"webview", publico:"todos", colegios:[], estado:"borrador", destacado:false }),
     fields:[
       {sec:"Contenido"},
-      {key:"tipo", label:"Tipo", type:"select", req:true, options:() => [["evento","Evento"],["novedad","Novedad / noticia"]]},
+      {key:"tipo", label:"Tipo", type:"select", req:true, options:() => TIPOS_PUB},
       {key:"estado", label:"Estado", type:"select", req:true, options:() => [["borrador","Borrador"],["publicado","Publicado"]]},
       {key:"titulo", label:"Título", type:"text", req:true, span:2, max:80, ph:"Ej. Congreso Nacional de Ingeniería 2027"},
       {key:"resumen", label:"Resumen", type:"textarea", span:2, max:300},
@@ -637,25 +645,36 @@ const MODS = {
       {key:"fechaFin", label:"Fecha de finalización", type:"date", req:true, when:r => r.tipo === "evento" && r.duracion === "rango"},
       {key:"hora", label:"Hora", type:"time", when:r => r.tipo === "evento"},
       {key:"lugar", label:"Lugar", type:"text", span:2, req:true, ph:"Ej. Auditorio CFIA", when:r => r.tipo === "evento"},
-      {sec:"Botón"},
-      {key:"textoBoton", label:"Texto del botón", type:"text", max:24},
-      {key:"enlace", label:"Enlace del botón", type:"url", ph:"https://…"},
+      {sec:"Botones"},
+      {key:"btnPrimario", label:"Texto del botón principal", type:"text", req:true, max:24},
+      {key:"accionPrimario", label:"Acción del botón principal", type:"select", req:true, options:() => ACCIONES_BTN},
+      {key:"urlPrimario", label:"Enlace del botón principal", type:"url", req:true, span:2, ph:"https://…"},
+      {key:"btnSecundario", label:"Texto del botón secundario", type:"text", max:24, help:"Opcional. Déjelo vacío para no mostrarlo."},
+      {key:"accionSecundario", label:"Acción del botón secundario", type:"select", req:true, when:r => !!r.btnSecundario, options:() => ACCIONES_BTN},
+      {key:"urlSecundario", label:"Enlace del botón secundario", type:"url", req:true, span:2, when:r => !!r.btnSecundario, ph:"https://…"},
       {sec:"Publicación"},
       {key:"publicarDesde", label:"Publicar desde", type:"datetime"},
       {key:"publicarHasta", label:"Publicar hasta", type:"datetime"},
-      {key:"publico", label:"Se muestra a", type:"select", req:true, options:() => [["todos","Todos los profesionales"],["colegios","Profesionales de colegios específicos"]]},
+      {key:"_avisoColegioNov", type:"info", when:() => esColegio(), text:() => `Esta publicación se mostrará únicamente a los profesionales del ${colName(perfil())}.`},
+      {key:"_avisoDeptoNov", type:"info", when:() => esDepto(), text:() => `Esta publicación quedará registrada a nombre de ${perfilNombre(perfil())}, según su usuario del SSO del CFIA.`},
+      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => PERFILES},
+      {key:"publico", label:"Se muestra a", type:"select", req:true, when:() => !esColegio(), options:() => [["todos","Todos los profesionales"],["colegios","Profesionales de colegios específicos"]]},
       {key:"destacado", label:"Mostrar primero en el carrusel", type:"toggle"},
-      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => r.publico === "colegios", options:() => COLEGIOS_MIEMBRO}
+      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO}
     ],
+    beforeSave:(r, prev) => { r.registradoPor = prev ? registrador(prev) : perfil(); if(esColegio()){ r.publico = "colegios"; r.colegios = [perfil()]; } return r; },
+    visible:puedeVer,
     filters:[
-      {key:"tipo", label:"Eventos y novedades", options:[["evento","Eventos"],["novedad","Novedades"]], test:(r,v) => r.tipo === v},
+      {key:"tipo", label:"Todos los tipos", options:[["evento","Eventos"],["novedad","Novedades"],["anuncio","Anuncios"]], test:(r,v) => r.tipo === v},
+      {key:"registradoPor", label:"Todos los registradores", options:PERFILES, test:(r,v) => registrador(r) === v},
       {key:"estado", label:"Todos los estados", options:[["publicado","Publicados"],["borrador","Borradores"]], test:(r,v) => r.estado === v}
     ],
     sort:(a,b) => (b.destacado?1:0) - (a.destacado?1:0) || (b.fecha||b.publicarDesde||"").localeCompare(a.fecha||a.publicarDesde||""),
     columns:[
       {label:"", cell:r => imgSrc(r.imagen) ? `<img class="thumb" src="${esc(imgSrc(r.imagen))}" alt="">` : `<div class="thumb"></div>`},
       {label:"Título", cell:r => `<div class="t1">${r.destacado ? "★ " : ""}${esc(r.titulo)}</div><div class="sub">${esc(r.resumen)}</div>`},
-      {label:"Tipo", cell:r => r.tipo === "evento" ? "Evento" : "Novedad"},
+      {label:"Tipo", cell:r => esc((TIPOS_PUB.find(t => t[0] === r.tipo) || [0, r.tipo])[1])},
+      {label:"Registrado por", cell:r => `<span class="tag">${esc(perfilNombre(registrador(r)))}</span>`},
       {label:"Fecha y lugar", cell:r => r.tipo === "evento" ? `<div class="mono">${fmtDate(r.fecha)}${r.duracion === "rango" && r.fechaFin ? " al " + fmtDate(r.fechaFin) : ""} ${esc(r.hora||"")}</div><div class="sub">${esc(r.lugar)}</div>` : "—"},
       {label:"Publicación", cell:r => { if(r.estado !== "publicado") return pill(["Borrador",""]); return pill(vigencia(r.publicarDesde, r.publicarHasta, true)); }}
     ],
@@ -667,14 +686,15 @@ const MODS = {
         <div class="evt"><div class="img" ${src ? `style="background-image:url('${esc(src)}')"` : ""}></div><div class="in">
           <h4>${esc(r.titulo || "Título del evento: congreso, webinar, etc")}</h4>
           ${r.tipo === "evento" ? `<div class="m">${ic("cal")}${r.fecha ? fmtDate(r.fecha) : "DD/MM/AAAA"}${r.duracion === "rango" ? " al " + (r.fechaFin ? fmtDate(r.fechaFin) : "DD/MM/AAAA") : ""}${r.hora ? " · " + esc(r.hora) : ""}</div><div class="m">${ic("pin")}${esc((r.lugar || "Lugar").toUpperCase())}</div>` : `<div class="m" style="display:block">${esc(r.resumen || "")}</div>`}
-          ${r.textoBoton ? `<div class="cta">${esc(r.textoBoton)}</div>` : ""}
+          <div class="cta">${esc(r.btnPrimario || "BOTÓN PRINCIPAL")}</div>${r.btnSecundario ? `<div class="cta" style="background:#fff;border:1px solid #FCB429;margin-top:6px">${esc(r.btnSecundario)}</div>` : ""}
         </div></div></div></div>`;
     },
     validate:r => {
       const e = {};
       if(r.publicarDesde && r.publicarHasta && new Date(r.publicarHasta) <= new Date(r.publicarDesde)) e.publicarHasta = "Debe ser posterior a la fecha de inicio.";
       if(r.tipo === "evento" && r.duracion === "rango" && r.fecha && r.fechaFin && r.fechaFin <= r.fecha) e.fechaFin = "Debe ser posterior a la fecha del evento.";
-      if(r.enlace && !/^https:\/\//i.test(r.enlace)) e.enlace = "Debe iniciar con https://";
+      if(r.urlPrimario && !/^https:\/\//i.test(r.urlPrimario)) e.urlPrimario = "Debe iniciar con https://";
+      if(r.btnSecundario && r.urlSecundario && !/^https:\/\//i.test(r.urlSecundario)) e.urlSecundario = "Debe iniciar con https://";
       if(r.estado === "publicado" && !imgSrc(r.imagen)) e.imagen = "Agregue una imagen antes de publicar.";
       return e;
     }
@@ -739,7 +759,7 @@ function viewResumen(){
     .map(n => `<div class="prow"><div class="grow"><div><strong>${esc(n.titulo)}</strong></div><small>${fmtDate(n.fecha)}${n.duracion === "rango" && n.fechaFin ? " al " + fmtDate(n.fechaFin) : ""} · ${esc(n.lugar || "")}</small></div>${n.estado === "publicado" ? pill(["Publicado","ok"]) : pill(["Borrador",""])}</div>`).join("")
     || `<div class="empty" style="padding:28px">No hay eventos próximos.</div>`;
   return `${banner()}<div class="pagehead"><div><h1>Resumen</h1><p>Estado actual del contenido que se publica en el App CFIA.</p></div></div>
-    <div class="kpis">${k(tram,"Trámites activos","tramites")}${k(anu,"Anuncios vigentes","anuncios")}${k(regV.length,"Regalías en solicitud","regalias")}${k(pend,"Reservas por entregar","reservas")}${k(nov,"Novedades publicadas","novedades")}</div>
+    <div class="kpis">${k(tram,"Trámites activos","tramites")}${k(anu,"Avisos vigentes","anuncios")}${k(regV.length,"Regalías en solicitud","regalias")}${k(pend,"Reservas por entregar","reservas")}${k(nov,"Eventos, novedades y anuncios publicados","novedades")}</div>
     <div class="dash"><div style="display:flex;flex-direction:column;gap:18px">
       <section class="card panel"><h2>Inventario de regalías</h2><div class="rows">${inv}</div></section>
       <section class="card panel"><h2>Próximos eventos</h2><div class="rows">${prox}</div></section></div>
@@ -760,7 +780,7 @@ function viewModuleShell(k){
     return `<select data-filter="${f.key}" aria-label="${esc(f.label)}"><option value="">${esc(f.label)}</option>${opts.map(o => `<option value="${esc(o[0])}" ${S.f[k][f.key] === o[0] ? "selected" : ""}>${esc(o[1])}</option>`).join("")}</select>`;
   }).join("");
   return `${banner()}<div class="pagehead"><div><h1>${esc(m.title)}</h1><p>${esc(m.intro)}</p></div>
-    <div class="actions">${k === "reservas" ? `<button class="btn" data-xls="reservas">${ic("down")}Exportar Excel</button>` : ""}${S.downloads ? `<button class="btn" data-export="${k}">${ic("down")}Exportar JSON</button>` : ""}
+    <div class="actions">${k === "reservas" || k === "tramites" ? `<button class="btn" data-xls="${k}">${ic("down")}Exportar Excel</button>` : ""}${S.downloads ? `<button class="btn" data-export="${k}">${ic("down")}Exportar JSON</button>` : ""}
     <button class="btn pri" data-new="${k}" ${S.canWrite ? "" : "disabled"}>${ic("plus")}${esc(m.nuevo)}</button></div></div>
     <div class="toolbar"><div class="search">${ic("search")}<input type="text" data-q placeholder="Buscar en ${esc(m.title.toLowerCase())}" value="${esc(S.f[k].q || "")}"></div>${fl}</div>
     <div class="card"><div class="tablewrap" id="rows"></div></div>`;
@@ -808,7 +828,7 @@ $("#view").addEventListener("click", async e => {
   if(!t) return;
   if(t.dataset.new) return openForm(k, null);
   if(t.dataset.export) return exportJSON(k);
-  if(t.dataset.xls) return exportReservasXLSX();
+  if(t.dataset.xls) return t.dataset.xls === "tramites" ? exportTramitesXLSX() : exportReservasXLSX();
   if(t.dataset.axls !== undefined) return exportAuditXLSX();
   if(t.dataset.aexp !== undefined) return exportAudit();
   if(t.dataset.arow) return toggleAuditRow(t);
@@ -881,7 +901,7 @@ function fieldHTML(f, r){
       const canUp = S.canWrite && (S.assets || S.mode === "memoria");
       ctl = `<div class="imgbox" id="${id}" data-file='${esc(JSON.stringify(v || null))}'><div class="ph" ${src && !isPdf ? `style="background-image:url('${esc(src)}')"` : ""}>${src ? (isPdf ? "PDF" : "") : "Sin archivo"}</div>
         <div class="ctl">${src ? `<p style="margin:0;font-weight:600;word-break:break-all">${esc(v.nombre || "Comprobante")}</p>` : `<p style="margin:0;color:var(--muted)">El profesional aún no ha subido el comprobante.</p>`}
-        <div class="actions">${src ? `<button type="button" class="btn sm" data-viewfile="${f.key}">${ic("eye")}Ver comprobante</button>` : ""}${canUp ? `<label class="btn sm">${ic("up")}${src ? "Reemplazar" : "Adjuntar"}<input type="file" accept="image/png,image/jpeg,image/webp,application/pdf" hidden data-upload="${f.key}"></label>${src ? `<button type="button" class="btn sm ghost" data-clearimg="${f.key}">Quitar</button>` : ""}` : ""}</div></div></div>`;
+        <div class="actions">${src ? `<button type="button" class="btn sm" data-viewfile="${f.key}">${ic("eye")}Ver comprobante</button>` : ""}${canUp ? `<label class="btn sm">${ic("up")}${src ? "Reemplazar" : "Adjuntar"}<input type="file" accept="image/png,image/jpeg,application/pdf" hidden data-upload="${f.key}"></label>${src ? `<button type="button" class="btn sm ghost" data-clearimg="${f.key}">Quitar</button>` : ""}` : ""}</div></div></div>`;
       break;
     }
     case "image": {
@@ -1018,7 +1038,9 @@ function openForm(k, id){
   root.addEventListener("change", async e => {
     const up = e.target.closest("[data-upload]"); if(!up || !up.files[0]) return;
     const file = up.files[0]; const f = m.fields.find(x => x.key === up.dataset.upload);
-    if(file.size > 20 * 1024 * 1024){ toast(f.type === "file" ? "El archivo supera los 20 MB." : "La imagen supera los 20 MB.", true); return; }
+    if(f.type === "file" && !/^(image\/png|image\/jpeg|application\/pdf)$/.test(file.type)){ toast("Use un archivo JPG, PNG o PDF.", true); return; }
+    if(f.type === "file" && file.size > 5 * 1024 * 1024){ toast("El comprobante supera los 5 MB.", true); return; }
+    if(file.size > 20 * 1024 * 1024){ toast("La imagen supera los 20 MB.", true); return; }
     const box = $(`.f[data-key="${f.key}"]`, root); $(".ph", box).textContent = "Subiendo…";
     try {
       let val;
@@ -1169,7 +1191,7 @@ async function exportReservasXLSX(){
       "Sede": env ? "" : ((byId("sedes", r.sede) || {}).nombre || ""), "Persona que retira": env ? "" : (r.personaRetira || ""),
       "Nombre de quien recibe": env ? (r.envioNombre || "") : "", "Teléfono de envío": env ? (r.envioTelefono || "") : "", "Cédula": env ? (r.envioCedula || "") : "",
       "Provincia": env ? (r.envioProvincia || "") : "", "Cantón": env ? (r.envioCanton || "") : "", "Distrito": env ? (r.envioDistrito || "") : "",
-      "Señas exactas o API / Locker": env ? (r.envioTipoDestino === "api" ? "API / Locker " + (r.envioApi || "") : (r.envioDireccion || "")) : "",
+      "Dirección exacta (señas o API / Locker)": env ? (r.envioTipoDestino === "api" ? "API / Locker " + (r.envioApi || "") : (r.envioDireccion || "")) : "",
       "Comprobante": env ? ((r.comprobante && (r.comprobante.nombre || "Adjunto")) || "Sin comprobante") : "", "Revisión del comprobante": env ? lab(ESTADOS_PAGO, r.estadoPago || "pendiente") : "",
       "Fecha de entrega": r.fechaEntrega ? fmtDate(r.fechaEntrega, true) : "", "Observaciones": r.observaciones || ""
     };
@@ -1177,6 +1199,21 @@ async function exportReservasXLSX(){
   try {
     const ok = await writeXLSX("Reservas", filas, [16,17,10,22,32,24,9,9,26,12,28,12,28,24,24,26,14,14,12,14,14,40,26,20,17,30], `app-cfia-reservas-${hoy()}.xlsx`);
     if(ok) toast(`Se exportaron ${filas.length} reserva(s).`);
+  } catch(e){ toast("No fue posible generar el Excel. Revise su conexión e intente de nuevo.", true); }
+}
+async function exportTramitesXLSX(){
+  const lista = filtered("tramites");
+  if(!lista.length){ toast("No hay trámites para exportar con los filtros actuales.", true); return; }
+  const filas = lista.map(r => ({
+    "Orden": Number(r.orden) || "", "Trámite": r.nombre || "", "Descripción corta": r.descripcion || "",
+    "Trámite para": (DIRIGIDO.find(d => d[0] === r.dirigido) || [0, ""])[1], "URL del sitio": r.url || "",
+    "Se abre en": r.apertura === "externo" ? "Navegador del dispositivo" : "WebView dentro del App", "Título en la cabecera del WebView": r.tituloAppBar || "",
+    "Ícono": (APP_ICONS[r.icono] || [""])[0], "Visible en Trámites": r.visibleTramites !== false ? "Sí" : "No", "Visible en Onboarding": r.visibleOnboarding !== false ? "Sí" : "No",
+    "Estado": r.activo === false ? "Inactivo" : "Activo", "Última modificación": fmtDate(r.actualizadoEn || r.creadoEn, true)
+  }));
+  try {
+    const ok = await writeXLSX("Trámites y servicios", filas, [7,36,44,22,52,24,28,16,12,14,10,18], `app-cfia-tramites-${hoy()}.xlsx`);
+    if(ok) toast(`Se exportaron ${filas.length} trámite(s).`);
   } catch(e){ toast("No fue posible generar el Excel. Revise su conexión e intente de nuevo.", true); }
 }
 async function exportAuditXLSX(){

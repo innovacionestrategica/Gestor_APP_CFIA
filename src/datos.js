@@ -1,6 +1,6 @@
 /* Datos de ejemplo exportados del Gestor App CFIA (claude.ai). Se cargan en modo demostración. */
 window.CFIA_DATOS = {
-  "exportado": "2026-11-04T17:58:53+00:00",
+  "exportado": "2026-11-04T21:29:39+00:00",
   "tramites": [
     {
       "id": "bitacora-digital",
@@ -104,12 +104,14 @@ window.CFIA_DATOS = {
       "id": "ejemplo-sede-cacr",
       "activo": true,
       "actualizadoEn": "2026-10-05T14:00:00.000Z",
+      "canton": "Curridabat",
       "colegio": "CACR",
       "correos": [
         "regalias.cacr@ejemplo.cr"
       ],
       "creadoEn": "2026-10-05T14:00:00.000Z",
       "direccion": "Edificio CFIA, Curridabat, San José (dato de ejemplo)",
+      "distrito": "Curridabat",
       "horario": [
         {
           "dias": "Lunes a viernes",
@@ -128,12 +130,14 @@ window.CFIA_DATOS = {
       "id": "ejemplo-sede-ciemi",
       "activo": true,
       "actualizadoEn": "2026-10-05T14:20:00.000Z",
+      "canton": "Heredia",
       "colegio": "CIEMI",
       "correos": [
         "regalias.ciemi@ejemplo.cr"
       ],
       "creadoEn": "2026-10-05T14:20:00.000Z",
       "direccion": "Heredia centro (dato de ejemplo)",
+      "distrito": "Heredia",
       "horario": [
         {
           "dias": "Lunes a jueves",
@@ -153,12 +157,14 @@ window.CFIA_DATOS = {
       "id": "ejemplo-sede-guanacaste",
       "activo": true,
       "actualizadoEn": "2026-10-05T14:10:00.000Z",
+      "canton": "Liberia",
       "colegio": "CFIA",
       "correos": [
         "guanacaste@ejemplo.cr"
       ],
       "creadoEn": "2026-10-05T14:10:00.000Z",
       "direccion": "Liberia, Guanacaste (dato de ejemplo)",
+      "distrito": "Liberia",
       "horario": [
         {
           "dias": "Lunes a viernes",
@@ -181,10 +187,12 @@ window.CFIA_DATOS = {
       "id": "sede-central-cfia",
       "activo": true,
       "actualizadoEn": "2026-10-12T22:50:00.000Z",
+      "canton": "Curridabat",
       "colegio": "CFIA",
       "correos": [],
       "creadoEn": "2026-10-12T22:50:00.000Z",
       "direccion": "Contiguo al Indoor Club de Curridabat, San José, Costa Rica",
+      "distrito": "",
       "horario": [
         {
           "dias": "Lunes a viernes",
@@ -204,99 +212,91 @@ window.CFIA_DATOS = {
   "anuncios": [
     {
       "id": "ejemplo-an-cacr",
-      "accion": "regalias",
       "activo": true,
-      "actualizadoEn": "2026-10-14T16:00:00.000Z",
-      "btnPrimario": "IR A RESERVAR MI REGALÍA",
-      "btnSecundario": "RECORDARME MÁS TARDE",
+      "actualizadoEn": "2026-11-04T16:00:00.000Z",
       "colegios": [
         "CACR"
       ],
       "creadoEn": "2026-10-14T16:00:00.000Z",
-      "fin": "2026-12-15T23:59",
+      "destinoUrl": "https://cacrarquitectos.com/",
+      "fin": "2026-11-28T23:59",
       "frecuencia": "hasta_accion",
-      "inicio": "2026-10-15T08:00",
-      "mensaje": "Conozca las Regalías [AÑO] que [NOMBRE COLEGIO MIEMBRO] tiene para usted y reserve la suya seleccionando la opción IR A RESERVAR MI REGALÍA.",
-      "ocultarSiReservo": true,
+      "inicio": "2026-11-04T08:00",
+      "mensaje": "Le invitamos a la Asamblea General Ordinaria del [NOMBRE COLEGIO MIEMBRO] el sábado 28 de noviembre (dato de ejemplo).",
       "prioridad": 1,
       "publico": "colegios",
-      "titulo": "¡Ya disponibles las Regalías [NOMBRE COLEGIO MIEMBRO] [AÑO]!"
+      "registradoPor": "CACR",
+      "titulo": "Asamblea General Ordinaria [AÑO] (ejemplo)"
     },
     {
       "id": "ejemplo-an-ciemi",
-      "accion": "cerrar",
       "activo": true,
       "actualizadoEn": "2026-10-01T16:00:00.000Z",
-      "btnPrimario": "ENTENDIDO",
-      "btnSecundario": "",
       "colegios": [
         "CIEMI"
       ],
       "creadoEn": "2026-10-01T16:00:00.000Z",
+      "destinoUrl": "",
       "fin": "2026-10-31T23:59",
       "frecuencia": "una_vez",
       "inicio": "2026-10-01T08:00",
-      "mensaje": "Gracias por participar. Las mochilas del [NOMBRE COLEGIO MIEMBRO] se agotaron.",
+      "mensaje": "El [NOMBRE COLEGIO MIEMBRO] realizó con éxito su jornada de capacitación de octubre. ¡Gracias por participar! (dato de ejemplo)",
       "prioridad": 1,
       "publico": "colegios",
-      "titulo": "Mochilas agotadas"
+      "registradoPor": "CIEMI",
+      "titulo": "Gracias por participar (ejemplo)"
     },
     {
       "id": "ejemplo-an-cit-citec",
-      "accion": "cerrar",
       "activo": true,
       "actualizadoEn": "2026-11-02T16:00:00.000Z",
-      "btnPrimario": "ENTENDIDO",
-      "btnSecundario": "",
       "colegios": [
         "CIT",
         "CITEC"
       ],
       "creadoEn": "2026-11-02T16:00:00.000Z",
+      "destinoUrl": "",
       "fin": "2027-01-20T23:59",
       "frecuencia": "una_vez",
       "inicio": "2027-01-05T08:00",
-      "mensaje": "En enero abriremos las reservas de regalías para su colegio. ¡Esté atento!",
+      "mensaje": "Las oficinas del CFIA atenderán en horario especial durante la primera semana de enero (dato de ejemplo).",
       "prioridad": 3,
       "publico": "colegios",
-      "titulo": "Próximamente: Regalías [AÑO]"
+      "registradoPor": "admin",
+      "titulo": "Horario especial de enero (ejemplo)"
     },
     {
       "id": "ejemplo-an-civiles",
-      "accion": "regalias",
       "activo": true,
-      "actualizadoEn": "2026-10-19T16:00:00.000Z",
-      "btnPrimario": "IR A RESERVAR MI REGALÍA",
-      "btnSecundario": "RECORDARME MÁS TARDE",
+      "actualizadoEn": "2026-11-04T16:05:00.000Z",
       "colegios": [
         "CIVILES"
       ],
       "creadoEn": "2026-10-19T16:00:00.000Z",
+      "destinoUrl": "",
       "fin": "2026-11-30T23:59",
       "frecuencia": "diaria",
-      "inicio": "2026-10-20T08:00",
-      "mensaje": "El [NOMBRE COLEGIO MIEMBRO] le obsequia un termo de acero. Resérvelo antes del 30 de noviembre.",
-      "ocultarSiReservo": true,
+      "inicio": "2026-11-04T08:00",
+      "mensaje": "El [NOMBRE COLEGIO MIEMBRO] le invita a la charla sobre diseño sísmico de puentes, el jueves 26 de noviembre (dato de ejemplo).",
       "prioridad": 1,
       "publico": "colegios",
-      "titulo": "Su termo 2027 lo espera"
+      "registradoPor": "CIVILES",
+      "titulo": "Charla técnica: diseño sísmico (ejemplo)"
     },
     {
       "id": "ejemplo-an-todos",
-      "accion": "tramite",
       "activo": true,
-      "actualizadoEn": "2026-09-30T16:00:00.000Z",
-      "btnPrimario": "SOLICITAR AHORA",
-      "btnSecundario": "",
+      "actualizadoEn": "2026-11-04T16:10:00.000Z",
       "colegios": [],
       "creadoEn": "2026-09-30T16:00:00.000Z",
-      "destinoTramite": "certificaciones-digitales",
+      "destinoUrl": "https://servicios.cfia.or.cr/certificaciones/WizardSolicitud.aspx",
       "fin": "2026-11-30T23:59",
       "frecuencia": "una_vez",
       "inicio": "2026-10-01T08:00",
-      "mensaje": "Ahora puede solicitar sus certificaciones de membresía desde Trámites y servicios.",
+      "mensaje": "Ahora puede solicitar sus certificaciones de membresía desde Trámites y servicios. Toque este aviso para conocer más.",
       "prioridad": 2,
       "publico": "todos",
+      "registradoPor": "dep-CFIA",
       "titulo": "Nuevo: Certificaciones Digitales en el App"
     }
   ],
@@ -532,7 +532,6 @@ window.CFIA_DATOS = {
       },
       "correo": "ana.mora@ejemplo.com",
       "creadoEn": "2026-10-18T15:45:00.000Z",
-      "envioApi": "",
       "envioCanton": "Barva",
       "envioCedula": "4-0215-0873",
       "envioDireccion": "100 m norte de la iglesia, casa esquinera color beige",
@@ -540,7 +539,6 @@ window.CFIA_DATOS = {
       "envioNombre": "Ana Lucía Mora Vargas",
       "envioProvincia": "Heredia",
       "envioTelefono": "8701-4455",
-      "envioTipoDestino": "direccion",
       "estado": "reservada",
       "estadoPago": "pendiente",
       "fechaEntrega": "",
@@ -566,7 +564,6 @@ window.CFIA_DATOS = {
       },
       "correo": "jose.quesada@ejemplo.com",
       "creadoEn": "2026-10-21T17:10:00.000Z",
-      "envioApi": "",
       "envioCanton": "Paraíso",
       "envioCedula": "3-101-654321",
       "envioDireccion": "Frente a la plaza de deportes",
@@ -574,7 +571,6 @@ window.CFIA_DATOS = {
       "envioNombre": "Constructora Quesada y Asociados S.A. (ejemplo)",
       "envioProvincia": "Cartago",
       "envioTelefono": "2551-0000",
-      "envioTipoDestino": "direccion",
       "estado": "entregada",
       "estadoPago": "verificado",
       "fechaEntrega": "2026-10-28T10:00",
@@ -671,15 +667,13 @@ window.CFIA_DATOS = {
       "carne": "IC-4521",
       "correo": "ricardo.solis@ejemplo.com",
       "creadoEn": "2026-11-01T18:20:00.000Z",
-      "envioApi": "API-PUN-0042 (ejemplo)",
       "envioCanton": "Esparza",
       "envioCedula": "",
-      "envioDireccion": "",
+      "envioDireccion": "API-PUN-0042 (ejemplo)",
       "envioDistrito": "Espíritu Santo",
       "envioNombre": "Ricardo Solís Brenes",
       "envioProvincia": "Puntarenas",
       "envioTelefono": "8822-6611",
-      "envioTipoDestino": "api",
       "estado": "reservada",
       "estadoPago": "pendiente",
       "fechaEntrega": "",
@@ -714,13 +708,32 @@ window.CFIA_DATOS = {
   ],
   "novedades": [
     {
+      "id": "ejemplo-nov-anuncio-cendepro",
+      "accionPrimario": "navegador",
+      "actualizadoEn": "2026-11-04T15:00:00.000Z",
+      "btnPrimario": "INSCRIBIRME",
+      "colegios": [],
+      "creadoEn": "2026-11-04T15:00:00.000Z",
+      "destacado": false,
+      "estado": "publicado",
+      "publicarDesde": "2026-11-04T08:00",
+      "publicarHasta": "2026-11-30T23:00",
+      "publico": "todos",
+      "registradoPor": "dep-CENDEPRO",
+      "resumen": "Inscripciones abiertas para el curso virtual de modelado BIM para profesionales (dato de ejemplo).",
+      "tipo": "anuncio",
+      "titulo": "Curso de BIM: matrícula abierta (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
+    },
+    {
       "id": "ejemplo-nov-congreso",
+      "accionPrimario": "webview",
       "actualizadoEn": "2026-09-28T16:00:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
       "colegios": [],
       "creadoEn": "2026-09-28T16:00:00.000Z",
       "destacado": true,
       "duracion": "rango",
-      "enlace": "https://www.cfia.or.cr/",
       "estado": "publicado",
       "fecha": "2026-11-19",
       "fechaFin": "2026-11-20",
@@ -729,14 +742,40 @@ window.CFIA_DATOS = {
       "publicarDesde": "2026-10-01T08:00",
       "publicarHasta": "2026-11-20T18:00",
       "publico": "todos",
+      "registradoPor": "dep-CFIA",
       "resumen": "Dos días de conferencias sobre infraestructura resiliente y construcción sostenible.",
-      "textoBoton": "CONOCER MÁS",
       "tipo": "evento",
-      "titulo": "Congreso de Ingeniería y Arquitectura (ejemplo)"
+      "titulo": "Congreso de Ingeniería y Arquitectura (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
+    },
+    {
+      "id": "ejemplo-nov-evento-or",
+      "accionPrimario": "webview",
+      "actualizadoEn": "2026-11-04T15:10:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
+      "colegios": [],
+      "creadoEn": "2026-11-04T15:10:00.000Z",
+      "destacado": false,
+      "duracion": "rango",
+      "estado": "publicado",
+      "fecha": "2026-11-25",
+      "fechaFin": "2026-11-27",
+      "hora": "09:00",
+      "lugar": "Oficina Regional de Guanacaste",
+      "publicarDesde": "2026-11-04T08:00",
+      "publicarHasta": "2026-11-27T18:00",
+      "publico": "todos",
+      "registradoPor": "dep-OR",
+      "resumen": "Atención de trámites y consultas en Liberia durante tres días (dato de ejemplo).",
+      "tipo": "evento",
+      "titulo": "Jornada de servicios en Guanacaste (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
     },
     {
       "id": "ejemplo-nov-feria",
+      "accionPrimario": "webview",
       "actualizadoEn": "2026-11-02T16:00:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
       "colegios": [
         "CIVILES",
         "CACR"
@@ -744,7 +783,6 @@ window.CFIA_DATOS = {
       "creadoEn": "2026-11-02T16:00:00.000Z",
       "destacado": false,
       "duracion": "fecha",
-      "enlace": "",
       "estado": "borrador",
       "fecha": "2027-03-10",
       "hora": "09:00",
@@ -752,18 +790,20 @@ window.CFIA_DATOS = {
       "publicarDesde": "",
       "publicarHasta": "",
       "publico": "colegios",
+      "registradoPor": "admin",
       "resumen": "Empresas del sector se reúnen para ofrecer oportunidades laborales.",
-      "textoBoton": "CONOCER MÁS",
       "tipo": "evento",
-      "titulo": "Feria de Empleo CFIA 2027 (ejemplo)"
+      "titulo": "Feria de Empleo CFIA 2027 (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
     },
     {
       "id": "ejemplo-nov-noticia",
+      "accionPrimario": "webview",
       "actualizadoEn": "2026-09-30T16:00:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
       "colegios": [],
       "creadoEn": "2026-09-30T16:00:00.000Z",
       "destacado": false,
-      "enlace": "https://servicios.cfia.or.cr/certificaciones/WizardSolicitud.aspx",
       "estado": "publicado",
       "fecha": "",
       "hora": "",
@@ -771,19 +811,23 @@ window.CFIA_DATOS = {
       "publicarDesde": "2026-10-01T08:00",
       "publicarHasta": "",
       "publico": "todos",
+      "registradoPor": "dep-CFIA",
       "resumen": "Solicite sus certificaciones de membresía sin salir del App CFIA.",
-      "textoBoton": "CONOCER MÁS",
       "tipo": "novedad",
-      "titulo": "Certificaciones Digitales ya están en el App (ejemplo)"
+      "titulo": "Certificaciones Digitales ya están en el App (ejemplo)",
+      "urlPrimario": "https://servicios.cfia.or.cr/certificaciones/WizardSolicitud.aspx"
     },
     {
       "id": "ejemplo-nov-webinar",
+      "accionPrimario": "webview",
+      "accionSecundario": "navegador",
       "actualizadoEn": "2026-10-19T16:00:00.000Z",
+      "btnPrimario": "INSCRIBIRME",
+      "btnSecundario": "VER AGENDA",
       "colegios": [],
       "creadoEn": "2026-10-19T16:00:00.000Z",
       "destacado": false,
       "duracion": "fecha",
-      "enlace": "https://www.cfia.or.cr/",
       "estado": "publicado",
       "fecha": "2026-11-12",
       "hora": "18:00",
@@ -791,10 +835,12 @@ window.CFIA_DATOS = {
       "publicarDesde": "2026-10-20T08:00",
       "publicarHasta": "2026-11-12T20:00",
       "publico": "todos",
+      "registradoPor": "dep-CENDEPRO",
       "resumen": "Aprenda a registrar sus visitas de obra desde la Bitácora Digital.",
-      "textoBoton": "INSCRIBIRME",
       "tipo": "evento",
-      "titulo": "Webinar: Bitácora Digital paso a paso (ejemplo)"
+      "titulo": "Webinar: Bitácora Digital paso a paso (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/",
+      "urlSecundario": "https://www.cfia.or.cr/"
     }
   ],
   "auditoria": [

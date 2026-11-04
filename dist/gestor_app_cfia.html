@@ -287,7 +287,7 @@ tr.expand td{background:var(--surface-2);cursor:default}
 <script>
 /* Datos de ejemplo exportados del Gestor App CFIA (claude.ai). Se cargan en modo demostración. */
 window.CFIA_DATOS = {
-  "exportado": "2026-11-04T17:58:53+00:00",
+  "exportado": "2026-11-04T21:29:39+00:00",
   "tramites": [
     {
       "id": "bitacora-digital",
@@ -391,12 +391,14 @@ window.CFIA_DATOS = {
       "id": "ejemplo-sede-cacr",
       "activo": true,
       "actualizadoEn": "2026-10-05T14:00:00.000Z",
+      "canton": "Curridabat",
       "colegio": "CACR",
       "correos": [
         "regalias.cacr@ejemplo.cr"
       ],
       "creadoEn": "2026-10-05T14:00:00.000Z",
       "direccion": "Edificio CFIA, Curridabat, San José (dato de ejemplo)",
+      "distrito": "Curridabat",
       "horario": [
         {
           "dias": "Lunes a viernes",
@@ -415,12 +417,14 @@ window.CFIA_DATOS = {
       "id": "ejemplo-sede-ciemi",
       "activo": true,
       "actualizadoEn": "2026-10-05T14:20:00.000Z",
+      "canton": "Heredia",
       "colegio": "CIEMI",
       "correos": [
         "regalias.ciemi@ejemplo.cr"
       ],
       "creadoEn": "2026-10-05T14:20:00.000Z",
       "direccion": "Heredia centro (dato de ejemplo)",
+      "distrito": "Heredia",
       "horario": [
         {
           "dias": "Lunes a jueves",
@@ -440,12 +444,14 @@ window.CFIA_DATOS = {
       "id": "ejemplo-sede-guanacaste",
       "activo": true,
       "actualizadoEn": "2026-10-05T14:10:00.000Z",
+      "canton": "Liberia",
       "colegio": "CFIA",
       "correos": [
         "guanacaste@ejemplo.cr"
       ],
       "creadoEn": "2026-10-05T14:10:00.000Z",
       "direccion": "Liberia, Guanacaste (dato de ejemplo)",
+      "distrito": "Liberia",
       "horario": [
         {
           "dias": "Lunes a viernes",
@@ -468,10 +474,12 @@ window.CFIA_DATOS = {
       "id": "sede-central-cfia",
       "activo": true,
       "actualizadoEn": "2026-10-12T22:50:00.000Z",
+      "canton": "Curridabat",
       "colegio": "CFIA",
       "correos": [],
       "creadoEn": "2026-10-12T22:50:00.000Z",
       "direccion": "Contiguo al Indoor Club de Curridabat, San José, Costa Rica",
+      "distrito": "",
       "horario": [
         {
           "dias": "Lunes a viernes",
@@ -491,99 +499,91 @@ window.CFIA_DATOS = {
   "anuncios": [
     {
       "id": "ejemplo-an-cacr",
-      "accion": "regalias",
       "activo": true,
-      "actualizadoEn": "2026-10-14T16:00:00.000Z",
-      "btnPrimario": "IR A RESERVAR MI REGALÍA",
-      "btnSecundario": "RECORDARME MÁS TARDE",
+      "actualizadoEn": "2026-11-04T16:00:00.000Z",
       "colegios": [
         "CACR"
       ],
       "creadoEn": "2026-10-14T16:00:00.000Z",
-      "fin": "2026-12-15T23:59",
+      "destinoUrl": "https://cacrarquitectos.com/",
+      "fin": "2026-11-28T23:59",
       "frecuencia": "hasta_accion",
-      "inicio": "2026-10-15T08:00",
-      "mensaje": "Conozca las Regalías [AÑO] que [NOMBRE COLEGIO MIEMBRO] tiene para usted y reserve la suya seleccionando la opción IR A RESERVAR MI REGALÍA.",
-      "ocultarSiReservo": true,
+      "inicio": "2026-11-04T08:00",
+      "mensaje": "Le invitamos a la Asamblea General Ordinaria del [NOMBRE COLEGIO MIEMBRO] el sábado 28 de noviembre (dato de ejemplo).",
       "prioridad": 1,
       "publico": "colegios",
-      "titulo": "¡Ya disponibles las Regalías [NOMBRE COLEGIO MIEMBRO] [AÑO]!"
+      "registradoPor": "CACR",
+      "titulo": "Asamblea General Ordinaria [AÑO] (ejemplo)"
     },
     {
       "id": "ejemplo-an-ciemi",
-      "accion": "cerrar",
       "activo": true,
       "actualizadoEn": "2026-10-01T16:00:00.000Z",
-      "btnPrimario": "ENTENDIDO",
-      "btnSecundario": "",
       "colegios": [
         "CIEMI"
       ],
       "creadoEn": "2026-10-01T16:00:00.000Z",
+      "destinoUrl": "",
       "fin": "2026-10-31T23:59",
       "frecuencia": "una_vez",
       "inicio": "2026-10-01T08:00",
-      "mensaje": "Gracias por participar. Las mochilas del [NOMBRE COLEGIO MIEMBRO] se agotaron.",
+      "mensaje": "El [NOMBRE COLEGIO MIEMBRO] realizó con éxito su jornada de capacitación de octubre. ¡Gracias por participar! (dato de ejemplo)",
       "prioridad": 1,
       "publico": "colegios",
-      "titulo": "Mochilas agotadas"
+      "registradoPor": "CIEMI",
+      "titulo": "Gracias por participar (ejemplo)"
     },
     {
       "id": "ejemplo-an-cit-citec",
-      "accion": "cerrar",
       "activo": true,
       "actualizadoEn": "2026-11-02T16:00:00.000Z",
-      "btnPrimario": "ENTENDIDO",
-      "btnSecundario": "",
       "colegios": [
         "CIT",
         "CITEC"
       ],
       "creadoEn": "2026-11-02T16:00:00.000Z",
+      "destinoUrl": "",
       "fin": "2027-01-20T23:59",
       "frecuencia": "una_vez",
       "inicio": "2027-01-05T08:00",
-      "mensaje": "En enero abriremos las reservas de regalías para su colegio. ¡Esté atento!",
+      "mensaje": "Las oficinas del CFIA atenderán en horario especial durante la primera semana de enero (dato de ejemplo).",
       "prioridad": 3,
       "publico": "colegios",
-      "titulo": "Próximamente: Regalías [AÑO]"
+      "registradoPor": "admin",
+      "titulo": "Horario especial de enero (ejemplo)"
     },
     {
       "id": "ejemplo-an-civiles",
-      "accion": "regalias",
       "activo": true,
-      "actualizadoEn": "2026-10-19T16:00:00.000Z",
-      "btnPrimario": "IR A RESERVAR MI REGALÍA",
-      "btnSecundario": "RECORDARME MÁS TARDE",
+      "actualizadoEn": "2026-11-04T16:05:00.000Z",
       "colegios": [
         "CIVILES"
       ],
       "creadoEn": "2026-10-19T16:00:00.000Z",
+      "destinoUrl": "",
       "fin": "2026-11-30T23:59",
       "frecuencia": "diaria",
-      "inicio": "2026-10-20T08:00",
-      "mensaje": "El [NOMBRE COLEGIO MIEMBRO] le obsequia un termo de acero. Resérvelo antes del 30 de noviembre.",
-      "ocultarSiReservo": true,
+      "inicio": "2026-11-04T08:00",
+      "mensaje": "El [NOMBRE COLEGIO MIEMBRO] le invita a la charla sobre diseño sísmico de puentes, el jueves 26 de noviembre (dato de ejemplo).",
       "prioridad": 1,
       "publico": "colegios",
-      "titulo": "Su termo 2027 lo espera"
+      "registradoPor": "CIVILES",
+      "titulo": "Charla técnica: diseño sísmico (ejemplo)"
     },
     {
       "id": "ejemplo-an-todos",
-      "accion": "tramite",
       "activo": true,
-      "actualizadoEn": "2026-09-30T16:00:00.000Z",
-      "btnPrimario": "SOLICITAR AHORA",
-      "btnSecundario": "",
+      "actualizadoEn": "2026-11-04T16:10:00.000Z",
       "colegios": [],
       "creadoEn": "2026-09-30T16:00:00.000Z",
-      "destinoTramite": "certificaciones-digitales",
+      "destinoUrl": "https://servicios.cfia.or.cr/certificaciones/WizardSolicitud.aspx",
       "fin": "2026-11-30T23:59",
       "frecuencia": "una_vez",
       "inicio": "2026-10-01T08:00",
-      "mensaje": "Ahora puede solicitar sus certificaciones de membresía desde Trámites y servicios.",
+      "mensaje": "Ahora puede solicitar sus certificaciones de membresía desde Trámites y servicios. Toque este aviso para conocer más.",
       "prioridad": 2,
       "publico": "todos",
+      "registradoPor": "dep-CFIA",
       "titulo": "Nuevo: Certificaciones Digitales en el App"
     }
   ],
@@ -819,7 +819,6 @@ window.CFIA_DATOS = {
       },
       "correo": "ana.mora@ejemplo.com",
       "creadoEn": "2026-10-18T15:45:00.000Z",
-      "envioApi": "",
       "envioCanton": "Barva",
       "envioCedula": "4-0215-0873",
       "envioDireccion": "100 m norte de la iglesia, casa esquinera color beige",
@@ -827,7 +826,6 @@ window.CFIA_DATOS = {
       "envioNombre": "Ana Lucía Mora Vargas",
       "envioProvincia": "Heredia",
       "envioTelefono": "8701-4455",
-      "envioTipoDestino": "direccion",
       "estado": "reservada",
       "estadoPago": "pendiente",
       "fechaEntrega": "",
@@ -853,7 +851,6 @@ window.CFIA_DATOS = {
       },
       "correo": "jose.quesada@ejemplo.com",
       "creadoEn": "2026-10-21T17:10:00.000Z",
-      "envioApi": "",
       "envioCanton": "Paraíso",
       "envioCedula": "3-101-654321",
       "envioDireccion": "Frente a la plaza de deportes",
@@ -861,7 +858,6 @@ window.CFIA_DATOS = {
       "envioNombre": "Constructora Quesada y Asociados S.A. (ejemplo)",
       "envioProvincia": "Cartago",
       "envioTelefono": "2551-0000",
-      "envioTipoDestino": "direccion",
       "estado": "entregada",
       "estadoPago": "verificado",
       "fechaEntrega": "2026-10-28T10:00",
@@ -958,15 +954,13 @@ window.CFIA_DATOS = {
       "carne": "IC-4521",
       "correo": "ricardo.solis@ejemplo.com",
       "creadoEn": "2026-11-01T18:20:00.000Z",
-      "envioApi": "API-PUN-0042 (ejemplo)",
       "envioCanton": "Esparza",
       "envioCedula": "",
-      "envioDireccion": "",
+      "envioDireccion": "API-PUN-0042 (ejemplo)",
       "envioDistrito": "Espíritu Santo",
       "envioNombre": "Ricardo Solís Brenes",
       "envioProvincia": "Puntarenas",
       "envioTelefono": "8822-6611",
-      "envioTipoDestino": "api",
       "estado": "reservada",
       "estadoPago": "pendiente",
       "fechaEntrega": "",
@@ -1001,13 +995,32 @@ window.CFIA_DATOS = {
   ],
   "novedades": [
     {
+      "id": "ejemplo-nov-anuncio-cendepro",
+      "accionPrimario": "navegador",
+      "actualizadoEn": "2026-11-04T15:00:00.000Z",
+      "btnPrimario": "INSCRIBIRME",
+      "colegios": [],
+      "creadoEn": "2026-11-04T15:00:00.000Z",
+      "destacado": false,
+      "estado": "publicado",
+      "publicarDesde": "2026-11-04T08:00",
+      "publicarHasta": "2026-11-30T23:00",
+      "publico": "todos",
+      "registradoPor": "dep-CENDEPRO",
+      "resumen": "Inscripciones abiertas para el curso virtual de modelado BIM para profesionales (dato de ejemplo).",
+      "tipo": "anuncio",
+      "titulo": "Curso de BIM: matrícula abierta (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
+    },
+    {
       "id": "ejemplo-nov-congreso",
+      "accionPrimario": "webview",
       "actualizadoEn": "2026-09-28T16:00:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
       "colegios": [],
       "creadoEn": "2026-09-28T16:00:00.000Z",
       "destacado": true,
       "duracion": "rango",
-      "enlace": "https://www.cfia.or.cr/",
       "estado": "publicado",
       "fecha": "2026-11-19",
       "fechaFin": "2026-11-20",
@@ -1016,14 +1029,40 @@ window.CFIA_DATOS = {
       "publicarDesde": "2026-10-01T08:00",
       "publicarHasta": "2026-11-20T18:00",
       "publico": "todos",
+      "registradoPor": "dep-CFIA",
       "resumen": "Dos días de conferencias sobre infraestructura resiliente y construcción sostenible.",
-      "textoBoton": "CONOCER MÁS",
       "tipo": "evento",
-      "titulo": "Congreso de Ingeniería y Arquitectura (ejemplo)"
+      "titulo": "Congreso de Ingeniería y Arquitectura (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
+    },
+    {
+      "id": "ejemplo-nov-evento-or",
+      "accionPrimario": "webview",
+      "actualizadoEn": "2026-11-04T15:10:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
+      "colegios": [],
+      "creadoEn": "2026-11-04T15:10:00.000Z",
+      "destacado": false,
+      "duracion": "rango",
+      "estado": "publicado",
+      "fecha": "2026-11-25",
+      "fechaFin": "2026-11-27",
+      "hora": "09:00",
+      "lugar": "Oficina Regional de Guanacaste",
+      "publicarDesde": "2026-11-04T08:00",
+      "publicarHasta": "2026-11-27T18:00",
+      "publico": "todos",
+      "registradoPor": "dep-OR",
+      "resumen": "Atención de trámites y consultas en Liberia durante tres días (dato de ejemplo).",
+      "tipo": "evento",
+      "titulo": "Jornada de servicios en Guanacaste (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
     },
     {
       "id": "ejemplo-nov-feria",
+      "accionPrimario": "webview",
       "actualizadoEn": "2026-11-02T16:00:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
       "colegios": [
         "CIVILES",
         "CACR"
@@ -1031,7 +1070,6 @@ window.CFIA_DATOS = {
       "creadoEn": "2026-11-02T16:00:00.000Z",
       "destacado": false,
       "duracion": "fecha",
-      "enlace": "",
       "estado": "borrador",
       "fecha": "2027-03-10",
       "hora": "09:00",
@@ -1039,18 +1077,20 @@ window.CFIA_DATOS = {
       "publicarDesde": "",
       "publicarHasta": "",
       "publico": "colegios",
+      "registradoPor": "admin",
       "resumen": "Empresas del sector se reúnen para ofrecer oportunidades laborales.",
-      "textoBoton": "CONOCER MÁS",
       "tipo": "evento",
-      "titulo": "Feria de Empleo CFIA 2027 (ejemplo)"
+      "titulo": "Feria de Empleo CFIA 2027 (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/"
     },
     {
       "id": "ejemplo-nov-noticia",
+      "accionPrimario": "webview",
       "actualizadoEn": "2026-09-30T16:00:00.000Z",
+      "btnPrimario": "CONOCER MÁS",
       "colegios": [],
       "creadoEn": "2026-09-30T16:00:00.000Z",
       "destacado": false,
-      "enlace": "https://servicios.cfia.or.cr/certificaciones/WizardSolicitud.aspx",
       "estado": "publicado",
       "fecha": "",
       "hora": "",
@@ -1058,19 +1098,23 @@ window.CFIA_DATOS = {
       "publicarDesde": "2026-10-01T08:00",
       "publicarHasta": "",
       "publico": "todos",
+      "registradoPor": "dep-CFIA",
       "resumen": "Solicite sus certificaciones de membresía sin salir del App CFIA.",
-      "textoBoton": "CONOCER MÁS",
       "tipo": "novedad",
-      "titulo": "Certificaciones Digitales ya están en el App (ejemplo)"
+      "titulo": "Certificaciones Digitales ya están en el App (ejemplo)",
+      "urlPrimario": "https://servicios.cfia.or.cr/certificaciones/WizardSolicitud.aspx"
     },
     {
       "id": "ejemplo-nov-webinar",
+      "accionPrimario": "webview",
+      "accionSecundario": "navegador",
       "actualizadoEn": "2026-10-19T16:00:00.000Z",
+      "btnPrimario": "INSCRIBIRME",
+      "btnSecundario": "VER AGENDA",
       "colegios": [],
       "creadoEn": "2026-10-19T16:00:00.000Z",
       "destacado": false,
       "duracion": "fecha",
-      "enlace": "https://www.cfia.or.cr/",
       "estado": "publicado",
       "fecha": "2026-11-12",
       "hora": "18:00",
@@ -1078,10 +1122,12 @@ window.CFIA_DATOS = {
       "publicarDesde": "2026-10-20T08:00",
       "publicarHasta": "2026-11-12T20:00",
       "publico": "todos",
+      "registradoPor": "dep-CENDEPRO",
       "resumen": "Aprenda a registrar sus visitas de obra desde la Bitácora Digital.",
-      "textoBoton": "INSCRIBIRME",
       "tipo": "evento",
-      "titulo": "Webinar: Bitácora Digital paso a paso (ejemplo)"
+      "titulo": "Webinar: Bitácora Digital paso a paso (ejemplo)",
+      "urlPrimario": "https://www.cfia.or.cr/",
+      "urlSecundario": "https://www.cfia.or.cr/"
     }
   ],
   "auditoria": [
@@ -1196,6 +1242,8 @@ const COLEGIOS = [
   ["CITEC","Colegio de Ingenieros Tecnólogos"]
 ];
 const DIRIGIDO = [["colegiados","Colegiados"],["empresas","Empresas"],["ambos","Colegiados y empresas"]];
+const ACCIONES_BTN = [["webview","Abrir un enlace en WebView"],["navegador","Abrir en navegador del dispositivo"]];
+const TIPOS_PUB = [["evento","Evento"],["novedad","Novedad / noticia"],["anuncio","Anuncio"]];
 const COLEGIOS_MIEMBRO = COLEGIOS.filter(c => c[0] !== "CFIA");
 const colName = id => (COLEGIOS.find(c => c[0] === id) || [id, id || "—"])[1];
 const colShort = id => id === "CFIA" ? "CFIA" : (id || "—");
@@ -1269,11 +1317,19 @@ const who = id => `<span class="who" data-uid="${esc(id||"")}"><img class="hidde
 
 function perfil(){ try { return localStorage.getItem("cfia-gestor-perfil") || "admin"; } catch(e){ return S.perfilMem || "admin"; } }
 function esAdmin(){ return perfil() === "admin"; }
+const DEPARTAMENTOS = [["dep-CENDEPRO","CENDEPRO"],["dep-CFIA","CFIA"],["dep-OR","Oficinas Regionales"]];
+const PERFILES = [["admin","Administrador CFIA"]].concat(DEPARTAMENTOS, COLEGIOS_MIEMBRO.map(c => [c[0], c[0]]));
+function esDepto(){ return perfil().startsWith("dep-"); }
+function esColegio(){ return COLEGIOS_MIEMBRO.some(c => c[0] === perfil()); }
+function perfilNombre(p){ return (PERFILES.find(x => x[0] === p) || [p, p || "—"])[1]; }
+function registrador(r){ return r.registradoPor || (r.publico === "colegios" && (r.colegios||[]).length === 1 ? r.colegios[0] : "admin"); }
+const puedeVer = r => esAdmin() || registrador(r) === perfil();
 function perfilSelect(){
   return `<label style="display:block;margin-top:10px;font-size:12px;color:var(--gris7)">Perfil de acceso (prueba)
     <select id="perfilSel" style="margin-top:4px;width:100%;min-height:34px;padding:4px 8px;background:#2F2A2B;color:#fff;border:1px solid #3A3536;border-radius:6px;font-size:13px">
       <option value="admin" ${esAdmin() ? "selected" : ""}>Administrador CFIA</option>
-      ${COLEGIOS_MIEMBRO.map(c => `<option value="${c[0]}" ${perfil() === c[0] ? "selected" : ""}>Gestor ${esc(c[0])}</option>`).join("")}
+      <optgroup label="Departamentos del CFIA">${DEPARTAMENTOS.map(d => `<option value="${d[0]}" ${perfil() === d[0] ? "selected" : ""}>${esc(d[1])}</option>`).join("")}</optgroup>
+      <optgroup label="Colegios miembros">${COLEGIOS_MIEMBRO.map(c => `<option value="${c[0]}" ${perfil() === c[0] ? "selected" : ""}>Gestor ${esc(c[0])}</option>`).join("")}</optgroup>
     </select></label>`;
 }
 function renderMe(){
@@ -1391,9 +1447,9 @@ const pill = ([t, c]) => `<span class="pill ${c}">${esc(t)}</span>`;
    Definición de módulos
    ===================================================================== */
 const sedeOpts = colegio => S.data.sedes
-  .filter(s => s.activo !== false && (!colegio || s.colegio === colegio || s.colegio === "CFIA"))
+  .filter(s => s.activo !== false)
   .sort((a,b) => (a.nombre||"").localeCompare(b.nombre||""))
-  .map(s => [s.id, s.nombre + (s.colegio === "CFIA" ? " (CFIA)" : "")]);
+  .map(s => [s.id, s.nombre]);
 
 const MODS = {
   tramites:{
@@ -1452,14 +1508,15 @@ const MODS = {
 
   sedes:{
     nuevo:"Nueva sede", crear:"Crear sede", coll:"sedes", nameKey:"nombre", title:"Sedes", singular:"sede", icon:"pin",
-    intro:"Sedes del CFIA y de los colegios miembros. Se usan como lugares de retiro de regalías y como datos de contacto.",
-    defaults:() => ({ colegio:"CFIA", provincia:"San José", activo:true, telefonos:[""], correos:[""], horario:[{dias:"Lunes a viernes", horas:"8:00 a. m. a 4:00 p. m."}] }),
+    intro:"Sedes del CFIA donde se retiran las regalías. Se muestran en el App en «Ubicación de entrega» y en los correos de confirmación.",
+    defaults:() => ({ provincia:"San José", activo:true, telefonos:[""], correos:[""], horario:[{dias:"Lunes a viernes", horas:"8:00 a. m. a 4:00 p. m."}] }),
     fields:[
       {sec:"Datos generales"},
       {key:"nombre", label:"Nombre de la sede", type:"text", req:true, ph:"Ej. Sede Central CFIA"},
-      {key:"colegio", label:"Pertenece a", type:"select", req:true, options:() => COLEGIOS},
       {sec:"Ubicación"},
       {key:"provincia", label:"Provincia", type:"select", req:true, options:() => PROVINCIAS},
+      {key:"canton", label:"Cantón", type:"text", req:true, ph:"Ej. Curridabat"},
+      {key:"distrito", label:"Distrito", type:"text", req:true, ph:"Ej. Curridabat"},
       {key:"mapa", label:"Enlace de mapa (opcional)", type:"url", ph:"https://maps.app.goo.gl/…"},
       {key:"direccion", label:"Dirección", type:"textarea", req:true, span:2, ph:"Ej. Contiguo al Indoor Club de Curridabat, San José"},
       {sec:"Contacto"},
@@ -1472,13 +1529,13 @@ const MODS = {
       {key:"notas", label:"Notas internas", type:"textarea", span:2}
     ],
     filters:[
-      {key:"colegio", label:"Todos los colegios", options:COLEGIOS, test:(r,v) => r.colegio === v},
+      {key:"provincia", label:"Todas las provincias", options:PROVINCIAS, test:(r,v) => r.provincia === v},
       {key:"estado", label:"Todos los estados", options:[["activo","Activas"],["inactivo","Inactivas"]], test:(r,v) => v === "activo" ? r.activo !== false : r.activo === false}
     ],
     sort:(a,b) => (a.nombre||"").localeCompare(b.nombre||""),
     columns:[
-      {label:"Sede", cell:r => `<div class="t1">${esc(r.nombre)}</div><div class="sub">${esc(colName(r.colegio))}</div>`},
-      {label:"Dirección", cell:r => `<div class="sub" style="white-space:normal;max-width:36ch">${esc(r.provincia)} · ${esc(r.direccion)}</div>`},
+      {label:"Sede", cell:r => `<div class="t1">${esc(r.nombre)}</div>`},
+      {label:"Ubicación", cell:r => `<div>${esc([r.provincia, r.canton, r.distrito].filter(Boolean).join(", "))}</div><div class="sub" style="white-space:normal;max-width:36ch">${esc(r.direccion)}</div>`},
       {label:"Teléfonos", cell:r => (r.telefonos||[]).filter(Boolean).map(t => `<span class="tag mono">${esc(t)}</span>`).join("") || "—"},
       {label:"Correos", cell:r => (r.correos||[]).filter(Boolean).map(t => `<div class="sub">${esc(t)}</div>`).join("") || "—"},
       {label:"Horario", cell:r => (r.horario||[]).map(h => `<div class="sub">${esc(h.dias)}: ${esc(h.horas)}</div>`).join("") || "—"},
@@ -1502,64 +1559,63 @@ const MODS = {
   },
 
   anuncios:{
-    nuevo:"Nuevo anuncio", crear:"Crear anuncio", coll:"anuncios", nameKey:"titulo", title:"Anuncios", singular:"anuncio", icon:"mega",
-    intro:"Modales informativos que se muestran sobre la pantalla de Inicio del App, como el anuncio de campaña de regalías.",
-    defaults:() => ({ btnPrimario:"IR A RESERVAR MI REGALÍA", accion:"regalias", btnSecundario:"RECORDARME MÁS TARDE", publico:"todos", colegios:[], frecuencia:"hasta_accion", prioridad:1, ocultarSiReservo:true, activo:true }),
+    nuevo:"Nuevo aviso", crear:"Crear aviso", coll:"anuncios", nameKey:"titulo", title:"Avisos", singular:"aviso", icon:"mega",
+    intro:"Avisos emergentes que se muestran sobre la pantalla de Inicio del App para informar eventos específicos. Todo aviso se cierra con la X. Las regalías no se registran aquí: el App las muestra automáticamente al colegio del profesional cuando hay disponibles y están en su período de solicitud.",
+    defaults:() => ({ publico:"todos", colegios:[], frecuencia:"hasta_accion", prioridad:1, activo:true }),
     fields:[
       {sec:"Contenido"},
-      {key:"titulo", label:"Título", type:"text", req:true, span:2, max:90, ph:"¡Ya disponibles las Regalías [NOMBRE COLEGIO MIEMBRO] [AÑO]!", help:"Puede usar las variables [NOMBRE COLEGIO MIEMBRO] y [AÑO]; el App las reemplaza con los datos de cada profesional."},
+      {key:"titulo", label:"Título", type:"text", req:true, span:2, max:90, ph:"Ej. Asamblea General Ordinaria [AÑO]", help:"Puede usar las variables [NOMBRE COLEGIO MIEMBRO] y [AÑO]; el App las reemplaza con los datos de cada profesional."},
       {key:"mensaje", label:"Mensaje", type:"textarea", req:true, span:2, max:280},
-      {key:"imagen", label:"Imagen promocional", type:"image", span:2, help:"Recomendado: 600 × 600 px, JPG o PNG."},
-      {sec:"Botones"},
-      {key:"btnPrimario", label:"Texto del botón principal", type:"text", req:true, max:32},
-      {key:"accion", label:"Acción del botón principal", type:"select", req:true, options:() => [["regalias","Abrir Regalías Disponibles"],["tramite","Abrir un trámite del App"],["url","Abrir un enlace en WebView"],["cerrar","Solo cerrar el anuncio"]]},
-      {key:"destinoTramite", label:"Trámite a abrir", type:"select", req:true, when:r => r.accion === "tramite", options:() => S.data.tramites.map(t => [t.id, t.nombre])},
-      {key:"destinoUrl", label:"Enlace a abrir", type:"url", req:true, when:r => r.accion === "url", ph:"https://…"},
-      {key:"btnSecundario", label:"Texto del botón secundario", type:"text", max:32, help:"Déjelo vacío para no mostrarlo."},
+      {key:"imagen", label:"Imagen", type:"image", span:2, help:"Recomendado: 600 × 600 px, JPG o PNG."},
+      {sec:"Enlace (opcional)"},
+      {key:"destinoUrl", label:"Abrir un enlace en WebView", type:"url", span:2, ph:"https://…", help:"Opcional. Si se indica, al tocar el aviso se abre este enlace en un WebView dentro del App. El aviso no tiene botones y siempre se puede cerrar con la X."},
       {sec:"Público y vigencia"},
-      {key:"_avisoColegio", type:"info", when:() => !esAdmin(), text:() => `Este anuncio se publicará únicamente para los profesionales del ${colName(perfil())}.`},
-      {key:"publico", label:"Colegios a los que se dirige", type:"select", req:true, when:() => esAdmin(), options:() => [["todos","Todos los colegios"],["colegios","Uno o varios colegios"]]},
-      {key:"prioridad", label:"Prioridad", type:"number", min:1, req:true, help:"1 es la más alta. Si hay varios anuncios vigentes, se muestra primero el de menor número."},
-      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => esAdmin() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO},
+      {key:"_avisoColegio", type:"info", when:() => esColegio(), text:() => `Este aviso se publicará únicamente para los profesionales del ${colName(perfil())}.`},
+      {key:"_avisoDepto", type:"info", when:() => esDepto(), text:() => `Este aviso quedará registrado a nombre de ${perfilNombre(perfil())}, según su usuario del SSO del CFIA.`},
+      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => PERFILES},
+      {key:"publico", label:"Colegios a los que se dirige", type:"select", req:true, when:() => !esColegio(), options:() => [["todos","Todos los colegios"],["colegios","Uno o varios colegios"]]},
+      {key:"prioridad", label:"Prioridad", type:"number", min:1, req:true, help:"1 es la más alta. Si hay varios avisos vigentes, se muestra primero el de menor número."},
+      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO},
       {key:"inicio", label:"Visible desde", type:"datetime", req:true},
       {key:"fin", label:"Visible hasta", type:"datetime", req:true},
-      {key:"frecuencia", label:"Frecuencia", type:"select", req:true, span:2, options:() => [["hasta_accion","En cada inicio hasta que el profesional toque el botón principal"],["diaria","Una vez al día"],["una_vez","Una sola vez"]]},
-      {key:"ocultarSiReservo", label:"Ocultar a quien ya reservó su regalía", type:"toggle", when:r => r.accion === "regalias"},
-      {key:"activo", label:"Anuncio activo", type:"toggle"}
+      {key:"frecuencia", label:"Frecuencia", type:"select", req:true, span:2, options:() => [["hasta_accion","En cada inicio de sesión mientras esté vigente"],["diaria","Una vez al día"],["una_vez","Una sola vez"]]},
+      {key:"activo", label:"Aviso activo", type:"toggle"}
     ],
     filters:[
       {key:"estado", label:"Todos los estados", options:[["Vigente","Vigentes"],["Programado","Programados"],["Finalizado","Finalizados"],["Inactivo","Inactivos"]], test:(r,v) => vigencia(r.inicio, r.fin, r.activo)[0] === v}
     ],
-    beforeSave:r => { if(!esAdmin()){ r.publico = "colegios"; r.colegios = [perfil()]; } return r; },
-    visible:r => esAdmin() || (r.publico === "colegios" && (r.colegios||[]).length === 1 && r.colegios[0] === perfil()),
+    beforeSave:(r, prev) => { r.registradoPor = prev ? registrador(prev) : perfil(); if(esColegio()){ r.publico = "colegios"; r.colegios = [perfil()]; } return r; },
+    visible:puedeVer,
     sort:(a,b) => (a.prioridad||9) - (b.prioridad||9),
     columns:[
       {label:"", cell:r => imgSrc(r.imagen) ? `<img class="thumb" src="${esc(imgSrc(r.imagen))}" alt="">` : `<div class="thumb"></div>`},
-      {label:"Anuncio", cell:r => `<div class="t1">${esc(r.titulo)}</div><div class="sub">${esc(r.mensaje)}</div>`},
+      {label:"Aviso", cell:r => `<div class="t1">${esc(r.titulo)}</div><div class="sub">${esc(r.mensaje)}</div>`},
+      {label:"Registrado por", cell:r => `<span class="tag">${esc(perfilNombre(registrador(r)))}</span>`},
       {label:"Público", cell:r => r.publico === "colegios" ? (r.colegios||[]).map(c => `<span class="tag">${esc(c)}</span>`).join("") : "Todos"},
+      {label:"Enlace", cell:r => r.destinoUrl ? `<span class="tag">WebView</span>` : "—"},
       {label:"Vigencia", cell:r => `<div class="sub mono">${fmtDate(r.inicio,true)}<br>${fmtDate(r.fin,true)}</div>`},
       {label:"Prioridad", cell:r => `<span class="mono">${esc(r.prioridad)}</span>`},
       {label:"Estado", cell:r => pill(vigencia(r.inicio, r.fin, r.activo))}
     ],
     preview:r => {
       const year = r.inicio ? new Date(r.inicio).getFullYear() : new Date().getFullYear();
-      const pub = !esAdmin() ? perfil() : (r.publico === "colegios" && (r.colegios||[])[0]);
+      const pub = esColegio() ? perfil() : (r.publico === "colegios" && (r.colegios||[])[0]);
       const col = pub ? colName(pub) : "Colegio de Arquitectos de Costa Rica";
       const v = s => esc(s || "").replace(/\[NOMBRE (DE )?COLEGIO MIEMBRO\]/gi, col).replace(/\[AÑO\]/gi, year);
       const src = imgSrc(r.imagen);
       return `<h3>Así se verá en el App</h3><div class="phone"><div class="screen">
         <div class="sb"><img src="data:image/png;base64,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" alt=""><span></span></div><div class="hello">¡Hola, Mariana!</div>
-        <div class="ov"><div class="mdl"><div class="top"><h4>${v(r.titulo) || "Título del anuncio"}</h4><span style="font-size:16px;line-height:1">✕</span></div>
-          <p>${v(r.mensaje) || "Mensaje del anuncio."}</p>
+        <div class="ov"><div class="mdl"><div class="top"><h4>${v(r.titulo) || "Título del aviso"}</h4><span style="font-size:16px;line-height:1">✕</span></div>
+          <p>${v(r.mensaje) || "Mensaje del aviso."}</p>
           <div class="img" ${src ? `style="background:url('${esc(src)}') center/cover no-repeat"` : ""}></div>
-          <span class="b1">${esc(r.btnPrimario || "BOTÓN")}</span>${r.btnSecundario ? `<span class="b2">${esc(r.btnSecundario)}</span>` : ""}
+          ${r.destinoUrl ? `<p style="font-size:10px;color:#76777B;margin:8px 0 0">Al tocar el aviso se abre en WebView: ${esc(r.destinoUrl)}</p>` : ""}
         </div></div></div></div>
-        <p class="help" style="font-size:13px;color:var(--muted);margin:12px 4px 0">Vista previa con datos de ejemplo de un profesional del ${esc(col)}.</p>`;
+        <p class="help" style="font-size:13px;color:var(--muted);margin:12px 4px 0">Vista previa con datos de ejemplo de un profesional del ${esc(col)}. El aviso no tiene botones: se cierra con la X${r.destinoUrl ? " y al tocarlo abre el enlace" : ""}.</p>`;
     },
     validate:r => {
       const e = {};
       if(r.inicio && r.fin && new Date(r.fin) <= new Date(r.inicio)) e.fin = "Debe ser posterior a la fecha de inicio.";
-      if(r.accion === "url" && r.destinoUrl && !/^https:\/\//i.test(r.destinoUrl)) e.destinoUrl = "Debe iniciar con https://";
+      if(r.destinoUrl && !/^https:\/\//i.test(r.destinoUrl)) e.destinoUrl = "Debe iniciar con https://";
       return e;
     }
   },
@@ -1587,8 +1643,8 @@ const MODS = {
       {key:"activo", label:"Regalía activa", type:"toggle"},
       {sec:"Envío por Correos de Costa Rica"},
       {key:"envioCorreos", label:"Permitir envío por Correos de Costa Rica", type:"toggle", span:2, help:"El profesional podrá elegir el envío en el App y deberá subir el comprobante de pago del envío."},
-      {key:"costoEnvio", label:"Costo del envío (₡)", type:"number", req:true, min:0, when:r => r.envioCorreos === true, help:"Se muestra en el App como {monto} en «Pasos para enviar por Correos de Costa Rica»."},
-      {key:"instruccionesPago", label:"Medios de pago del envío", type:"textarea", req:true, span:2, when:r => r.envioCorreos === true, ph:"Ej. Banco Nacional, cuenta IBAN CR00 0000 0000 0000 0000 00 a nombre de …\nSINPE Móvil 8888-0000 a nombre de …", help:"Describa el o los números de cuenta y bancos y/o el número SINPE Móvil. Se muestran en el App como {descripción} en «Pasos para enviar por Correos de Costa Rica»."},
+      {key:"costoEnvio", label:"Costo del envío (₡)", type:"number", req:true, min:0, when:r => r.envioCorreos === true, help:"Se muestra en el App en el campo «Costo de envío» y como {monto} en la pantalla «¿Cómo solicitar el envío de la regalía a través de Correos de Costa Rica?»."},
+      {key:"instruccionesPago", label:"Medios de pago del envío", type:"textarea", req:true, span:2, when:r => r.envioCorreos === true, ph:"Ej. Banco Nacional, cuenta IBAN CR00 0000 0000 0000 0000 00 a nombre de …\nSINPE Móvil 8888-0000 a nombre de …", help:"Describa el o los números de cuenta y bancos y/o el número SINPE Móvil. Se muestran en el App como {descripción} en la pantalla «¿Cómo solicitar el envío de la regalía a través de Correos de Costa Rica?»."},
       {sec:"Retiro"},
       {key:"sedes", label:"Sedes de retiro habilitadas", type:"checks", span:2, req:true, dependsOn:["colegio"], options:r => sedeOpts(r.colegio), empty:"Primero registre sedes en el módulo Sedes, o seleccione un colegio."}
     ],
@@ -1639,7 +1695,7 @@ const MODS = {
   reservas:{
     nuevo:"Nueva reserva", crear:"Registrar reserva", coll:"reservas", nameKey:"numero", title:"Reservas de regalías", singular:"reserva", icon:"clip",
     intro:"Reservas realizadas desde el App o registradas manualmente. El inventario de cada regalía se ajusta automáticamente al crear, cambiar de estado o anular una reserva.",
-    defaults:() => ({ cantidad:1, estado:"reservada", canal:"gestor", modalidad:"sede", estadoPago:"pendiente", envioTipoDestino:"direccion" }),
+    defaults:() => ({ cantidad:1, estado:"reservada", canal:"gestor", modalidad:"sede", estadoPago:"pendiente" }),
     fields:[
       {sec:"Regalía"},
       {key:"regalia", label:"Regalía", type:"select", req:true, span:2, options:r => S.data.regalias
@@ -1657,16 +1713,14 @@ const MODS = {
       {key:"telefono", label:"Teléfono", type:"tel", req:true, ph:"0000-0000"},
       {key:"correo", label:"Correo electrónico", type:"email", req:true, span:2, ph:"correo@ejemplo.com"},
       {sec:"Envío por Correos de Costa Rica", when:r => r.modalidad === "correos"},
-      {key:"envioNombre", label:"Nombre completo de la persona o empresa", type:"text", req:true, span:2, when:r => r.modalidad === "correos", ph:"Nombre y apellidos, o razón social"},
-      {key:"envioTelefono", label:"Número de teléfono", type:"tel", req:true, when:r => r.modalidad === "correos", ph:"0000-0000"},
-      {key:"envioCedula", label:"Número de cédula", type:"text", when:r => r.modalidad === "correos", ph:"0-0000-0000", help:"Opcional para envíos nacionales, pero recomendado."},
+      {key:"envioNombre", label:"Nombre de quien recibe", type:"text", req:true, span:2, when:r => r.modalidad === "correos", ph:"Nombre y apellidos, o razón social"},
+      {key:"envioTelefono", label:"Teléfono", type:"tel", req:true, when:r => r.modalidad === "correos", ph:"0000-0000"},
+      {key:"envioCedula", label:"Número de cédula", type:"text", when:r => r.modalidad === "correos", ph:"000000000", help:"Opcional para envíos nacionales, pero recomendado."},
       {key:"envioProvincia", label:"Provincia", type:"select", req:true, when:r => r.modalidad === "correos", options:() => PROVINCIAS},
       {key:"envioCanton", label:"Cantón", type:"text", req:true, when:r => r.modalidad === "correos"},
       {key:"envioDistrito", label:"Distrito", type:"text", req:true, when:r => r.modalidad === "correos"},
-      {key:"envioTipoDestino", label:"Entregar en", type:"select", req:true, when:r => r.modalidad === "correos", options:() => [["direccion","Dirección exacta"],["api","Apartado Postal Inteligente (API) / Locker"]]},
-      {key:"envioDireccion", label:"Señas exactas de la dirección de entrega", type:"textarea", req:true, span:2, when:r => r.modalidad === "correos" && r.envioTipoDestino !== "api"},
-      {key:"envioApi", label:"Código del Apartado Postal Inteligente (API) / Locker", type:"text", req:true, span:2, when:r => r.modalidad === "correos" && r.envioTipoDestino === "api"},
-      {key:"comprobante", label:"Comprobante de pago del envío", type:"file", span:2, when:r => r.modalidad === "correos", help:"Lo sube el profesional desde el App. En un registro manual puede adjuntarse aquí (JPG, PNG o PDF)."},
+      {key:"envioDireccion", label:"Dirección exacta", type:"textarea", req:true, span:2, when:r => r.modalidad === "correos", ph:"Señas exactas de la dirección de entrega o el código del Apartado Postal Inteligente (API) / Locker si utiliza esta modalidad"},
+      {key:"comprobante", label:"Comprobante de pago del envío", type:"file", req:true, span:2, when:r => r.modalidad === "correos", help:"Obligatorio. JPG, PNG o PDF, con un peso máximo de 5 MB. Lo sube el profesional desde el App; en un registro manual se adjunta aquí."},
       {key:"estadoPago", label:"Revisión del comprobante", type:"select", req:true, when:r => r.modalidad === "correos", options:() => ESTADOS_PAGO},
       {sec:"Estado"},
       {key:"estado", label:"Estado", type:"select", req:true, options:() => ESTADOS_RES},
@@ -1685,7 +1739,7 @@ const MODS = {
       {label:"Profesional", cell:r => `<div class="t1">${esc(r.profesional)}</div><div class="sub mono">${esc(r.carne)}</div>`},
       {label:"Regalía", cell:r => { const g = byId("regalias", r.regalia); return g ? `<div>${esc(g.nombre)}</div><div class="sub">${esc(colShort(g.colegio))} · ${esc(g.campana)} · ${esc(r.cantidad)} u.</div>` : `<span class="sub">Regalía eliminada</span>`; }},
       {label:"Entrega", cell:r => r.modalidad === "correos"
-        ? `<div>Correos de Costa Rica</div><div class="sub">${esc(r.envioNombre || "")}</div><div class="sub">${r.envioTipoDestino === "api" ? "API / Locker " + esc(r.envioApi || "") : esc(r.envioProvincia || "") + (r.envioCanton ? ", " + esc(r.envioCanton) : "")}</div>${r.comprobante ? `<button class="btn sm" data-comp="${esc(r.id)}" style="margin-top:6px">${ic("eye")}Ver comprobante</button> ${pagoPill(r.estadoPago)}` : `<span class="pill warn" style="margin-top:6px">Sin comprobante</span>`}`
+        ? `<div>Correos de Costa Rica</div><div class="sub">${esc(r.envioNombre || "")}</div><div class="sub">${esc([r.envioProvincia, r.envioCanton, r.envioDistrito].filter(Boolean).join(", "))}</div>${r.comprobante ? `<button class="btn sm" data-comp="${esc(r.id)}" style="margin-top:6px">${ic("eye")}Ver comprobante</button> ${pagoPill(r.estadoPago)}` : `<span class="pill warn" style="margin-top:6px">Sin comprobante</span>`}`
         : esc((byId("sedes", r.sede)||{}).nombre || "—")},
       {label:"Registrada", cell:r => `<span class="sub mono">${fmtDate(r.creadoEn, true)}</span>`},
       {label:"Estado", cell:r => resPill(r.estado)}
@@ -1732,12 +1786,12 @@ const MODS = {
   },
 
   novedades:{
-    nuevo:"Nueva novedad o evento", crear:"Crear publicación", coll:"novedades", nameKey:"titulo", title:"Novedades y eventos", singular:"novedad o evento", icon:"news",
-    intro:"Contenido de la sección «Novedades CFIA» de la pantalla de Inicio: congresos, webinars, actividades y noticias.",
-    defaults:() => ({ tipo:"evento", duracion:"fecha", textoBoton:"CONOCER MÁS", publico:"todos", colegios:[], estado:"borrador", destacado:false }),
+    nuevo:"Nuevo evento, novedad o anuncio", crear:"Crear publicación", coll:"novedades", nameKey:"titulo", title:"Eventos, novedades y anuncios", singular:"evento, novedad o anuncio", icon:"news",
+    intro:"Contenido de la sección «Novedades CFIA» de la pantalla de Inicio: eventos, novedades y anuncios de los colegios y de los departamentos del CFIA (CENDEPRO, CFIA y Oficinas Regionales).",
+    defaults:() => ({ tipo:"evento", duracion:"fecha", btnPrimario:"CONOCER MÁS", accionPrimario:"webview", publico:"todos", colegios:[], estado:"borrador", destacado:false }),
     fields:[
       {sec:"Contenido"},
-      {key:"tipo", label:"Tipo", type:"select", req:true, options:() => [["evento","Evento"],["novedad","Novedad / noticia"]]},
+      {key:"tipo", label:"Tipo", type:"select", req:true, options:() => TIPOS_PUB},
       {key:"estado", label:"Estado", type:"select", req:true, options:() => [["borrador","Borrador"],["publicado","Publicado"]]},
       {key:"titulo", label:"Título", type:"text", req:true, span:2, max:80, ph:"Ej. Congreso Nacional de Ingeniería 2027"},
       {key:"resumen", label:"Resumen", type:"textarea", span:2, max:300},
@@ -1748,25 +1802,36 @@ const MODS = {
       {key:"fechaFin", label:"Fecha de finalización", type:"date", req:true, when:r => r.tipo === "evento" && r.duracion === "rango"},
       {key:"hora", label:"Hora", type:"time", when:r => r.tipo === "evento"},
       {key:"lugar", label:"Lugar", type:"text", span:2, req:true, ph:"Ej. Auditorio CFIA", when:r => r.tipo === "evento"},
-      {sec:"Botón"},
-      {key:"textoBoton", label:"Texto del botón", type:"text", max:24},
-      {key:"enlace", label:"Enlace del botón", type:"url", ph:"https://…"},
+      {sec:"Botones"},
+      {key:"btnPrimario", label:"Texto del botón principal", type:"text", req:true, max:24},
+      {key:"accionPrimario", label:"Acción del botón principal", type:"select", req:true, options:() => ACCIONES_BTN},
+      {key:"urlPrimario", label:"Enlace del botón principal", type:"url", req:true, span:2, ph:"https://…"},
+      {key:"btnSecundario", label:"Texto del botón secundario", type:"text", max:24, help:"Opcional. Déjelo vacío para no mostrarlo."},
+      {key:"accionSecundario", label:"Acción del botón secundario", type:"select", req:true, when:r => !!r.btnSecundario, options:() => ACCIONES_BTN},
+      {key:"urlSecundario", label:"Enlace del botón secundario", type:"url", req:true, span:2, when:r => !!r.btnSecundario, ph:"https://…"},
       {sec:"Publicación"},
       {key:"publicarDesde", label:"Publicar desde", type:"datetime"},
       {key:"publicarHasta", label:"Publicar hasta", type:"datetime"},
-      {key:"publico", label:"Se muestra a", type:"select", req:true, options:() => [["todos","Todos los profesionales"],["colegios","Profesionales de colegios específicos"]]},
+      {key:"_avisoColegioNov", type:"info", when:() => esColegio(), text:() => `Esta publicación se mostrará únicamente a los profesionales del ${colName(perfil())}.`},
+      {key:"_avisoDeptoNov", type:"info", when:() => esDepto(), text:() => `Esta publicación quedará registrada a nombre de ${perfilNombre(perfil())}, según su usuario del SSO del CFIA.`},
+      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => PERFILES},
+      {key:"publico", label:"Se muestra a", type:"select", req:true, when:() => !esColegio(), options:() => [["todos","Todos los profesionales"],["colegios","Profesionales de colegios específicos"]]},
       {key:"destacado", label:"Mostrar primero en el carrusel", type:"toggle"},
-      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => r.publico === "colegios", options:() => COLEGIOS_MIEMBRO}
+      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO}
     ],
+    beforeSave:(r, prev) => { r.registradoPor = prev ? registrador(prev) : perfil(); if(esColegio()){ r.publico = "colegios"; r.colegios = [perfil()]; } return r; },
+    visible:puedeVer,
     filters:[
-      {key:"tipo", label:"Eventos y novedades", options:[["evento","Eventos"],["novedad","Novedades"]], test:(r,v) => r.tipo === v},
+      {key:"tipo", label:"Todos los tipos", options:[["evento","Eventos"],["novedad","Novedades"],["anuncio","Anuncios"]], test:(r,v) => r.tipo === v},
+      {key:"registradoPor", label:"Todos los registradores", options:PERFILES, test:(r,v) => registrador(r) === v},
       {key:"estado", label:"Todos los estados", options:[["publicado","Publicados"],["borrador","Borradores"]], test:(r,v) => r.estado === v}
     ],
     sort:(a,b) => (b.destacado?1:0) - (a.destacado?1:0) || (b.fecha||b.publicarDesde||"").localeCompare(a.fecha||a.publicarDesde||""),
     columns:[
       {label:"", cell:r => imgSrc(r.imagen) ? `<img class="thumb" src="${esc(imgSrc(r.imagen))}" alt="">` : `<div class="thumb"></div>`},
       {label:"Título", cell:r => `<div class="t1">${r.destacado ? "★ " : ""}${esc(r.titulo)}</div><div class="sub">${esc(r.resumen)}</div>`},
-      {label:"Tipo", cell:r => r.tipo === "evento" ? "Evento" : "Novedad"},
+      {label:"Tipo", cell:r => esc((TIPOS_PUB.find(t => t[0] === r.tipo) || [0, r.tipo])[1])},
+      {label:"Registrado por", cell:r => `<span class="tag">${esc(perfilNombre(registrador(r)))}</span>`},
       {label:"Fecha y lugar", cell:r => r.tipo === "evento" ? `<div class="mono">${fmtDate(r.fecha)}${r.duracion === "rango" && r.fechaFin ? " al " + fmtDate(r.fechaFin) : ""} ${esc(r.hora||"")}</div><div class="sub">${esc(r.lugar)}</div>` : "—"},
       {label:"Publicación", cell:r => { if(r.estado !== "publicado") return pill(["Borrador",""]); return pill(vigencia(r.publicarDesde, r.publicarHasta, true)); }}
     ],
@@ -1778,14 +1843,15 @@ const MODS = {
         <div class="evt"><div class="img" ${src ? `style="background-image:url('${esc(src)}')"` : ""}></div><div class="in">
           <h4>${esc(r.titulo || "Título del evento: congreso, webinar, etc")}</h4>
           ${r.tipo === "evento" ? `<div class="m">${ic("cal")}${r.fecha ? fmtDate(r.fecha) : "DD/MM/AAAA"}${r.duracion === "rango" ? " al " + (r.fechaFin ? fmtDate(r.fechaFin) : "DD/MM/AAAA") : ""}${r.hora ? " · " + esc(r.hora) : ""}</div><div class="m">${ic("pin")}${esc((r.lugar || "Lugar").toUpperCase())}</div>` : `<div class="m" style="display:block">${esc(r.resumen || "")}</div>`}
-          ${r.textoBoton ? `<div class="cta">${esc(r.textoBoton)}</div>` : ""}
+          <div class="cta">${esc(r.btnPrimario || "BOTÓN PRINCIPAL")}</div>${r.btnSecundario ? `<div class="cta" style="background:#fff;border:1px solid #FCB429;margin-top:6px">${esc(r.btnSecundario)}</div>` : ""}
         </div></div></div></div>`;
     },
     validate:r => {
       const e = {};
       if(r.publicarDesde && r.publicarHasta && new Date(r.publicarHasta) <= new Date(r.publicarDesde)) e.publicarHasta = "Debe ser posterior a la fecha de inicio.";
       if(r.tipo === "evento" && r.duracion === "rango" && r.fecha && r.fechaFin && r.fechaFin <= r.fecha) e.fechaFin = "Debe ser posterior a la fecha del evento.";
-      if(r.enlace && !/^https:\/\//i.test(r.enlace)) e.enlace = "Debe iniciar con https://";
+      if(r.urlPrimario && !/^https:\/\//i.test(r.urlPrimario)) e.urlPrimario = "Debe iniciar con https://";
+      if(r.btnSecundario && r.urlSecundario && !/^https:\/\//i.test(r.urlSecundario)) e.urlSecundario = "Debe iniciar con https://";
       if(r.estado === "publicado" && !imgSrc(r.imagen)) e.imagen = "Agregue una imagen antes de publicar.";
       return e;
     }
@@ -1850,7 +1916,7 @@ function viewResumen(){
     .map(n => `<div class="prow"><div class="grow"><div><strong>${esc(n.titulo)}</strong></div><small>${fmtDate(n.fecha)}${n.duracion === "rango" && n.fechaFin ? " al " + fmtDate(n.fechaFin) : ""} · ${esc(n.lugar || "")}</small></div>${n.estado === "publicado" ? pill(["Publicado","ok"]) : pill(["Borrador",""])}</div>`).join("")
     || `<div class="empty" style="padding:28px">No hay eventos próximos.</div>`;
   return `${banner()}<div class="pagehead"><div><h1>Resumen</h1><p>Estado actual del contenido que se publica en el App CFIA.</p></div></div>
-    <div class="kpis">${k(tram,"Trámites activos","tramites")}${k(anu,"Anuncios vigentes","anuncios")}${k(regV.length,"Regalías en solicitud","regalias")}${k(pend,"Reservas por entregar","reservas")}${k(nov,"Novedades publicadas","novedades")}</div>
+    <div class="kpis">${k(tram,"Trámites activos","tramites")}${k(anu,"Avisos vigentes","anuncios")}${k(regV.length,"Regalías en solicitud","regalias")}${k(pend,"Reservas por entregar","reservas")}${k(nov,"Eventos, novedades y anuncios publicados","novedades")}</div>
     <div class="dash"><div style="display:flex;flex-direction:column;gap:18px">
       <section class="card panel"><h2>Inventario de regalías</h2><div class="rows">${inv}</div></section>
       <section class="card panel"><h2>Próximos eventos</h2><div class="rows">${prox}</div></section></div>
@@ -1871,7 +1937,7 @@ function viewModuleShell(k){
     return `<select data-filter="${f.key}" aria-label="${esc(f.label)}"><option value="">${esc(f.label)}</option>${opts.map(o => `<option value="${esc(o[0])}" ${S.f[k][f.key] === o[0] ? "selected" : ""}>${esc(o[1])}</option>`).join("")}</select>`;
   }).join("");
   return `${banner()}<div class="pagehead"><div><h1>${esc(m.title)}</h1><p>${esc(m.intro)}</p></div>
-    <div class="actions">${k === "reservas" ? `<button class="btn" data-xls="reservas">${ic("down")}Exportar Excel</button>` : ""}${S.downloads ? `<button class="btn" data-export="${k}">${ic("down")}Exportar JSON</button>` : ""}
+    <div class="actions">${k === "reservas" || k === "tramites" ? `<button class="btn" data-xls="${k}">${ic("down")}Exportar Excel</button>` : ""}${S.downloads ? `<button class="btn" data-export="${k}">${ic("down")}Exportar JSON</button>` : ""}
     <button class="btn pri" data-new="${k}" ${S.canWrite ? "" : "disabled"}>${ic("plus")}${esc(m.nuevo)}</button></div></div>
     <div class="toolbar"><div class="search">${ic("search")}<input type="text" data-q placeholder="Buscar en ${esc(m.title.toLowerCase())}" value="${esc(S.f[k].q || "")}"></div>${fl}</div>
     <div class="card"><div class="tablewrap" id="rows"></div></div>`;
@@ -1919,7 +1985,7 @@ $("#view").addEventListener("click", async e => {
   if(!t) return;
   if(t.dataset.new) return openForm(k, null);
   if(t.dataset.export) return exportJSON(k);
-  if(t.dataset.xls) return exportReservasXLSX();
+  if(t.dataset.xls) return t.dataset.xls === "tramites" ? exportTramitesXLSX() : exportReservasXLSX();
   if(t.dataset.axls !== undefined) return exportAuditXLSX();
   if(t.dataset.aexp !== undefined) return exportAudit();
   if(t.dataset.arow) return toggleAuditRow(t);
@@ -1992,7 +2058,7 @@ function fieldHTML(f, r){
       const canUp = S.canWrite && (S.assets || S.mode === "memoria");
       ctl = `<div class="imgbox" id="${id}" data-file='${esc(JSON.stringify(v || null))}'><div class="ph" ${src && !isPdf ? `style="background-image:url('${esc(src)}')"` : ""}>${src ? (isPdf ? "PDF" : "") : "Sin archivo"}</div>
         <div class="ctl">${src ? `<p style="margin:0;font-weight:600;word-break:break-all">${esc(v.nombre || "Comprobante")}</p>` : `<p style="margin:0;color:var(--muted)">El profesional aún no ha subido el comprobante.</p>`}
-        <div class="actions">${src ? `<button type="button" class="btn sm" data-viewfile="${f.key}">${ic("eye")}Ver comprobante</button>` : ""}${canUp ? `<label class="btn sm">${ic("up")}${src ? "Reemplazar" : "Adjuntar"}<input type="file" accept="image/png,image/jpeg,image/webp,application/pdf" hidden data-upload="${f.key}"></label>${src ? `<button type="button" class="btn sm ghost" data-clearimg="${f.key}">Quitar</button>` : ""}` : ""}</div></div></div>`;
+        <div class="actions">${src ? `<button type="button" class="btn sm" data-viewfile="${f.key}">${ic("eye")}Ver comprobante</button>` : ""}${canUp ? `<label class="btn sm">${ic("up")}${src ? "Reemplazar" : "Adjuntar"}<input type="file" accept="image/png,image/jpeg,application/pdf" hidden data-upload="${f.key}"></label>${src ? `<button type="button" class="btn sm ghost" data-clearimg="${f.key}">Quitar</button>` : ""}` : ""}</div></div></div>`;
       break;
     }
     case "image": {
@@ -2129,7 +2195,9 @@ function openForm(k, id){
   root.addEventListener("change", async e => {
     const up = e.target.closest("[data-upload]"); if(!up || !up.files[0]) return;
     const file = up.files[0]; const f = m.fields.find(x => x.key === up.dataset.upload);
-    if(file.size > 20 * 1024 * 1024){ toast(f.type === "file" ? "El archivo supera los 20 MB." : "La imagen supera los 20 MB.", true); return; }
+    if(f.type === "file" && !/^(image\/png|image\/jpeg|application\/pdf)$/.test(file.type)){ toast("Use un archivo JPG, PNG o PDF.", true); return; }
+    if(f.type === "file" && file.size > 5 * 1024 * 1024){ toast("El comprobante supera los 5 MB.", true); return; }
+    if(file.size > 20 * 1024 * 1024){ toast("La imagen supera los 20 MB.", true); return; }
     const box = $(`.f[data-key="${f.key}"]`, root); $(".ph", box).textContent = "Subiendo…";
     try {
       let val;
@@ -2280,7 +2348,7 @@ async function exportReservasXLSX(){
       "Sede": env ? "" : ((byId("sedes", r.sede) || {}).nombre || ""), "Persona que retira": env ? "" : (r.personaRetira || ""),
       "Nombre de quien recibe": env ? (r.envioNombre || "") : "", "Teléfono de envío": env ? (r.envioTelefono || "") : "", "Cédula": env ? (r.envioCedula || "") : "",
       "Provincia": env ? (r.envioProvincia || "") : "", "Cantón": env ? (r.envioCanton || "") : "", "Distrito": env ? (r.envioDistrito || "") : "",
-      "Señas exactas o API / Locker": env ? (r.envioTipoDestino === "api" ? "API / Locker " + (r.envioApi || "") : (r.envioDireccion || "")) : "",
+      "Dirección exacta (señas o API / Locker)": env ? (r.envioTipoDestino === "api" ? "API / Locker " + (r.envioApi || "") : (r.envioDireccion || "")) : "",
       "Comprobante": env ? ((r.comprobante && (r.comprobante.nombre || "Adjunto")) || "Sin comprobante") : "", "Revisión del comprobante": env ? lab(ESTADOS_PAGO, r.estadoPago || "pendiente") : "",
       "Fecha de entrega": r.fechaEntrega ? fmtDate(r.fechaEntrega, true) : "", "Observaciones": r.observaciones || ""
     };
@@ -2288,6 +2356,21 @@ async function exportReservasXLSX(){
   try {
     const ok = await writeXLSX("Reservas", filas, [16,17,10,22,32,24,9,9,26,12,28,12,28,24,24,26,14,14,12,14,14,40,26,20,17,30], `app-cfia-reservas-${hoy()}.xlsx`);
     if(ok) toast(`Se exportaron ${filas.length} reserva(s).`);
+  } catch(e){ toast("No fue posible generar el Excel. Revise su conexión e intente de nuevo.", true); }
+}
+async function exportTramitesXLSX(){
+  const lista = filtered("tramites");
+  if(!lista.length){ toast("No hay trámites para exportar con los filtros actuales.", true); return; }
+  const filas = lista.map(r => ({
+    "Orden": Number(r.orden) || "", "Trámite": r.nombre || "", "Descripción corta": r.descripcion || "",
+    "Trámite para": (DIRIGIDO.find(d => d[0] === r.dirigido) || [0, ""])[1], "URL del sitio": r.url || "",
+    "Se abre en": r.apertura === "externo" ? "Navegador del dispositivo" : "WebView dentro del App", "Título en la cabecera del WebView": r.tituloAppBar || "",
+    "Ícono": (APP_ICONS[r.icono] || [""])[0], "Visible en Trámites": r.visibleTramites !== false ? "Sí" : "No", "Visible en Onboarding": r.visibleOnboarding !== false ? "Sí" : "No",
+    "Estado": r.activo === false ? "Inactivo" : "Activo", "Última modificación": fmtDate(r.actualizadoEn || r.creadoEn, true)
+  }));
+  try {
+    const ok = await writeXLSX("Trámites y servicios", filas, [7,36,44,22,52,24,28,16,12,14,10,18], `app-cfia-tramites-${hoy()}.xlsx`);
+    if(ok) toast(`Se exportaron ${filas.length} trámite(s).`);
   } catch(e){ toast("No fue posible generar el Excel. Revise su conexión e intente de nuevo.", true); }
 }
 async function exportAuditXLSX(){
