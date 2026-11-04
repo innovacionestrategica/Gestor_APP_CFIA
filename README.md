@@ -28,7 +28,7 @@ Fuera de claude.ai, el gestor funciona en **modo demostración**: carga los dato
 | `assets/` | Logo CFIA a color y versión sobre fondo negro. `assets/ejemplos/` tiene dos comprobantes de pago de ejemplo. |
 | `dist/gestor_app_cfia.html` | Versión en un solo archivo, con los datos de ejemplo incluidos. |
 | `dist/gestor_app_cfia_claude.html` | Versión publicada en claude.ai, que guarda los datos con la API de artefactos. |
-| `plantilla-correo/` | Plantilla HTML del correo de confirmación de reserva de regalía. |
+| `plantilla-correo/` | Plantillas HTML de los correos: confirmación de reserva con retiro en sede y solicitud de envío por Correos de Costa Rica. |
 
 ## Módulos
 
@@ -38,10 +38,12 @@ Fuera de claude.ai, el gestor funciona en **modo demostración**: carga los dato
 | Trámites y servicios | Enlaces que el App abre en WebView o en el navegador. Cada trámite indica si es para **colegiados, empresas o ambos**. |
 | Sedes | Dirección, horario, teléfonos y correos de cada lugar de retiro. |
 | Anuncios | Modales sobre la pantalla de Inicio del App. El Administrador CFIA elige uno, varios o todos los colegios; un usuario de colegio publica automáticamente solo para su colegio. |
-| Regalías | Productos por colegio con atributos libres, inventario, período de solicitud, sedes de retiro y opción de **envío por Correos de Costa Rica** (costo e instrucciones de pago). |
+| Regalías | Productos por colegio con atributos libres, inventario, período de solicitud, sedes de retiro y opción de **envío por Correos de Costa Rica**, con costo del envío y medios de pago (cuentas, bancos o SINPE Móvil) obligatorios. |
 | Reservas | Registro y edición de reservas, retiro en sede o envío por Correos, con los datos de envío y el **comprobante de pago** (imagen o PDF) que sube el profesional en el App. |
-| Novedades y eventos | Contenido de la sección «Novedades CFIA». |
+| Novedades y eventos | Contenido de la sección «Novedades CFIA». Los eventos pueden tener una fecha específica o un rango de fechas. |
 | Auditoría | Quién creó, modificó o eliminó cada registro, con el valor anterior y el nuevo de cada campo. |
+
+**Exportación:** cada módulo descarga sus registros en JSON. Reservas y Auditoría también tienen **«Exportar Excel»**, que respeta los filtros y la búsqueda aplicados. La generación del Excel usa SheetJS desde cdnjs, por lo que necesita conexión a internet.
 
 ### Datos de envío por Correos de Costa Rica
 

@@ -476,8 +476,8 @@ const MODS = {
       {key:"activo", label:"Regalía activa", type:"toggle"},
       {sec:"Envío por Correos de Costa Rica"},
       {key:"envioCorreos", label:"Permitir envío por Correos de Costa Rica", type:"toggle", span:2, help:"El profesional podrá elegir el envío en el App y deberá subir el comprobante de pago del envío."},
-      {key:"costoEnvio", label:"Costo del envío (₡)", type:"number", min:0, when:r => r.envioCorreos === true},
-      {key:"instruccionesPago", label:"Instrucciones de pago", type:"textarea", span:2, when:r => r.envioCorreos === true, ph:"Ej. SINPE Móvil 0000-0000 o cuenta IBAN CR00 0000 0000 0000 0000 00", help:"Se muestran en el App para que el profesional pague el envío y suba el comprobante."},
+      {key:"costoEnvio", label:"Costo del envío (₡)", type:"number", req:true, min:0, when:r => r.envioCorreos === true, help:"Se muestra en el App como {monto} en «Pasos para enviar por Correos de Costa Rica»."},
+      {key:"instruccionesPago", label:"Medios de pago del envío", type:"textarea", req:true, span:2, when:r => r.envioCorreos === true, ph:"Ej. Banco Nacional, cuenta IBAN CR00 0000 0000 0000 0000 00 a nombre de …\nSINPE Móvil 8888-0000 a nombre de …", help:"Describa el o los números de cuenta y bancos y/o el número SINPE Móvil. Se muestran en el App como {descripción} en «Pasos para enviar por Correos de Costa Rica»."},
       {sec:"Retiro"},
       {key:"sedes", label:"Sedes de retiro habilitadas", type:"checks", span:2, req:true, dependsOn:["colegio"], options:r => sedeOpts(r.colegio), empty:"Primero registre sedes en el módulo Sedes, o seleccione un colegio."}
     ],
@@ -623,7 +623,7 @@ const MODS = {
   novedades:{
     nuevo:"Nueva novedad o evento", crear:"Crear publicación", coll:"novedades", nameKey:"titulo", title:"Novedades y eventos", singular:"novedad o evento", icon:"news",
     intro:"Contenido de la sección «Novedades CFIA» de la pantalla de Inicio: congresos, webinars, actividades y noticias.",
-    defaults:() => ({ tipo:"evento", textoBoton:"CONOCER MÁS", publico:"todos", colegios:[], estado:"borrador", destacado:false }),
+    defaults:() => ({ tipo:"evento", duracion:"fecha", textoBoton:"CONOCER MÁS", publico:"todos", colegios:[], estado:"borrador", destacado:false }),
     fields:[
       {sec:"Contenido"},
       {key:"tipo", label:"Tipo", type:"select", req:true, options:() => [["evento","Evento"],["novedad","Novedad / noticia"]]},
@@ -632,7 +632,9 @@ const MODS = {
       {key:"resumen", label:"Resumen", type:"textarea", span:2, max:300},
       {key:"imagen", label:"Imagen", type:"image", span:2, help:"Recomendado: 1200 × 800 px."},
       {sec:"Datos del evento", when:r => r.tipo === "evento"},
-      {key:"fecha", label:"Fecha del evento", type:"date", req:true, when:r => r.tipo === "evento"},
+      {key:"duracion", label:"Duración del evento", type:"select", req:true, when:r => r.tipo === "evento", options:() => [["fecha","Fecha específica"],["rango","Rango de fechas"]]},
+      {key:"fecha", label:"Fecha del evento", type:"date", req:true, when:r => r.tipo === "evento", help:"Si el evento tiene un rango de fechas, es la fecha de inicio."},
+      {key:"fechaFin", label:"Fecha de finalización", type:"date", req:true, when:r => r.tipo === "evento" && r.duracion === "rango"},
       {key:"hora", label:"Hora", type:"time", when:r => r.tipo === "evento"},
       {key:"lugar", label:"Lugar", type:"text", span:2, req:true, ph:"Ej. Auditorio CFIA", when:r => r.tipo === "evento"},
       {sec:"Botón"},
@@ -654,7 +656,7 @@ const MODS = {
       {label:"", cell:r => imgSrc(r.imagen) ? `<img class="thumb" src="${esc(imgSrc(r.imagen))}" alt="">` : `<div class="thumb"></div>`},
       {label:"Título", cell:r => `<div class="t1">${r.destacado ? "★ " : ""}${esc(r.titulo)}</div><div class="sub">${esc(r.resumen)}</div>`},
       {label:"Tipo", cell:r => r.tipo === "evento" ? "Evento" : "Novedad"},
-      {label:"Fecha y lugar", cell:r => r.tipo === "evento" ? `<div class="mono">${fmtDate(r.fecha)} ${esc(r.hora||"")}</div><div class="sub">${esc(r.lugar)}</div>` : "—"},
+      {label:"Fecha y lugar", cell:r => r.tipo === "evento" ? `<div class="mono">${fmtDate(r.fecha)}${r.duracion === "rango" && r.fechaFin ? " al " + fmtDate(r.fechaFin) : ""} ${esc(r.hora||"")}</div><div class="sub">${esc(r.lugar)}</div>` : "—"},
       {label:"Publicación", cell:r => { if(r.estado !== "publicado") return pill(["Borrador",""]); return pill(vigencia(r.publicarDesde, r.publicarHasta, true)); }}
     ],
     preview:r => {
@@ -664,13 +666,14 @@ const MODS = {
         <div style="padding:14px 14px 0;font-weight:600;font-size:13px;display:flex;justify-content:space-between"><span>Novedades CFIA</span><span style="font-size:11px">VER TODAS</span></div>
         <div class="evt"><div class="img" ${src ? `style="background-image:url('${esc(src)}')"` : ""}></div><div class="in">
           <h4>${esc(r.titulo || "Título del evento: congreso, webinar, etc")}</h4>
-          ${r.tipo === "evento" ? `<div class="m">${ic("cal")}${r.fecha ? fmtDate(r.fecha) : "DD/MM/AAAA"}${r.hora ? " · " + esc(r.hora) : ""}</div><div class="m">${ic("pin")}${esc((r.lugar || "Lugar").toUpperCase())}</div>` : `<div class="m" style="display:block">${esc(r.resumen || "")}</div>`}
+          ${r.tipo === "evento" ? `<div class="m">${ic("cal")}${r.fecha ? fmtDate(r.fecha) : "DD/MM/AAAA"}${r.duracion === "rango" ? " al " + (r.fechaFin ? fmtDate(r.fechaFin) : "DD/MM/AAAA") : ""}${r.hora ? " · " + esc(r.hora) : ""}</div><div class="m">${ic("pin")}${esc((r.lugar || "Lugar").toUpperCase())}</div>` : `<div class="m" style="display:block">${esc(r.resumen || "")}</div>`}
           ${r.textoBoton ? `<div class="cta">${esc(r.textoBoton)}</div>` : ""}
         </div></div></div></div>`;
     },
     validate:r => {
       const e = {};
       if(r.publicarDesde && r.publicarHasta && new Date(r.publicarHasta) <= new Date(r.publicarDesde)) e.publicarHasta = "Debe ser posterior a la fecha de inicio.";
+      if(r.tipo === "evento" && r.duracion === "rango" && r.fecha && r.fechaFin && r.fechaFin <= r.fecha) e.fechaFin = "Debe ser posterior a la fecha del evento.";
       if(r.enlace && !/^https:\/\//i.test(r.enlace)) e.enlace = "Debe iniciar con https://";
       if(r.estado === "publicado" && !imgSrc(r.imagen)) e.imagen = "Agregue una imagen antes de publicar.";
       return e;
@@ -732,8 +735,8 @@ function viewResumen(){
   }).join("") || `<div class="empty" style="padding:28px">No hay regalías en período de solicitud.</div>`;
   const log = d.auditoria.slice(0, 8).map(a => `<div class="prow"><div class="grow"><div>${accionTxt(a.accion)} ${esc((MODS[a.modulo]||{}).singular || a.modulo)}: <strong>${esc(a.registroNombre || "sin nombre")}</strong></div><small>${who(a.actorId)} · ${rel(a.fecha)}</small></div></div>`).join("")
     || `<div class="empty" style="padding:28px">Aún no hay cambios registrados.</div>`;
-  const prox = d.novedades.filter(n => n.tipo === "evento" && n.fecha && n.fecha >= new Date().toISOString().slice(0,10)).sort((a,b) => a.fecha.localeCompare(b.fecha)).slice(0, 4)
-    .map(n => `<div class="prow"><div class="grow"><div><strong>${esc(n.titulo)}</strong></div><small>${fmtDate(n.fecha)} · ${esc(n.lugar || "")}</small></div>${n.estado === "publicado" ? pill(["Publicado","ok"]) : pill(["Borrador",""])}</div>`).join("")
+  const prox = d.novedades.filter(n => n.tipo === "evento" && n.fecha && (n.duracion === "rango" && n.fechaFin ? n.fechaFin : n.fecha) >= new Date().toISOString().slice(0,10)).sort((a,b) => a.fecha.localeCompare(b.fecha)).slice(0, 4)
+    .map(n => `<div class="prow"><div class="grow"><div><strong>${esc(n.titulo)}</strong></div><small>${fmtDate(n.fecha)}${n.duracion === "rango" && n.fechaFin ? " al " + fmtDate(n.fechaFin) : ""} · ${esc(n.lugar || "")}</small></div>${n.estado === "publicado" ? pill(["Publicado","ok"]) : pill(["Borrador",""])}</div>`).join("")
     || `<div class="empty" style="padding:28px">No hay eventos próximos.</div>`;
   return `${banner()}<div class="pagehead"><div><h1>Resumen</h1><p>Estado actual del contenido que se publica en el App CFIA.</p></div></div>
     <div class="kpis">${k(tram,"Trámites activos","tramites")}${k(anu,"Anuncios vigentes","anuncios")}${k(regV.length,"Regalías en solicitud","regalias")}${k(pend,"Reservas por entregar","reservas")}${k(nov,"Novedades publicadas","novedades")}</div>
@@ -757,7 +760,7 @@ function viewModuleShell(k){
     return `<select data-filter="${f.key}" aria-label="${esc(f.label)}"><option value="">${esc(f.label)}</option>${opts.map(o => `<option value="${esc(o[0])}" ${S.f[k][f.key] === o[0] ? "selected" : ""}>${esc(o[1])}</option>`).join("")}</select>`;
   }).join("");
   return `${banner()}<div class="pagehead"><div><h1>${esc(m.title)}</h1><p>${esc(m.intro)}</p></div>
-    <div class="actions">${S.downloads ? `<button class="btn" data-export="${k}">${ic("down")}Exportar JSON</button>` : ""}
+    <div class="actions">${k === "reservas" ? `<button class="btn" data-xls="reservas">${ic("down")}Exportar Excel</button>` : ""}${S.downloads ? `<button class="btn" data-export="${k}">${ic("down")}Exportar JSON</button>` : ""}
     <button class="btn pri" data-new="${k}" ${S.canWrite ? "" : "disabled"}>${ic("plus")}${esc(m.nuevo)}</button></div></div>
     <div class="toolbar"><div class="search">${ic("search")}<input type="text" data-q placeholder="Buscar en ${esc(m.title.toLowerCase())}" value="${esc(S.f[k].q || "")}"></div>${fl}</div>
     <div class="card"><div class="tablewrap" id="rows"></div></div>`;
@@ -801,10 +804,12 @@ $("#view").addEventListener("click", async e => {
   if(e.target.closest("a[href]")) return;
   const cp = e.target.closest("[data-comp]");
   if(cp){ e.stopPropagation(); const rr = byId("reservas", cp.dataset.comp); if(rr) openFile(rr.comprobante, rr.numero); return; }
-  const t = e.target.closest("[data-new],[data-del],[data-hist],[data-open],[data-export],[data-aexp],[data-arow]");
+  const t = e.target.closest("[data-new],[data-del],[data-hist],[data-open],[data-export],[data-aexp],[data-arow],[data-xls],[data-axls]");
   if(!t) return;
   if(t.dataset.new) return openForm(k, null);
   if(t.dataset.export) return exportJSON(k);
+  if(t.dataset.xls) return exportReservasXLSX();
+  if(t.dataset.axls !== undefined) return exportAuditXLSX();
   if(t.dataset.aexp !== undefined) return exportAudit();
   if(t.dataset.arow) return toggleAuditRow(t);
   if(t.dataset.hist){ e.stopPropagation(); return openHistory(k, t.dataset.hist); }
@@ -1066,7 +1071,7 @@ S.af = {};
 function viewAuditShell(){
   const ids = [...new Set(S.data.auditoria.map(a => a.actorId || ""))];
   return `${banner()}<div class="pagehead"><div><h1>Auditoría</h1><p>Registro de quién creó, modificó o eliminó cada registro del gestor, con el detalle de los campos que cambiaron.</p></div>
-    <div class="actions">${S.downloads ? `<button class="btn" data-aexp>${ic("down")}Exportar JSON</button>` : ""}</div></div>
+    <div class="actions"><button class="btn" data-axls>${ic("down")}Exportar Excel</button>${S.downloads ? `<button class="btn" data-aexp>${ic("down")}Exportar JSON</button>` : ""}</div></div>
     <div class="toolbar"><div class="search">${ic("search")}<input type="text" data-aq placeholder="Buscar por registro o campo" value="${esc(S.af.q||"")}"></div>
       <select data-af="modulo" aria-label="Módulo"><option value="">Todos los módulos</option>${MOD_ORDER.map(k => `<option value="${k}" ${S.af.modulo === k ? "selected" : ""}>${esc(MODS[k].title)}</option>`).join("")}</select>
       <select data-af="accion" aria-label="Acción"><option value="">Todas las acciones</option>${[["crear","Creación"],["modificar","Modificación"],["eliminar","Eliminación"]].map(o => `<option value="${o[0]}" ${S.af.accion === o[0] ? "selected" : ""}>${o[1]}</option>`).join("")}</select>
@@ -1080,12 +1085,7 @@ async function labelActorOptions(){
   let ps = {}; if(S.user && ids.length){ try { ps = await S.user.profiles(ids); } catch(e){} }
   $$("option[data-uid]", sel).forEach(o => { const id = o.dataset.uid; o.textContent = !id ? "Carga inicial" : (ps[id] && ps[id].name) || (id === S.meId ? "Usted" : "Usuario del gestor"); });
 }
-function renderAuditRows(){
-  const box = $("#arows"); if(!box) return;
-  if(!S.loaded.auditoria){ box.innerHTML = `<div class="empty">Cargando auditoría…</div>`; return; }
-  const sel = $("#actorSel");
-  if(sel){ const ids = new Set(S.data.auditoria.map(a => a.actorId || "")); const have = new Set($$("option[data-uid]", sel).map(o => o.dataset.uid)); if([...ids].some(i => !have.has(i))){ $("#view").innerHTML = viewAuditShell(); return renderAuditRows(); } }
-  labelActorOptions();
+function auditFiltered(){
   let rows = S.data.auditoria.slice();
   const f = S.af;
   if(f.modulo) rows = rows.filter(a => a.modulo === f.modulo);
@@ -1094,6 +1094,15 @@ function renderAuditRows(){
   if(f.desde) rows = rows.filter(a => a.fecha.slice(0,10) >= f.desde);
   if(f.hasta) rows = rows.filter(a => a.fecha.slice(0,10) <= f.hasta);
   if(f.q){ const q = f.q.toLowerCase(); rows = rows.filter(a => (a.registroNombre + " " + (a.nota||"") + " " + (a.cambios||[]).map(c => c.etiqueta + " " + c.antes + " " + c.despues).join(" ")).toLowerCase().includes(q)); }
+  return rows;
+}
+function renderAuditRows(){
+  const box = $("#arows"); if(!box) return;
+  if(!S.loaded.auditoria){ box.innerHTML = `<div class="empty">Cargando auditoría…</div>`; return; }
+  const sel = $("#actorSel");
+  if(sel){ const ids = new Set(S.data.auditoria.map(a => a.actorId || "")); const have = new Set($$("option[data-uid]", sel).map(o => o.dataset.uid)); if([...ids].some(i => !have.has(i))){ $("#view").innerHTML = viewAuditShell(); return renderAuditRows(); } }
+  labelActorOptions();
+  let rows = auditFiltered();
   if(!rows.length){ box.innerHTML = `<div class="empty"><h3>No hay movimientos</h3><p>${S.data.auditoria.length ? "Ajuste los filtros para ver otros movimientos." : "Los cambios que se hagan en el gestor aparecerán aquí."}</p></div>`; return; }
   const ap = {crear:["Creación","ok"], modificar:["Modificación","warn"], eliminar:["Eliminación","err"]};
   box.innerHTML = `<table class="grid"><thead><tr><th>Fecha y hora</th><th>Usuario</th><th>Acción</th><th>Módulo</th><th>Registro</th><th>Campos</th></tr></thead><tbody>
@@ -1112,6 +1121,82 @@ function toggleAuditRow(tr){
 async function exportAudit(){
   try { await S.downloads.save({ filename:`app-cfia-auditoria-${new Date().toISOString().slice(0,10)}.json`, data:JSON.stringify(S.data.auditoria, null, 2) }); }
   catch(e){ if(e && e.code && e.code !== "declined" && e.code !== "cancelled") toast("No fue posible exportar el archivo.", true); }
+}
+
+/* ---------- Exportación a Excel ---------- */
+let xlsxPromise = null;
+function loadXLSX(){
+  if(window.XLSX) return Promise.resolve(window.XLSX);
+  if(!xlsxPromise) xlsxPromise = new Promise((ok, ko) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+    s.onload = () => window.XLSX ? ok(window.XLSX) : ko(new Error("xlsx"));
+    s.onerror = () => { xlsxPromise = null; ko(new Error("xlsx")); };
+    document.head.appendChild(s);
+  });
+  return xlsxPromise;
+}
+async function saveFile(filename, blob){
+  if(S.downloads){
+    try { await S.downloads.save({ filename, data:blob }); return true; }
+    catch(e){ if(e && (e.code === "declined" || e.code === "cancelled")) return false; throw e; }
+  }
+  const url = URL.createObjectURL(blob); const a = document.createElement("a");
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000); return true;
+}
+async function writeXLSX(nombreHoja, filas, anchos, filename){
+  const XLSX = await loadXLSX();
+  const ws = XLSX.utils.json_to_sheet(filas);
+  ws["!cols"] = anchos.map(w => ({ wch:w }));
+  if(ws["!ref"]) ws["!autofilter"] = { ref:ws["!ref"] };
+  const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, nombreHoja);
+  const out = XLSX.write(wb, { bookType:"xlsx", type:"array" });
+  return saveFile(filename, new Blob([out], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
+}
+const hoy = () => new Date().toISOString().slice(0,10);
+async function exportReservasXLSX(){
+  const lista = filtered("reservas");
+  if(!lista.length){ toast("No hay reservas para exportar con los filtros actuales.", true); return; }
+  const lab = (arr, v) => (arr.find(x => x[0] === v) || [v, v || ""])[1];
+  const filas = lista.map(r => {
+    const g = byId("regalias", r.regalia) || {}; const env = r.modalidad === "correos";
+    return {
+      "N.º de reserva": r.numero || "", "Fecha de registro": fmtDate(r.creadoEn, true), "Canal": r.canal === "app" ? "App CFIA" : "Gestor",
+      "Estado": lab(ESTADOS_RES, r.estado), "Colegio": colName(g.colegio), "Regalía": g.nombre || "", "Campaña": g.campana || "", "Cantidad": Number(r.cantidad) || 0,
+      "Profesional": r.profesional || "", "Carné CFIA": r.carne || "", "Correo": r.correo || "", "Teléfono": r.telefono || "",
+      "Modalidad de entrega": env ? "Envío por Correos de Costa Rica" : "Retiro en sede",
+      "Sede": env ? "" : ((byId("sedes", r.sede) || {}).nombre || ""), "Persona que retira": env ? "" : (r.personaRetira || ""),
+      "Nombre de quien recibe": env ? (r.envioNombre || "") : "", "Teléfono de envío": env ? (r.envioTelefono || "") : "", "Cédula": env ? (r.envioCedula || "") : "",
+      "Provincia": env ? (r.envioProvincia || "") : "", "Cantón": env ? (r.envioCanton || "") : "", "Distrito": env ? (r.envioDistrito || "") : "",
+      "Señas exactas o API / Locker": env ? (r.envioTipoDestino === "api" ? "API / Locker " + (r.envioApi || "") : (r.envioDireccion || "")) : "",
+      "Comprobante": env ? ((r.comprobante && (r.comprobante.nombre || "Adjunto")) || "Sin comprobante") : "", "Revisión del comprobante": env ? lab(ESTADOS_PAGO, r.estadoPago || "pendiente") : "",
+      "Fecha de entrega": r.fechaEntrega ? fmtDate(r.fechaEntrega, true) : "", "Observaciones": r.observaciones || ""
+    };
+  });
+  try {
+    const ok = await writeXLSX("Reservas", filas, [16,17,10,22,32,24,9,9,26,12,28,12,28,24,24,26,14,14,12,14,14,40,26,20,17,30], `app-cfia-reservas-${hoy()}.xlsx`);
+    if(ok) toast(`Se exportaron ${filas.length} reserva(s).`);
+  } catch(e){ toast("No fue posible generar el Excel. Revise su conexión e intente de nuevo.", true); }
+}
+async function exportAuditXLSX(){
+  const lista = auditFiltered();
+  if(!lista.length){ toast("No hay movimientos para exportar con los filtros actuales.", true); return; }
+  const ids = [...new Set(lista.map(a => a.actorId).filter(Boolean))]; let ps = {};
+  if(S.user && ids.length){ try { ps = await S.user.profiles(ids); } catch(e){} }
+  const quien = id => !id ? (S.mode === "memoria" ? "Usted (demostración)" : "Carga inicial") : ((ps[id] && ps[id].name) || (id === S.meId ? "Usted" : "Usuario del gestor"));
+  const acc = { crear:"Creación", modificar:"Modificación", eliminar:"Eliminación" };
+  const filas = [];
+  lista.forEach(a => {
+    const base = { "Fecha y hora": fmtDate(a.fecha, true), "Usuario": quien(a.actorId), "Acción": acc[a.accion] || a.accion, "Módulo": (MODS[a.modulo] || {}).title || a.modulo, "Registro": a.registroNombre || "", "Nota": a.nota || "" };
+    const cs = a.cambios || [];
+    if(!cs.length) filas.push(Object.assign({}, base, { "Campo": "", "Antes": "", "Después": "" }));
+    cs.forEach(c => filas.push(Object.assign({}, base, { "Campo": c.etiqueta || c.campo, "Antes": c.antes || "", "Después": c.despues || "" })));
+  });
+  try {
+    const ok = await writeXLSX("Auditoría", filas, [17,24,14,22,34,40,28,36,36], `app-cfia-auditoria-${hoy()}.xlsx`);
+    if(ok) toast(`Se exportaron ${lista.length} movimiento(s).`);
+  } catch(e){ toast("No fue posible generar el Excel. Revise su conexión e intente de nuevo.", true); }
 }
 
 boot();

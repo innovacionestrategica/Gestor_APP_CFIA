@@ -1,6 +1,6 @@
 /* Datos de ejemplo exportados del Gestor App CFIA (claude.ai). Se cargan en modo demostración. */
 window.CFIA_DATOS = {
-  "exportado": "2026-11-03T22:37:11+00:00",
+  "exportado": "2026-11-04T17:58:53+00:00",
   "tramites": [
     {
       "id": "bitacora-digital",
@@ -719,9 +719,11 @@ window.CFIA_DATOS = {
       "colegios": [],
       "creadoEn": "2026-09-28T16:00:00.000Z",
       "destacado": true,
+      "duracion": "rango",
       "enlace": "https://www.cfia.or.cr/",
       "estado": "publicado",
-      "fecha": "2026-11-20",
+      "fecha": "2026-11-19",
+      "fechaFin": "2026-11-20",
       "hora": "08:00",
       "lugar": "Auditorio CFIA",
       "publicarDesde": "2026-10-01T08:00",
@@ -741,6 +743,7 @@ window.CFIA_DATOS = {
       ],
       "creadoEn": "2026-11-02T16:00:00.000Z",
       "destacado": false,
+      "duracion": "fecha",
       "enlace": "",
       "estado": "borrador",
       "fecha": "2027-03-10",
@@ -779,6 +782,7 @@ window.CFIA_DATOS = {
       "colegios": [],
       "creadoEn": "2026-10-19T16:00:00.000Z",
       "destacado": false,
+      "duracion": "fecha",
       "enlace": "https://www.cfia.or.cr/",
       "estado": "publicado",
       "fecha": "2026-11-12",
