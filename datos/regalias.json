@@ -5,15 +5,18 @@
     "actualizadoEn": "2026-10-25T16:00:00.000Z",
     "atributos": [
       {
-        "nombre": "Tallas",
+        "nombre": "Talla",
+        "tipo": "elige",
         "valor": "S, M, L, XL"
       },
       {
         "nombre": "Material",
+        "tipo": "info",
         "valor": "Algodón"
       },
       {
         "nombre": "Color",
+        "tipo": "info",
         "valor": "Gris"
       }
     ],

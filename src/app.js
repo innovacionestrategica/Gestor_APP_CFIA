@@ -56,7 +56,8 @@ const I = {
   info:'<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/>',
   up:'<path d="M12 20V9M7 14l5-5 5 5M5 4h14"/>',
   cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
-  back:'<path d="M15 6l-6 6 6 6"/>'
+  back:'<path d="M15 6l-6 6 6 6"/>',
+  bank:'<path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>'
 };
 const ic = (n, cls="") => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]||""}</svg>`;
 
@@ -87,15 +88,27 @@ const COLEGIOS = [
 const DIRIGIDO = [["colegiados","Colegiados"],["empresas","Empresas"],["ambos","Colegiados y empresas"]];
 const ACCIONES_BTN = [["webview","Abrir un enlace en WebView"],["navegador","Abrir en navegador del dispositivo"]];
 const TIPOS_PUB = [["evento","Evento"],["novedad","Novedad / noticia"],["anuncio","Anuncio"]];
-const COLEGIOS_MIEMBRO = COLEGIOS.filter(c => c[0] !== "CFIA");
-const colName = id => (COLEGIOS.find(c => c[0] === id) || [id, id || "—"])[1];
+const COLEGIOS_BASE = COLEGIOS.filter(c => c[0] !== "CFIA");
+function colegiosMiembro(){
+  const d = ((() => { try { return S.data.colegios; } catch(e){ return null; } })() || []).filter(c => (c.tipo || "colegio") === "colegio" && c.activo !== false)
+    .sort((a,b) => (Number(a.ordenCarrusel)||99) - (Number(b.ordenCarrusel)||99)).map(c => [c.id, c.nombre || c.id]);
+  return d.length ? d : COLEGIOS_BASE;
+}
+const colName = id => { const c = ((() => { try { return S.data.colegios; } catch(e){ return null; } })() || []).find(x => x.id === id); return c ? (c.nombre || id) : (COLEGIOS.find(c => c[0] === id) || [id, id || "—"])[1]; };
 const colShort = id => id === "CFIA" ? "CFIA" : (id || "—");
 const PROVINCIAS = ["San José","Alajuela","Cartago","Heredia","Guanacaste","Puntarenas","Limón"].map(p => [p,p]);
+/* División Territorial Administrativa 2026 (IGN, Registro Nacional): 7 provincias, 84 cantones y 494 distritos.
+   Datos de github.com/ryze-cr/ubicaciones-cr (licencia MIT). */
+const DTA = {"San José":{"San José":["Carmen","Merced","Hospital","Catedral","Zapote","San Francisco de Dos Ríos","Uruca","Mata Redonda","Pavas","Hatillo","San Sebastián"],"Escazú":["Escazú","San Antonio","San Rafael"],"Desamparados":["Desamparados","San Miguel","San Juan de Dios","San Rafael Arriba","San Antonio","Frailes","Patarrá","San Cristobal","Rosario","Damas","San Rafael Abajo","Gravilias","Los Guido"],"Puriscal":["Santiago","Mercedes Sur","Barbacoas","Grifo Alto","San Rafael","Candelarita","Desamparaditos","San Antonio","Chires"],"Tarrazú":["San Marcos","San Lorenzo","San Carlos"],"Aserrí":["Aserrí","Tarbaca","Vuelta de Jorco","San Gabriel","Legua","Monterrey","Salitrillos"],"Mora":["Colón","Guayabo","Tabarcia","Piedras Negras","Picagres","Jaris","Quitirrisí"],"Goicoechea":["Guadalupe","San Francisco","Calle Blancos","Mata de Plátano","Ipís","Rancho Redondo","Purral"],"Santa Ana":["Santa Ana","Salitral","Pozos","Uruca","Piedades","Brasil"],"Alajuelita":["Alajuelita","San Josecito","San Antonio","Concepción","San Felipe"],"Vázquez de Coronado":["San Isidro","San Rafael","Dulce Nombre de Jesús","Patalillo","Cascajal"],"Acosta":["San Ignacio","Guaitil","Palmichal","Cangrejal","Sabanillas"],"Tibás":["San Juan","Cinco Esquinas","Anselmo Llorente","León XIII","Colima"],"Moravia":["San Vicente","San Jerónimo","La Trinidad"],"Montes de Oca":["San Pedro","Sabanilla","Mercedes","San Rafael"],"Turrubares":["San Pablo","San Pedro","San Juan de Mata","San Luis","Carara"],"Dota":["Santa María","Jardín","Copey"],"Curridabat":["Curridabat","Granadilla","Sánchez","Tirrases"],"Pérez Zeledón":["San Isidro de El General","El General","Daniel Flores","Rivas","San Pedro","Platanares","Pejivalle","Cajón","Barú","Río Nuevo","Páramo","La Amistad"],"León Cortés Castro":["San Pablo","San Andrés","Llano Bonito","San Isidro","Santa Cruz","San Antonio"]},"Alajuela":{"Alajuela":["Alajuela","San José","Carrizal","San Antonio","Guácima","San Isidro","Sabanilla","San Rafael","Río Segundo","Desamparados","Turrúcares","Tambor","Garita","Sarapiquí"],"San Ramón":["San Ramón","Santiago","San Juan","Piedades Norte","Piedades Sur","San Rafael","San Isidro","Ángeles","Alfaro","Volio","Concepción","Zapotal","Peñas Blancas","San Lorenzo"],"Grecia":["Grecia","San Isidro","San José","San Roque","Tacares","Puente de Piedra","Bolivar"],"San Mateo":["San Mateo","Desmonte","Jesús María","Labrador"],"Atenas":["Atenas","Jesús","Mercedes","San Isidro","Concepción","San José","Santa Eulalia","Escobal"],"Naranjo":["Naranjo","San Miguel","San José","Cirrí Sur","San Jerónimo","San Juan","El Rosario","Palmitos"],"Palmares":["Palmares","Zaragoza","Buenos Aires","Santiago","Candelaria","Esquipulas","La Granja"],"Poás":["San Pedro","San Juan","San Rafael","Carrillos","Sabana Redonda"],"Orotina":["Orotina","El Mastate","Hacienda Vieja","Coyolar","La Ceiba"],"San Carlos":["Quesada","Florencia","Buenavista","Aguas Zarcas","Venecia","Pital","La Fortuna","La Tigra","La Palmera","Venado","Cutris","Monterrey","Pocosol"],"Zarcero":["Zarcero","Laguna","Tapesco","Guadalupe","Palmira","Zapote","Brisas"],"Sarchí":["Sarchí Norte","Sarchí Sur","Toro Amarillo","San Pedro","Rodríguez"],"Upala":["Upala","Aguas Claras","San José O Pizote","Bijagua","Delicias","Dos Ríos","Yolillal","Canalete"],"Los Chiles":["Los Chiles","Caño Negro","El Amparo","San Jorge"],"Guatuso":["San Rafael","Buenavista","Cote","Katira"],"Río Cuarto":["Río Cuarto","Santa Rita","Santa Isabel"]},"Cartago":{"Cartago":["Oriental","Occidental","Carmen","San Nicolás","Aguacaliente o San Francisco","Guadalupe o Arenilla","Corralillo","Tierra Blanca","Dulce Nombre","Llano Grande","Quebradilla"],"Paraíso":["Paraíso","Santiago","Orosi","Cachí","Llanos de Santa Lucía","Birrisito"],"La Unión":["Tres Ríos","San Diego","San Juan","San Rafael","Concepción","Dulce Nombre","San Ramón","Río Azul"],"Jiménez":["Juan Viñas","Tucurrique","Pejibaye","La Victoria"],"Turrialba":["Turrialba","La Suiza","Peralta","Santa Cruz","Santa Teresita","Pavones","Tuis","Tayutic","Santa Rosa","Tres Equis","La Isabel","Chirripó"],"Alvarado":["Pacayas","Cervantes","Capellades"],"Oreamuno":["San Rafael","Cot","Potrero Cerrado","Cipreses","Santa Rosa"],"El Guarco":["El Tejar","San Isidro","Tobosi","Patio de Agua"]},"Heredia":{"Heredia":["Heredia","Mercedes","San Francisco","Ulloa","Varablanca"],"Barva":["Barva","San Pedro","San Pablo","San Roque","Santa Lucía","San José de la Montaña","Puente Salas"],"Santo Domingo":["Santo Domingo","San Vicente","San Miguel","Paracito","Santo Tomás","Santa Rosa","Tures","Pará"],"Santa Bárbara":["Santa Bárbara","San Pedro","San Juan","Jesús","Santo Domingo","Purabá"],"San Rafael":["San Rafael","San Josecito","Santiago","Ángeles","Concepción"],"San Isidro":["San Isidro","San José","Concepción","San Francisco"],"Belén":["San Antonio","La Ribera","La Asunción"],"Flores":["San Joaquín","Barrantes","Llorente"],"San Pablo":["San Pablo","Rincón de Sabanilla"],"Sarapiquí":["Puerto Viejo","La Virgen","Las Horquetas","Llanuras del Gaspar","Cureña"]},"Guanacaste":{"Liberia":["Liberia","Cañas Dulces","Mayorga","Nacascolo","Curubandé"],"Nicoya":["Nicoya","Mansión","San Antonio","Quebrada Honda","Sámara","Nosara","Belén de Nosarita"],"Santa Cruz":["Santa Cruz","Bolsón","Veintisiete de Abril","Tempate","Cartagena","Cuajiniquil","Diriá","Cabo Velas","Tamarindo"],"Bagaces":["Bagaces","La Fortuna","Mogote","Río Naranjo","Pijije"],"Carrillo":["Filadelfia","Palmira","Sardinal","Belén"],"Cañas":["Cañas","Palmira","San Miguel","Bebedero","Porozal"],"Abangares":["Las Juntas","Sierra","San Juan","Colorado"],"Tilarán":["Tilarán","Quebrada Grande","Tronadora","Santa Rosa","Líbano","Tierras Morenas","Arenal","Cabeceras"],"Nandayure":["Carmona","Santa Rita","Zapotal","San Pablo","Porvenir","Bejuco"],"La Cruz":["La Cruz","Santa Cecilia","La Garita","Santa Elena"],"Hojancha":["Hojancha","Monte Romo","Puerto Carrillo","Huacas","Matambú"]},"Puntarenas":{"Puntarenas":["Puntarenas","Pitahaya","Chomes","Lepanto","Paquera","Manzanillo","Guacimal","Barranca","Isla del Coco","Cóbano","Chacarita","Chira","Acapulco","El Roble","Arancibia"],"Esparza":["Espíritu Santo","San Juan Grande","Macacona","San Rafael","San Jerónimo","Caldera"],"Buenos Aires":["Buenos Aires","Volcán","Potrero Grande","Boruca","Pilas","Colinas","Chánguena","Biolley","Brunka","Cabagra"],"Montes de Oro":["Miramar","La Unión","San Isidro"],"Osa":["Puerto Cortés","Palmar","Sierpe","Bahía Ballena","Piedras Blancas","Bahía Drake"],"Quepos":["Quepos","Savegre","Naranjito"],"Golfito":["Golfito","Guaycará","Pavón"],"Coto Brus":["San Vito","Sabalito","Aguabuena","Limoncito","Pittier","Gutiérrez Braun"],"Parrita":["Parrita"],"Corredores":["Corredor","La Cuesta","Canoas","Laurel"],"Garabito":["Jacó","Tárcoles","Lagunillas"],"Monteverde":["Monteverde"],"Puerto Jiménez":["Puerto Jiménez"]},"Limón":{"Limón":["Limón","Valle La Estrella","Río Blanco","Matama"],"Pococí":["Guápiles","Jiménez","Rita","Roxana","Cariari","Colorado","La Colonia"],"Siquirres":["Siquirres","Pacuarito","Florida","Germania","El Cairo","Alegría","Reventazón"],"Talamanca":["Bratsi","Sixaola","Cahuita","Telire"],"Matina":["Matina","Batán","Carrandí"],"Guácimo":["Guácimo","Mercedes","Pocora","Río Jiménez","Duacarí"]}};
+const opcionesDe = a => String(a.valor || "").split(",").map(x => x.trim()).filter(Boolean);
+const atributosElige = gid => ((byId("regalias", gid) || {}).atributos || []).filter(a => a.tipo === "elige" && a.nombre);
+const cantonesDe = p => Object.keys(DTA[p] || {}).map(c => [c, c]);
+const distritosDe = (p, c) => ((DTA[p] || {})[c] || []).map(d => [d, d]);
 
 /* =====================================================================
    Estado y conexión con la plataforma
    ===================================================================== */
-const COLLS = ["tramites","sedes","anuncios","regalias","reservas","novedades","auditoria"];
+const COLLS = ["colegios","tramites","sedes","anuncios","regalias","reservas","novedades","auditoria"];
 const S = {
   db:null, user:null, assets:null, downloads:null, meId:null, me:null,
   canWrite:true, mode:"cargando",
@@ -161,10 +174,10 @@ const who = id => `<span class="who" data-uid="${esc(id||"")}"><img class="hidde
 function perfil(){ try { return localStorage.getItem("cfia-gestor-perfil") || "admin"; } catch(e){ return S.perfilMem || "admin"; } }
 function esAdmin(){ return perfil() === "admin"; }
 const DEPARTAMENTOS = [["dep-CENDEPRO","CENDEPRO"],["dep-CFIA","CFIA"],["dep-OR","Oficinas Regionales"]];
-const PERFILES = [["admin","Administrador CFIA"]].concat(DEPARTAMENTOS, COLEGIOS_MIEMBRO.map(c => [c[0], c[0]]));
+const perfiles = () => [["admin","Administrador CFIA"]].concat(DEPARTAMENTOS, colegiosMiembro().map(c => [c[0], c[0]]));
 function esDepto(){ return perfil().startsWith("dep-"); }
-function esColegio(){ return COLEGIOS_MIEMBRO.some(c => c[0] === perfil()); }
-function perfilNombre(p){ return (PERFILES.find(x => x[0] === p) || [p, p || "—"])[1]; }
+function esColegio(){ return colegiosMiembro().some(c => c[0] === perfil()); }
+function perfilNombre(p){ return (perfiles().find(x => x[0] === p) || [p, p || "—"])[1]; }
 function registrador(r){ return r.registradoPor || (r.publico === "colegios" && (r.colegios||[]).length === 1 ? r.colegios[0] : "admin"); }
 const puedeVer = r => esAdmin() || registrador(r) === perfil();
 function perfilSelect(){
@@ -172,7 +185,7 @@ function perfilSelect(){
     <select id="perfilSel" style="margin-top:4px;width:100%;min-height:34px;padding:4px 8px;background:#2F2A2B;color:#fff;border:1px solid #3A3536;border-radius:6px;font-size:13px">
       <option value="admin" ${esAdmin() ? "selected" : ""}>Administrador CFIA</option>
       <optgroup label="Departamentos del CFIA">${DEPARTAMENTOS.map(d => `<option value="${d[0]}" ${perfil() === d[0] ? "selected" : ""}>${esc(d[1])}</option>`).join("")}</optgroup>
-      <optgroup label="Colegios miembros">${COLEGIOS_MIEMBRO.map(c => `<option value="${c[0]}" ${perfil() === c[0] ? "selected" : ""}>Gestor ${esc(c[0])}</option>`).join("")}</optgroup>
+      <optgroup label="Colegios miembros">${colegiosMiembro().map(c => `<option value="${c[0]}" ${perfil() === c[0] ? "selected" : ""}>Gestor ${esc(c[0])}</option>`).join("")}</optgroup>
     </select></label>`;
 }
 function renderMe(){
@@ -250,7 +263,7 @@ async function saveRecord(modKey, id, values, prev){
   const clean = Object.assign({}, prev || {}); delete clean.id;
   const cambios = diff(mod, prev ? clean : null, body);
   if(prev && !cambios.length) return { id, unchanged:true };
-  const nid = await putRecord(mod.coll, id, body);
+  const nid = await putRecord(mod.coll, id || (mod.idFrom ? mod.idFrom(body) : null), body);
   await writeAudit(modKey, nid, body[mod.nameKey] || "", prev ? "modificar" : "crear", cambios);
   return { id:nid };
 }
@@ -295,6 +308,87 @@ const sedeOpts = colegio => S.data.sedes
   .map(s => [s.id, s.nombre]);
 
 const MODS = {
+  colegios:{
+    nuevo:"Nuevo registro", crear:"Crear registro", coll:"colegios", nameKey:"nombre", title:"Colegios y Mutualidad", singular:"colegio o entidad", icon:"bank",
+    intro:"Catálogo único de los colegios miembros y de la Mutualidad CFIA: logos, datos del carrusel del App, contacto para regalías y arte del aviso de regalías de cada campaña.",
+    defaults:() => ({ tipo:"colegio", ordenCarrusel:(S.data.colegios.length + 1), activo:true, arteAnio:new Date().getFullYear() + 1 }),
+    idFrom:r => (r.sigla || "").toUpperCase(),
+    canCreate:() => esAdmin(),
+    visible:r => esAdmin() || esDepto() || r.id === perfil(),
+    fields:[
+      {sec:"Datos del colegio"},
+      {key:"tipo", label:"Tipo", type:"select", req:true, lock:() => !esAdmin(), options:() => [["colegio","Colegio miembro"],["mutualidad","Otra entidad del carrusel (Mutualidad CFIA)"]]},
+      {key:"sigla", label:"Sigla", type:"text", req:true, max:12, ph:"Ej. CIVILES", lock:r => !esAdmin() || !!r.creadoEn, help:"Identifica al colegio en todo el gestor y en el App. No se puede cambiar después de creado."},
+      {key:"nombre", label:"Nombre oficial", type:"text", req:true, span:2, lock:() => !esAdmin(), ph:"Ej. Colegio de Ingenieros Civiles"},
+      {key:"logoColor", label:"Logo a color", type:"image", span:2, lock:() => !esAdmin(), help:"PNG con fondo transparente. Se usa sobre fondos claros, como el listado del gestor y los correos."},
+      {key:"logo", label:"Logo en blanco", type:"image", span:2, lock:() => !esAdmin(), help:"PNG con fondo transparente. Se muestra sobre el color de marca en la tarjeta del carrusel."},
+      {key:"color", label:"Color de marca", type:"text", req:true, ph:"#4A1F7A", lock:() => !esAdmin(), help:"Formato hexadecimal. Es el fondo de la tarjeta del carrusel."},
+      {key:"sitioWeb", label:"Sitio web oficial", type:"url", req:true, ph:"https://…", lock:() => !esAdmin()},
+      {sec:"Carrusel «Colegios Miembros y Mutualidad CFIA»"},
+      {key:"textoCarrusel", label:"Texto de la tarjeta", type:"text", req:true, span:2, max:60, ph:"Explore el sitio web oficial del CACR", lock:() => !esAdmin()},
+      {key:"ordenCarrusel", label:"Orden base en el carrusel", type:"number", req:true, min:1, lock:() => !esAdmin(), help:"En el App, el colegio del profesional se muestra primero y la Mutualidad CFIA al final."},
+      {key:"activo", label:"Activo", type:"toggle", lock:() => !esAdmin()},
+      {sec:"Contacto para regalías", when:r => r.tipo !== "mutualidad"},
+      {key:"telefonoRegalias", label:"Teléfono", type:"tel", ph:"0000-0000", when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil())},
+      {key:"correoRegalias", label:"Correo electrónico", type:"email", ph:"regalias@colegio.cr", when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil()), help:"Se muestran en el correo de confirmación de retiro de regalías."},
+      {sec:"Arte del aviso de regalías", when:r => r.tipo !== "mutualidad"},
+      {key:"arteAnio", label:"Año de la campaña", type:"number", min:2024, when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil()), help:"El App muestra este arte en el aviso de regalías de la campaña de ese año (HU 4)."},
+      {key:"arteOriginal", label:"Arte original · 1200 × 1500 px", type:"image", dims:[1200,1500], span:2, when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil()), help:"JPG o PNG, proporción 4:5."},
+      {key:"arte3x", label:"Arte @3x · 1176 × 1470 px", type:"image", dims:[1176,1470], span:2, when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil()), help:"JPG o PNG. Para pantallas de alta densidad."},
+      {key:"arte2x", label:"Arte @2x · 784 × 980 px", type:"image", dims:[784,980], span:2, when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil()), help:"JPG o PNG. Para pantallas de densidad estándar."}
+    ],
+    filters:[
+      {key:"tipo", label:"Todos los tipos", options:[["colegio","Colegios miembros"],["mutualidad","Otras entidades"]], test:(r,v) => (r.tipo || "colegio") === v},
+      {key:"estado", label:"Todos los estados", options:[["activo","Activos"],["inactivo","Inactivos"]], test:(r,v) => v === "activo" ? r.activo !== false : r.activo === false}
+    ],
+    sort:(a,b) => (Number(a.ordenCarrusel)||99) - (Number(b.ordenCarrusel)||99),
+    columns:[
+      {label:"", cell:r => imgSrc(r.logoColor) ? `<div class="thumb" style="background:#fff url('${esc(imgSrc(r.logoColor))}') center/80% no-repeat;border:1px solid var(--border)"></div>` : `<div class="thumb" style="background:${/^#[0-9a-f]{6}$/i.test(r.color||"") ? r.color : "var(--surface-2)"} ${imgSrc(r.logo) ? `url('${esc(imgSrc(r.logo))}') center/70% no-repeat` : ""}"></div>`},
+      {label:"Colegio", cell:r => `<div class="t1">${esc(r.nombre)}</div><div class="sub"><span class="mono">${esc(r.id)}</span> · ${(r.tipo || "colegio") === "colegio" ? "Colegio miembro" : "Otra entidad del carrusel"}</div>`},
+      {label:"Carrusel", cell:r => `<div class="mono">Orden ${esc(r.ordenCarrusel)}</div><div class="sub">${esc(r.textoCarrusel)}</div>`},
+      {label:"Contacto", cell:r => r.tipo === "mutualidad" ? "—" : ([r.telefonoRegalias, r.correoRegalias].filter(Boolean).map(x => `<div class="sub">${esc(x)}</div>`).join("") || `<span class="sub">Sin contacto</span>`)},
+      {label:"Arte de regalías", cell:r => r.tipo === "mutualidad" ? "—" : ((r.arteOriginal && r.arte3x && r.arte2x) ? pill([`${r.arteAnio || ""} · 3 tamaños`,"ok"]) : pill(["Pendiente","warn"]))},
+      {label:"Estado", cell:r => pill(r.activo === false ? ["Inactivo",""] : ["Activo","ok"])}
+    ],
+    preview:r => {
+      const arte = imgSrc(r.arte2x) || imgSrc(r.arte3x) || imgSrc(r.arteOriginal);
+      const color = /^#[0-9a-f]{6}$/i.test(r.color||"") ? r.color : "#76777B";
+      const logo = imgSrc(r.logo);
+      const pop = r.tipo === "mutualidad" ? "" : `<h3>Aviso de regalías en el App</h3><div class="phone"><div class="screen" style="min-height:560px">
+        <div class="sb"><img src="assets/cfia_logo.png" alt=""><span></span></div>
+        <div class="ov" style="align-items:center"><div style="background:#fff;border-radius:14px;overflow:hidden;width:100%;position:relative">
+          <div style="aspect-ratio:4/5;max-height:300px;background:${arte ? `url('${esc(arte)}') center/cover no-repeat` : "repeating-conic-gradient(#ddd 0 25%,#f2f2f2 0 50%) 0 0/16px 16px"}"></div>
+          <span style="position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:14px;box-shadow:0 1px 4px rgba(0,0,0,.25)">✕</span>
+          <div style="padding:14px">
+            <h4 style="margin:0;font-size:14px;font-weight:600;line-height:1.3">¡Ya disponibles las Regalías ${esc((r.sigla || r.id || "[COLEGIO]").toUpperCase())} ${esc(r.arteAnio || "[AÑO]")}!</h4>
+            <p style="font-size:11px;margin:8px 0;font-family:'Source Sans 3',Arial,sans-serif">Toque RESERVAR MI REGALÍA para conocer las regalías disponibles y obtener la suya.</p>
+            <span class="b1" style="display:block;text-align:center;border-radius:6px;padding:8px;font-weight:600;font-size:11px;background:#FCB429">RESERVAR MI REGALÍA</span>
+            <span style="display:block;text-align:center;font-weight:600;font-size:11px;margin-top:8px">NO VOLVER A MOSTRAR</span>
+          </div></div></div></div></div>`;
+      const card = `<h3 style="margin-top:18px">Tarjeta del carrusel</h3><div style="background:${color};border-radius:14px;padding:16px;color:#fff;display:flex;gap:12px;align-items:center;min-height:110px;font-family:'Poppins',Arial,sans-serif">
+        <div style="flex:1"><div style="font-size:13px;font-weight:600;line-height:1.35">${esc(r.textoCarrusel || "Texto de la tarjeta")}</div><span style="display:inline-block;margin-top:10px;border:1.5px solid #fff;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:600">IR AL SITIO WEB</span></div>
+        <div style="width:90px;height:60px;background:${logo ? `url('${esc(logo)}') center/contain no-repeat` : "transparent"};${logo ? "" : "border:1px dashed rgba(255,255,255,.6);border-radius:6px;display:grid;place-items:center;font-size:10px"}">${logo ? "" : "Logo"}</div></div>`;
+      return pop + card;
+    },
+    validate:(r, prev) => {
+      const e = {};
+      const sig = (r.sigla || "").toUpperCase();
+      if(sig && !/^[A-Z0-9]{2,12}$/.test(sig)) e.sigla = "Use solo letras y números, sin espacios (2 a 12 caracteres).";
+      else if(sig && !prev && S.data.colegios.some(c => c.id === sig)) e.sigla = "Ya existe un colegio con esta sigla.";
+      if(r.color && !/^#[0-9a-f]{6}$/i.test(r.color)) e.color = "Use el formato #RRGGBB.";
+      if(r.sitioWeb && !/^https:\/\//i.test(r.sitioWeb)) e.sitioWeb = "Debe iniciar con https://";
+      if(r.telefonoRegalias && !/^\d{4}-?\d{4}$/.test(r.telefonoRegalias)) e.telefonoRegalias = "Use el formato 0000-0000.";
+      if(r.correoRegalias && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.correoRegalias)) e.correoRegalias = "Ingrese un correo válido.";
+      const n = [r.arteOriginal, r.arte3x, r.arte2x].filter(x => imgSrc(x)).length;
+      if(r.tipo !== "mutualidad" && n && n < 3) e.arteOriginal = "Suba los tres tamaños del arte (original, @3x y @2x).";
+      if(r.tipo !== "mutualidad" && n && !r.arteAnio) e.arteAnio = "Indique el año de la campaña del arte.";
+      return e;
+    },
+    beforeSave:(r, prev) => { r.sigla = prev ? prev.id : (r.sigla || "").toUpperCase(); return r; },
+    canDelete:r => !esAdmin() ? "Solo el Administrador CFIA puede eliminar colegios." :
+      (S.data.regalias.some(g => g.colegio === r.id) ? "Este colegio tiene regalías registradas. Desactívelo en lugar de eliminarlo." : "")
+  },
+
   tramites:{
     nuevo:"Nuevo trámite", crear:"Crear trámite", coll:"tramites", nameKey:"nombre", title:"Trámites y servicios", singular:"trámite", icon:"link",
     intro:"Enlaces de los trámites y servicios del App CFIA que se abren dentro de un WebView. Los cambios se reflejan en el catálogo y en el Onboarding de accesos rápidos.",
@@ -358,8 +452,8 @@ const MODS = {
       {key:"nombre", label:"Nombre de la sede", type:"text", req:true, ph:"Ej. Sede Central CFIA"},
       {sec:"Ubicación"},
       {key:"provincia", label:"Provincia", type:"select", req:true, options:() => PROVINCIAS},
-      {key:"canton", label:"Cantón", type:"text", req:true, ph:"Ej. Curridabat"},
-      {key:"distrito", label:"Distrito", type:"text", req:true, ph:"Ej. Curridabat"},
+      {key:"canton", label:"Cantón", type:"select", req:true, dependsOn:["provincia"], options:r => cantonesDe(r.provincia)},
+      {key:"distrito", label:"Distrito", type:"select", req:true, dependsOn:["provincia","canton"], options:r => distritosDe(r.provincia, r.canton)},
       {key:"mapa", label:"Enlace de mapa (opcional)", type:"url", ph:"https://maps.app.goo.gl/…"},
       {key:"direccion", label:"Dirección", type:"textarea", req:true, span:2, ph:"Ej. Contiguo al Indoor Club de Curridabat, San José"},
       {sec:"Contacto"},
@@ -415,10 +509,10 @@ const MODS = {
       {sec:"Público y vigencia"},
       {key:"_avisoColegio", type:"info", when:() => esColegio(), text:() => `Este aviso se publicará únicamente para los profesionales del ${colName(perfil())}.`},
       {key:"_avisoDepto", type:"info", when:() => esDepto(), text:() => `Este aviso quedará registrado a nombre de ${perfilNombre(perfil())}, según su usuario del SSO del CFIA.`},
-      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => PERFILES},
+      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => perfiles()},
       {key:"publico", label:"Colegios a los que se dirige", type:"select", req:true, when:() => !esColegio(), options:() => [["todos","Todos los colegios"],["colegios","Uno o varios colegios"]]},
       {key:"prioridad", label:"Prioridad", type:"number", min:1, req:true, help:"1 es la más alta. Si hay varios avisos vigentes, se muestra primero el de menor número."},
-      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO},
+      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => colegiosMiembro()},
       {key:"inicio", label:"Visible desde", type:"datetime", req:true},
       {key:"fin", label:"Visible hasta", type:"datetime", req:true},
       {key:"frecuencia", label:"Frecuencia", type:"select", req:true, span:2, options:() => [["hasta_accion","En cada inicio de sesión mientras esté vigente"],["diaria","Una vez al día"],["una_vez","Una sola vez"]]},
@@ -469,14 +563,14 @@ const MODS = {
     defaults:() => ({ campana:new Date().getFullYear() + 1, limitePorPersona:1, atributos:[{nombre:"",valor:""}], sedes:[], activo:true }),
     fields:[
       {sec:"Producto"},
-      {key:"colegio", label:"Colegio", type:"select", req:true, options:() => COLEGIOS_MIEMBRO},
+      {key:"colegio", label:"Colegio", type:"select", req:true, options:() => colegiosMiembro()},
       {key:"campana", label:"Campaña (año)", type:"number", req:true, min:2024},
       {key:"nombre", label:"Nombre del producto", type:"text", req:true, span:2, max:60, ph:"Ej. Paraguas Antigoteo"},
       {key:"descripcion", label:"Descripción", type:"textarea", req:true, span:2, max:500},
       {key:"imagen", label:"Imagen del producto", type:"image", span:2, help:"Se recomienda fondo blanco o transparente."},
       {sec:"Atributos del producto"},
       {key:"atributos", label:"Atributos", type:"attrs", span:2, addLabel:"Agregar atributo", dependsOn:["colegio"],
-        help:"Agregue los atributos que su colegio necesite. Cada uno se muestra como un bloque en la sección «Detalles» del App."},
+        help:"Agregue los atributos que su colegio necesite; cada uno se muestra en «Características del producto» del App. Si el profesional debe elegir (por ejemplo, la talla), seleccione «El profesional elige» y escriba las opciones separadas por coma."},
       {sec:"Inventario y período de solicitud"},
       {key:"cantidadTotal", label:"Cantidad total", type:"number", req:true, min:0},
       {key:"disponible", label:"Cantidad disponible", type:"number", req:true, min:0, help:"Se descuenta automáticamente con cada reserva."},
@@ -492,7 +586,7 @@ const MODS = {
       {key:"sedes", label:"Sedes de retiro habilitadas", type:"checks", span:2, req:true, dependsOn:["colegio"], options:r => sedeOpts(r.colegio), empty:"Primero registre sedes en el módulo Sedes, o seleccione un colegio."}
     ],
     filters:[
-      {key:"colegio", label:"Todos los colegios", options:COLEGIOS_MIEMBRO, test:(r,v) => r.colegio === v},
+      {key:"colegio", label:"Todos los colegios", options:() => colegiosMiembro(), test:(r,v) => r.colegio === v},
       {key:"estado", label:"Todos los estados", options:[["Vigente","Vigentes"],["Programada","Programadas"],["Agotada","Agotadas"],["Finalizada","Finalizadas"],["Inactiva","Inactivas"]], test:(r,v) => estadoRegalia(r)[0] === v}
     ],
     sort:(a,b) => (b.campana||0) - (a.campana||0) || (a.nombre||"").localeCompare(b.nombre||""),
@@ -507,13 +601,14 @@ const MODS = {
     ],
     preview:r => {
       const src = imgSrc(r.imagen);
-      const det = (r.atributos||[]).filter(a => a.nombre).map(a => `<div class="det"><b>${esc(a.nombre)}</b>${esc(a.valor)}</div>`).join("");
+      const det = (r.atributos||[]).filter(a => a.nombre).map(a => a.tipo === "elige"
+        ? `<div class="det"><b>${esc(a.nombre)} · Seleccione una opción</b>${opcionesDe(a).map(o => `<span style="display:inline-block;border:1px solid #ccc;border-radius:6px;padding:1px 7px;margin:3px 4px 0 0">${esc(o)}</span>`).join("")}</div>`
+        : `<div class="det"><b>${esc(a.nombre)}</b>${esc(a.valor)}</div>`).join("");
       return `<h3>Así se verá en el App</h3><div class="phone"><div class="screen">
-        <div class="wv">${ic("back")}<span style="flex:1">Regalías Disponibles</span>✕</div>
+        <div class="wv">${ic("back")}<span style="flex:1">Regalías ${esc(r.colegio || "[COLEGIO]")} ${esc(r.campana || "[AÑO]")}</span>✕</div>
         <div class="gift"><div class="img" ${src ? `style="background-image:url('${esc(src)}')"` : ""}></div>
           <h4>${esc(r.nombre || "Nombre del producto")}</h4><p>${esc(r.descripcion || "Descripción del producto.")}</p>
-          <div style="font-weight:600;margin-top:10px">Detalles</div>${det}
-          <div class="det"><b>Cantidad Disponible</b>${esc(r.disponible ?? 0)} unidades</div>
+          <div style="font-weight:600;margin-top:10px">Características del producto</div>${det}
           ${r.envioCorreos ? `<div class="det"><b>Entrega</b>Retiro en sede o envío por Correos de Costa Rica${r.costoEnvio ? ` (₡${esc(Number(r.costoEnvio).toLocaleString("es-CR"))})` : ""}</div>` : ""}
           <div class="cta">${Number(r.disponible) > 0 ? "RESERVAR" : "AGOTADO"}</div></div>
       </div></div>`;
@@ -524,6 +619,7 @@ const MODS = {
       if(Number(r.disponible) > Number(r.cantidadTotal)) e.disponible = "No puede ser mayor que la cantidad total.";
       const at = (r.atributos||[]);
       if(at.some(a => (a.nombre && !a.valor) || (!a.nombre && a.valor))) e.atributos = "Complete el nombre y el valor de cada atributo, o elimine la fila.";
+      else if(at.some(a => a.tipo === "elige" && opcionesDe(a).length < 2)) e.atributos = "Los atributos que elige el profesional necesitan al menos dos opciones separadas por coma.";
       const names = at.filter(a => a.nombre).map(a => a.nombre.trim().toLowerCase());
       if(new Set(names).size !== names.length) e.atributos = "Hay atributos con el mismo nombre.";
       return e;
@@ -545,6 +641,7 @@ const MODS = {
         .filter(g => g.id === r.regalia || (g.activo !== false && Number(g.disponible) > 0))
         .map(g => [g.id, `${g.nombre} · ${colShort(g.colegio)} ${g.campana} (${g.disponible} disp.)`])},
       {key:"cantidad", label:"Cantidad", type:"number", req:true, min:1},
+      {key:"opcionesElegidas", label:"Opciones elegidas por el profesional", type:"choices", span:2, dependsOn:["regalia"], when:r => atributosElige(r.regalia).length > 0},
       {key:"canal", label:"Canal", type:"select", req:true, options:() => [["app","App CFIA"],["gestor","Registro manual en el gestor"]]},
       {sec:"Profesional"},
       {key:"profesional", label:"Nombre del profesional", type:"text", req:true, ph:"Nombre Apellido"},
@@ -560,8 +657,8 @@ const MODS = {
       {key:"envioTelefono", label:"Teléfono", type:"tel", req:true, when:r => r.modalidad === "correos", ph:"0000-0000"},
       {key:"envioCedula", label:"Número de cédula", type:"text", when:r => r.modalidad === "correos", ph:"000000000", help:"Opcional para envíos nacionales, pero recomendado."},
       {key:"envioProvincia", label:"Provincia", type:"select", req:true, when:r => r.modalidad === "correos", options:() => PROVINCIAS},
-      {key:"envioCanton", label:"Cantón", type:"text", req:true, when:r => r.modalidad === "correos"},
-      {key:"envioDistrito", label:"Distrito", type:"text", req:true, when:r => r.modalidad === "correos"},
+      {key:"envioCanton", label:"Cantón", type:"select", req:true, when:r => r.modalidad === "correos", dependsOn:["envioProvincia"], options:r => cantonesDe(r.envioProvincia)},
+      {key:"envioDistrito", label:"Distrito", type:"select", req:true, when:r => r.modalidad === "correos", dependsOn:["envioProvincia","envioCanton"], options:r => distritosDe(r.envioProvincia, r.envioCanton)},
       {key:"envioDireccion", label:"Dirección exacta", type:"textarea", req:true, span:2, when:r => r.modalidad === "correos", ph:"Señas exactas de la dirección de entrega o el código del Apartado Postal Inteligente (API) / Locker si utiliza esta modalidad"},
       {key:"comprobante", label:"Comprobante de pago del envío", type:"file", req:true, span:2, when:r => r.modalidad === "correos", help:"Obligatorio. JPG, PNG o PDF, con un peso máximo de 5 MB. Lo sube el profesional desde el App; en un registro manual se adjunta aquí."},
       {key:"estadoPago", label:"Revisión del comprobante", type:"select", req:true, when:r => r.modalidad === "correos", options:() => ESTADOS_PAGO},
@@ -572,7 +669,7 @@ const MODS = {
     ],
     filters:[
       {key:"estado", label:"Todos los estados", options:ESTADOS_RES, test:(r,v) => r.estado === v},
-      {key:"colegio", label:"Todos los colegios", options:COLEGIOS_MIEMBRO, test:(r,v) => (byId("regalias", r.regalia)||{}).colegio === v},
+      {key:"colegio", label:"Todos los colegios", options:() => colegiosMiembro(), test:(r,v) => (byId("regalias", r.regalia)||{}).colegio === v},
       {key:"regalia", label:"Todas las regalías", options:() => S.data.regalias.map(g => [g.id, `${g.nombre} (${g.campana})`]), test:(r,v) => r.regalia === v},
       {key:"modalidad", label:"Todas las entregas", options:[["sede","Retiro en sede"],["correos","Correos de Costa Rica"]], test:(r,v) => (r.modalidad || "sede") === v}
     ],
@@ -580,7 +677,7 @@ const MODS = {
     columns:[
       {label:"N.º de reserva", cell:r => `<span class="t1 mono">${esc(r.numero)}</span><div class="sub">${r.canal === "app" ? "App CFIA" : "Gestor"}</div>`},
       {label:"Profesional", cell:r => `<div class="t1">${esc(r.profesional)}</div><div class="sub mono">${esc(r.carne)}</div>`},
-      {label:"Regalía", cell:r => { const g = byId("regalias", r.regalia); return g ? `<div>${esc(g.nombre)}</div><div class="sub">${esc(colShort(g.colegio))} · ${esc(g.campana)} · ${esc(r.cantidad)} u.</div>` : `<span class="sub">Regalía eliminada</span>`; }},
+      {label:"Regalía", cell:r => { const g = byId("regalias", r.regalia); return g ? `<div>${esc(g.nombre)}</div><div class="sub">${esc(colShort(g.colegio))} · ${esc(g.campana)} · ${esc(r.cantidad)} u.${Object.entries(r.opcionesElegidas || {}).filter(([k, v]) => v).map(([k, v]) => " · " + esc(k) + ": " + esc(v)).join("")}</div>` : `<span class="sub">Regalía eliminada</span>`; }},
       {label:"Entrega", cell:r => r.modalidad === "correos"
         ? `<div>Correos de Costa Rica</div><div class="sub">${esc(r.envioNombre || "")}</div><div class="sub">${esc([r.envioProvincia, r.envioCanton, r.envioDistrito].filter(Boolean).join(", "))}</div>${r.comprobante ? `<button class="btn sm" data-comp="${esc(r.id)}" style="margin-top:6px">${ic("eye")}Ver comprobante</button> ${pagoPill(r.estadoPago)}` : `<span class="pill warn" style="margin-top:6px">Sin comprobante</span>`}`
         : esc((byId("sedes", r.sede)||{}).nombre || "—")},
@@ -591,6 +688,8 @@ const MODS = {
     validate:(r, prev) => {
       const e = {};
       if(r.telefono && !/^\d{4}-?\d{4}$/.test(r.telefono.trim())) e.telefono = "Use el formato 0000-0000.";
+      const faltan = atributosElige(r.regalia).filter(a => !((r.opcionesElegidas || {})[a.nombre]));
+      if(faltan.length) e.opcionesElegidas = "Seleccione: " + faltan.map(a => a.nombre).join(", ") + ".";
       if(r.modalidad === "correos" && !((byId("regalias", r.regalia)||{}).envioCorreos)) e.modalidad = "Esta regalía no permite envío por Correos de Costa Rica.";
       if(r.modalidad === "correos" && r.envioTelefono && !/^\d{4}-?\d{4}$/.test(r.envioTelefono.trim())) e.envioTelefono = "Use el formato 0000-0000.";
       if(r.modalidad === "correos" && r.envioCedula && !/^\d{9,12}$/.test(r.envioCedula.replace(/[\s-]/g, ""))) e.envioCedula = "Ingrese una cédula válida (9 a 12 dígitos).";
@@ -657,16 +756,16 @@ const MODS = {
       {key:"publicarHasta", label:"Publicar hasta", type:"datetime"},
       {key:"_avisoColegioNov", type:"info", when:() => esColegio(), text:() => `Esta publicación se mostrará únicamente a los profesionales del ${colName(perfil())}.`},
       {key:"_avisoDeptoNov", type:"info", when:() => esDepto(), text:() => `Esta publicación quedará registrada a nombre de ${perfilNombre(perfil())}, según su usuario del SSO del CFIA.`},
-      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => PERFILES},
+      {key:"registradoPor", label:"Registrado por", type:"select", when:() => false, options:() => perfiles()},
       {key:"publico", label:"Se muestra a", type:"select", req:true, when:() => !esColegio(), options:() => [["todos","Todos los profesionales"],["colegios","Profesionales de colegios específicos"]]},
       {key:"destacado", label:"Mostrar primero en el carrusel", type:"toggle"},
-      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => COLEGIOS_MIEMBRO}
+      {key:"colegios", label:"Colegios", type:"checks", span:2, req:true, when:r => !esColegio() && r.publico === "colegios", options:() => colegiosMiembro()}
     ],
     beforeSave:(r, prev) => { r.registradoPor = prev ? registrador(prev) : perfil(); if(esColegio()){ r.publico = "colegios"; r.colegios = [perfil()]; } return r; },
     visible:puedeVer,
     filters:[
       {key:"tipo", label:"Todos los tipos", options:[["evento","Eventos"],["novedad","Novedades"],["anuncio","Anuncios"]], test:(r,v) => r.tipo === v},
-      {key:"registradoPor", label:"Todos los registradores", options:PERFILES, test:(r,v) => registrador(r) === v},
+      {key:"registradoPor", label:"Todos los registradores", options:() => perfiles(), test:(r,v) => registrador(r) === v},
       {key:"estado", label:"Todos los estados", options:[["publicado","Publicados"],["borrador","Borradores"]], test:(r,v) => r.estado === v}
     ],
     sort:(a,b) => (b.destacado?1:0) - (a.destacado?1:0) || (b.fecha||b.publicarDesde||"").localeCompare(a.fecha||a.publicarDesde||""),
@@ -700,7 +799,7 @@ const MODS = {
     }
   }
 };
-const MOD_ORDER = ["tramites","sedes","anuncios","regalias","reservas","novedades"];
+const MOD_ORDER = ["colegios","tramites","sedes","anuncios","regalias","reservas","novedades"];
 
 /* =====================================================================
    Navegación
@@ -781,7 +880,7 @@ function viewModuleShell(k){
   }).join("");
   return `${banner()}<div class="pagehead"><div><h1>${esc(m.title)}</h1><p>${esc(m.intro)}</p></div>
     <div class="actions">${k === "reservas" || k === "tramites" ? `<button class="btn" data-xls="${k}">${ic("down")}Exportar Excel</button>` : ""}${S.downloads ? `<button class="btn" data-export="${k}">${ic("down")}Exportar JSON</button>` : ""}
-    <button class="btn pri" data-new="${k}" ${S.canWrite ? "" : "disabled"}>${ic("plus")}${esc(m.nuevo)}</button></div></div>
+    <button class="btn pri" data-new="${k}" ${S.canWrite && (!m.canCreate || m.canCreate()) ? "" : "disabled"}>${ic("plus")}${esc(m.nuevo)}</button></div></div>
     <div class="toolbar"><div class="search">${ic("search")}<input type="text" data-q placeholder="Buscar en ${esc(m.title.toLowerCase())}" value="${esc(S.f[k].q || "")}"></div>${fl}</div>
     <div class="card"><div class="tablewrap" id="rows"></div></div>`;
 }
@@ -859,7 +958,7 @@ function fieldHTML(f, r){
   const id = "f_" + f.key;
   const req = f.req ? `<span class="req" aria-hidden="true">*</span>` : "";
   const help = f.help ? `<span class="help">${esc(f.help)}</span>` : "";
-  const ro = S.canWrite ? "" : "disabled";
+  const ro = S.canWrite && !(f.lock && f.lock(r)) ? "" : "disabled";
   let ctl = "";
   const max = f.max ? `maxlength="${f.max}"` : "";
   switch(f.type){
@@ -880,13 +979,18 @@ function fieldHTML(f, r){
       break;
     }
     case "info": return `<div class="f span2" data-key="${f.key}"><div class="banner" style="margin:0">${ic("info")}<div>${esc(f.text(r))}</div></div></div>`;
+    case "choices": {
+      const at = atributosElige(r.regalia); const val = v || {};
+      ctl = `<div class="choices" id="${id}">${at.map(a => `<label>${esc(a.nombre)}<select data-attr="${esc(a.nombre)}" ${ro}><option value="">Seleccione…</option>${opcionesDe(a).map(o => `<option value="${esc(o)}" ${val[a.nombre] === o ? "selected" : ""}>${esc(o)}</option>`).join("")}</select></label>`).join("")}</div>`;
+      break;
+    }
     case "toggle": return `<div class="f" data-key="${f.key}"><label class="toggle"><input id="${id}" type="checkbox" ${v !== false && v != null ? "checked" : ""} ${ro}><span>${esc(f.label)}</span></label>${help}</div>`;
     case "list": {
       const items = (v && v.length ? v : [""]);
       ctl = `<div class="listed" id="${id}">${items.map(x => listRow(f, x)).join("")}${S.canWrite ? `<button type="button" class="btn sm ghost addrow" data-add="${f.key}">${ic("plus")}${esc(f.addLabel)}</button>` : ""}</div>`; break;
     }
     case "pairs": case "attrs": {
-      const cols = f.type === "attrs" ? [{k:"nombre", ph:"Atributo (ej. Dimensiones)"},{k:"valor", ph:"Valor (ej. 60x10x10 cm)"}] : f.cols;
+      const cols = f.type === "attrs" ? [{k:"nombre", ph:"Atributo (ej. Dimensiones)"},{k:"valor", ph:"Valor, u opciones separadas por coma"}] : f.cols;
       const items = (v && v.length ? v : [{}]);
       let dl = "";
       if(f.type === "attrs"){
@@ -894,11 +998,11 @@ function fieldHTML(f, r){
         ["Dimensiones","Color","Talla","Material","Capacidad","Peso"].forEach(n => names.add(n));
         dl = `<datalist id="dl_attr">${[...names].map(n => `<option value="${esc(n)}">`).join("")}</datalist>`;
       }
-      ctl = `<div class="listed ${f.type === "attrs" ? "attrs" : "attrs"}" id="${id}">${items.map(x => pairRow(f, cols, x)).join("")}${S.canWrite ? `<button type="button" class="btn sm ghost addrow" data-add="${f.key}">${ic("plus")}${esc(f.addLabel)}</button>` : ""}${dl}</div>`; break;
+      ctl = `<div class="listed ${f.type === "attrs" ? "attrs attrs3" : "attrs"}" id="${id}">${items.map(x => pairRow(f, cols, x)).join("")}${S.canWrite ? `<button type="button" class="btn sm ghost addrow" data-add="${f.key}">${ic("plus")}${esc(f.addLabel)}</button>` : ""}${dl}</div>`; break;
     }
     case "file": {
       const src = imgSrc(v); const isPdf = v && /pdf/i.test(v.tipo || v.nombre || "");
-      const canUp = S.canWrite && (S.assets || S.mode === "memoria");
+      const canUp = S.canWrite && !(f.lock && f.lock(r)) && (S.assets || S.mode === "memoria");
       ctl = `<div class="imgbox" id="${id}" data-file='${esc(JSON.stringify(v || null))}'><div class="ph" ${src && !isPdf ? `style="background-image:url('${esc(src)}')"` : ""}>${src ? (isPdf ? "PDF" : "") : "Sin archivo"}</div>
         <div class="ctl">${src ? `<p style="margin:0;font-weight:600;word-break:break-all">${esc(v.nombre || "Comprobante")}</p>` : `<p style="margin:0;color:var(--muted)">El profesional aún no ha subido el comprobante.</p>`}
         <div class="actions">${src ? `<button type="button" class="btn sm" data-viewfile="${f.key}">${ic("eye")}Ver comprobante</button>` : ""}${canUp ? `<label class="btn sm">${ic("up")}${src ? "Reemplazar" : "Adjuntar"}<input type="file" accept="image/png,image/jpeg,application/pdf" hidden data-upload="${f.key}"></label>${src ? `<button type="button" class="btn sm ghost" data-clearimg="${f.key}">Quitar</button>` : ""}` : ""}</div></div></div>`;
@@ -906,7 +1010,7 @@ function fieldHTML(f, r){
     }
     case "image": {
       const src = imgSrc(v);
-      const canUp = S.canWrite && (S.assets || S.mode === "memoria");
+      const canUp = S.canWrite && !(f.lock && f.lock(r)) && (S.assets || S.mode === "memoria");
       ctl = `<div class="imgbox" id="${id}" data-img='${esc(JSON.stringify(v || {}))}'><div class="ph" ${src ? `style="background-image:url('${esc(src)}')"` : ""}>${src ? "" : "Sin imagen"}</div>
         <div class="ctl">${canUp ? `<div class="actions"><label class="btn sm">${ic("up")}Subir imagen<input type="file" accept="image/png,image/jpeg,image/webp" hidden data-upload="${f.key}"></label>${src ? `<button type="button" class="btn sm ghost" data-clearimg="${f.key}">Quitar</button>` : ""}</div>` : ""}
         <input type="url" data-imgurl placeholder="O pegue la URL pública de la imagen (https://…)" value="${esc(v && !v.id && v.url && !String(v.url).startsWith("data:") ? v.url : "")}" ${ro}></div></div>`;
@@ -916,7 +1020,7 @@ function fieldHTML(f, r){
   return `<div class="f ${f.span === 2 ? "span2" : ""}" data-key="${f.key}">${f.type === "checks" || f.type === "list" || f.type === "pairs" || f.type === "attrs" || f.type === "image" || f.type === "file" ? `<span class="lbl">${esc(f.label)}${req}</span>` : `<label for="${id}">${esc(f.label)}${req}</label>`}${ctl}${help}<span class="err" role="alert"></span></div>`;
 }
 const listRow = (f, x) => `<div class="li"><input type="${f.itemType}" value="${esc(x)}" placeholder="${esc(f.ph||"")}" ${S.canWrite ? "" : "disabled"}>${S.canWrite ? `<button type="button" class="iconbtn" data-rm aria-label="Quitar">${ic("x")}</button>` : ""}</div>`;
-const pairRow = (f, cols, x) => `<div class="li">${cols.map((c, i) => `<input type="text" data-c="${c.k}" value="${esc((x||{})[c.k])}" placeholder="${esc(c.ph)}" ${f.type === "attrs" && i === 0 ? 'list="dl_attr"' : ""} ${S.canWrite ? "" : "disabled"}>`).join("")}${S.canWrite ? `<button type="button" class="iconbtn" data-rm aria-label="Quitar">${ic("x")}</button>` : `<span></span>`}</div>`;
+const pairRow = (f, cols, x) => `<div class="li">${cols.map((c, i) => `<input type="text" data-c="${c.k}" value="${esc((x||{})[c.k])}" placeholder="${esc(c.ph)}" ${f.type === "attrs" && i === 0 ? 'list="dl_attr"' : ""} ${S.canWrite ? "" : "disabled"}>`).join("")}${f.type === "attrs" ? `<select data-c="tipo" ${S.canWrite ? "" : "disabled"} aria-label="Tipo de atributo"><option value="info" ${(x||{}).tipo !== "elige" ? "selected" : ""}>Informativo</option><option value="elige" ${(x||{}).tipo === "elige" ? "selected" : ""}>El profesional elige</option></select>` : ""}${S.canWrite ? `<button type="button" class="iconbtn" data-rm aria-label="Quitar">${ic("x")}</button>` : `<span></span>`}</div>`;
 
 function readForm(m, root){
   const r = {};
@@ -930,7 +1034,8 @@ function readForm(m, root){
       case "datetime": r[f.key] = el.value || ""; break;
       case "checks": r[f.key] = $$("input:checked", box).map(i => i.value); break;
       case "list": r[f.key] = $$(".li input", box).map(i => i.value.trim()).filter(Boolean); break;
-      case "pairs": case "attrs": r[f.key] = $$(".li", box).map(li => Object.fromEntries($$("input", li).map(i => [i.dataset.c, i.value.trim()]))).filter(o => Object.values(o).some(Boolean)); break;
+      case "pairs": case "attrs": r[f.key] = $$(".li", box).map(li => Object.fromEntries($$("input,select", li).map(i => [i.dataset.c, i.value.trim()]))).filter(o => Object.entries(o).some(([k, v]) => k !== "tipo" && v)); break;
+      case "choices": r[f.key] = Object.fromEntries($$("select[data-attr]", box).map(sel => [sel.dataset.attr, sel.value])); break;
       case "file": r[f.key] = JSON.parse(el.dataset.file || "null"); break;
       case "image": { const o = JSON.parse(el.dataset.img || "{}"); const u = $("[data-imgurl]", box).value.trim(); r[f.key] = o.id ? { id:o.id } : (u ? { url:u } : (o.url ? { url:o.url } : null)); break; }
       case "info": break;
@@ -1041,6 +1146,11 @@ function openForm(k, id){
     if(f.type === "file" && !/^(image\/png|image\/jpeg|application\/pdf)$/.test(file.type)){ toast("Use un archivo JPG, PNG o PDF.", true); return; }
     if(f.type === "file" && file.size > 5 * 1024 * 1024){ toast("El comprobante supera los 5 MB.", true); return; }
     if(file.size > 20 * 1024 * 1024){ toast("La imagen supera los 20 MB.", true); return; }
+    if(f.dims){
+      if(!/^(image\/png|image\/jpeg)$/.test(file.type)){ toast("Use una imagen JPG o PNG.", true); return; }
+      const okDims = await new Promise(res => { const u = URL.createObjectURL(file); const im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im.naturalWidth === f.dims[0] && im.naturalHeight === f.dims[1]); }; im.onerror = () => res(false); im.src = u; });
+      if(!okDims){ toast(`La imagen debe medir exactamente ${f.dims[0]} × ${f.dims[1]} px.`, true); return; }
+    }
     const box = $(`.f[data-key="${f.key}"]`, root); $(".ph", box).textContent = "Subiendo…";
     try {
       let val;
@@ -1185,7 +1295,7 @@ async function exportReservasXLSX(){
     const g = byId("regalias", r.regalia) || {}; const env = r.modalidad === "correos";
     return {
       "N.º de reserva": r.numero || "", "Fecha de registro": fmtDate(r.creadoEn, true), "Canal": r.canal === "app" ? "App CFIA" : "Gestor",
-      "Estado": lab(ESTADOS_RES, r.estado), "Colegio": colName(g.colegio), "Regalía": g.nombre || "", "Campaña": g.campana || "", "Cantidad": Number(r.cantidad) || 0,
+      "Estado": lab(ESTADOS_RES, r.estado), "Colegio": colName(g.colegio), "Regalía": g.nombre || "", "Campaña": g.campana || "", "Cantidad": Number(r.cantidad) || 0, "Opciones elegidas": Object.entries(r.opcionesElegidas || {}).filter(([k, v]) => v).map(([k, v]) => k + ": " + v).join("; "),
       "Profesional": r.profesional || "", "Carné CFIA": r.carne || "", "Correo": r.correo || "", "Teléfono": r.telefono || "",
       "Modalidad de entrega": env ? "Envío por Correos de Costa Rica" : "Retiro en sede",
       "Sede": env ? "" : ((byId("sedes", r.sede) || {}).nombre || ""), "Persona que retira": env ? "" : (r.personaRetira || ""),
@@ -1197,7 +1307,7 @@ async function exportReservasXLSX(){
     };
   });
   try {
-    const ok = await writeXLSX("Reservas", filas, [16,17,10,22,32,24,9,9,26,12,28,12,28,24,24,26,14,14,12,14,14,40,26,20,17,30], `app-cfia-reservas-${hoy()}.xlsx`);
+    const ok = await writeXLSX("Reservas", filas, [16,17,10,22,32,24,9,9,20,26,12,28,12,28,24,24,26,14,14,12,14,14,40,26,20,17,30], `app-cfia-reservas-${hoy()}.xlsx`);
     if(ok) toast(`Se exportaron ${filas.length} reserva(s).`);
   } catch(e){ toast("No fue posible generar el Excel. Revise su conexión e intente de nuevo.", true); }
 }

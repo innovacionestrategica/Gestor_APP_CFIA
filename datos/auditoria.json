@@ -1,5 +1,15 @@
 [
   {
+    "id": "carga-colegios",
+    "accion": "crear",
+    "cambios": [],
+    "fecha": "2026-11-04T18:00:00.000Z",
+    "modulo": "colegios",
+    "nota": "Carga inicial del catálogo de colegios: datos del carrusel y arte 2027 del aviso de regalías de cada colegio.",
+    "registroId": "",
+    "registroNombre": "Carga inicial de colegios"
+  },
+  {
     "id": "carga-inicial",
     "accion": "crear",
     "cambios": [],
@@ -8,6 +18,40 @@
     "nota": "Se cargaron 5 trámites con WebView y la Sede Central CFIA a partir de las historias de usuario.",
     "registroId": "",
     "registroNombre": "Carga inicial de datos"
+  },
+  {
+    "id": "carga-logos-color",
+    "accion": "modificar",
+    "cambios": [
+      {
+        "antes": "",
+        "campo": "logoColor",
+        "despues": "Imagen cargada",
+        "etiqueta": "Logo a color"
+      }
+    ],
+    "fecha": "2026-11-04T19:30:00.000Z",
+    "modulo": "colegios",
+    "nota": "Se cargaron los logos a color de los cinco colegios y de la Mutualidad CFIA.",
+    "registroId": "",
+    "registroNombre": "Logos a color"
+  },
+  {
+    "id": "carga-logos",
+    "accion": "modificar",
+    "cambios": [
+      {
+        "antes": "",
+        "campo": "logo",
+        "despues": "Imagen cargada",
+        "etiqueta": "Logo (versión en blanco)"
+      }
+    ],
+    "fecha": "2026-11-04T19:00:00.000Z",
+    "modulo": "colegios",
+    "nota": "Se cargaron los logos de los cinco colegios y de la Mutualidad CFIA, obtenidos de las tarjetas del carrusel.",
+    "registroId": "",
+    "registroNombre": "Logos de colegios"
   },
   {
     "id": "ejemplo-carga-datos",

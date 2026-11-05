@@ -25,7 +25,7 @@ Fuera de claude.ai, el gestor funciona en **modo demostración**: carga los dato
 | `src/app.js` | Lógica del gestor: módulos, formularios, validaciones, inventario, perfiles y auditoría. |
 | `src/datos.js` | Datos de ejemplo para el modo demostración. |
 | `datos/` | Los mismos datos de ejemplo en JSON, un archivo por colección. |
-| `assets/` | Logo CFIA a color y versión sobre fondo negro. `assets/ejemplos/` tiene dos comprobantes de pago de ejemplo. |
+| `assets/` | Logo CFIA a color y versión sobre fondo negro. `assets/colegios/` tiene los logos y el arte 2027 del aviso de regalías de cada colegio. `assets/ejemplos/` tiene dos comprobantes de pago de ejemplo. |
 | `dist/gestor_app_cfia.html` | Versión en un solo archivo, con los datos de ejemplo incluidos. |
 | `dist/gestor_app_cfia_claude.html` | Versión publicada en claude.ai, que guarda los datos con la API de artefactos. |
 | `plantilla-correo/` | Plantillas HTML de los correos: confirmación de reserva con retiro en sede y solicitud de envío por Correos de Costa Rica. |
@@ -35,10 +35,11 @@ Fuera de claude.ai, el gestor funciona en **modo demostración**: carga los dato
 | Módulo | Qué permite |
 |---|---|
 | Resumen | Indicadores, inventario de regalías, próximos eventos y últimos cambios. |
+| Colegios y Mutualidad | Catálogo único de los cinco colegios miembros y la Mutualidad CFIA: logo a color y en blanco, color de marca, sitio web y texto del carrusel, contacto para regalías y arte del aviso de regalías por campaña (tres tamaños). Cada colegio solo edita su contacto y su arte. |
 | Trámites y servicios | Enlaces que el App abre en WebView o en el navegador. Cada trámite indica si es para **colegiados, empresas o ambos**. Se exporta a Excel según los filtros. |
-| Sedes | Sedes del CFIA donde se retiran las regalías: provincia, cantón, distrito, dirección, horario, teléfonos y correos. No se asocian a un colegio. |
+| Sedes | Sedes del CFIA donde se retiran las regalías: provincia, cantón y distrito (listas desplegables), dirección, horario, teléfonos y correos. No se asocian a un colegio. |
 | Avisos | Avisos emergentes sobre la pantalla de Inicio del App para informar eventos específicos. No tienen botones: se cierran con la X y, opcionalmente, abren un enlace en WebView al tocarlos. El Administrador CFIA y los departamentos eligen los colegios; un colegio publica solo para el suyo. Las regalías no se registran aquí: el App muestra su aviso automáticamente. |
-| Regalías | Productos por colegio con atributos libres, inventario, período de solicitud, sedes de retiro y opción de **envío por Correos de Costa Rica**, con costo del envío y medios de pago (cuentas, bancos o SINPE Móvil) obligatorios. |
+| Regalías | Productos por colegio con atributos libres (informativos, o que elige el profesional, como la talla), inventario, período de solicitud, sedes de retiro y opción de **envío por Correos de Costa Rica**, con costo y medios de pago obligatorios. |
 | Reservas | Registro y edición de reservas, con retiro en sede o envío por Correos de Costa Rica. El envío usa los mismos campos y validaciones del App, incluido el **comprobante de pago** obligatorio (JPG, PNG o PDF, máximo 5 MB). Se exporta a Excel según los filtros. |
 | Eventos, novedades y anuncios | Contenido de «Novedades CFIA» y «VER TODAS» del App, que hasta ahora se alimentaba del WordPress del CFIA. Botón principal obligatorio y botón secundario opcional, cada uno con acción «Abrir un enlace en WebView» o «Abrir en navegador del dispositivo». Los eventos pueden tener una fecha específica o un rango de fechas. Pueden registrarlos los colegios y los departamentos del CFIA. |
 | Auditoría | Quién creó, modificó o eliminó cada registro, con el valor anterior y el nuevo de cada campo. |
@@ -68,10 +69,14 @@ Todos los registros de ejemplo son ficticios: se identifican con «(ejemplo)», 
 
 ## Modelo de datos
 
-Colecciones: `tramites`, `sedes`, `anuncios`, `regalias`, `reservas`, `novedades` (eventos, novedades y anuncios) y `auditoria`. Cada documento guarda los campos definidos en `MODS[...].fields` de `src/app.js`, más `creadoEn`, `creadoPor`, `actualizadoEn` y `actualizadoPor`.
+Colecciones: `colegios`, `tramites`, `sedes`, `anuncios`, `regalias`, `reservas`, `novedades` (eventos, novedades y anuncios) y `auditoria`. Cada documento guarda los campos definidos en `MODS[...].fields` de `src/app.js`, más `creadoEn`, `creadoPor`, `actualizadoEn` y `actualizadoPor`.
 
 Cada movimiento de `auditoria` registra `fecha`, `actorId`, `modulo`, `registroId`, `registroNombre`, `accion` (`crear`, `modificar` o `eliminar`), `cambios` (lista de `{campo, etiqueta, antes, despues}`) y `nota`.
 
 ## Tipografía
 
 El manual de marca define Noir Pro (títulos) y Myriad Pro (cuerpo). Como no se incluyen licencias web, se usan Poppins y Source Sans 3 de Google Fonts. Si el CFIA tiene las licencias web, basta con declararlas con `@font-face`: ya están primeras en las variables `--f-tit` y `--f-txt` de `src/styles.css`.
+
+## Datos de terceros
+
+Las listas de provincia, cantón y distrito usan la **División Territorial Administrativa 2026** del Instituto Geográfico Nacional (7 provincias, 84 cantones y 494 distritos), tomada de [ryze-cr/ubicaciones-cr](https://github.com/ryze-cr/ubicaciones-cr) (licencia MIT).

@@ -1,6 +1,182 @@
 /* Datos de ejemplo exportados del Gestor App CFIA (claude.ai). Se cargan en modo demostración. */
 window.CFIA_DATOS = {
-  "exportado": "2026-11-04T21:29:39+00:00",
+  "exportado": "2026-11-05T01:09:02+00:00",
+  "colegios": [
+    {
+      "id": "CACR",
+      "activo": true,
+      "actualizadoEn": "2026-11-04T19:30:00.000Z",
+      "arte2x": {
+        "url": "assets/colegios/CACR-arte-2027-2x.jpg"
+      },
+      "arte3x": {
+        "url": "assets/colegios/CACR-arte-2027-3x.jpg"
+      },
+      "arteAnio": 2027,
+      "arteOriginal": {
+        "url": "assets/colegios/CACR-arte-2027-original.jpg"
+      },
+      "color": "#A1172A",
+      "correoRegalias": "",
+      "creadoEn": "2026-11-04T18:00:00.000Z",
+      "logo": {
+        "url": "assets/colegios/CACR-logo-blanco.png"
+      },
+      "logoColor": {
+        "url": "assets/colegios/CACR-logo-color.png"
+      },
+      "nombre": "Colegio de Arquitectos de Costa Rica",
+      "ordenCarrusel": 2,
+      "sigla": "CACR",
+      "sitioWeb": "https://cacrarquitectos.com/",
+      "telefonoRegalias": "",
+      "textoCarrusel": "Explore el sitio web oficial del CACR",
+      "tipo": "colegio"
+    },
+    {
+      "id": "CIEMI",
+      "activo": true,
+      "actualizadoEn": "2026-11-04T19:30:00.000Z",
+      "arte2x": {
+        "url": "assets/colegios/CIEMI-arte-2027-2x.jpg"
+      },
+      "arte3x": {
+        "url": "assets/colegios/CIEMI-arte-2027-3x.jpg"
+      },
+      "arteAnio": 2027,
+      "arteOriginal": {
+        "url": "assets/colegios/CIEMI-arte-2027-original.jpg"
+      },
+      "color": "#004C92",
+      "correoRegalias": "",
+      "creadoEn": "2026-11-04T18:00:00.000Z",
+      "logo": {
+        "url": "assets/colegios/CIEMI-logo-blanco.png"
+      },
+      "logoColor": {
+        "url": "assets/colegios/CIEMI-logo-color.png"
+      },
+      "nombre": "Colegio de Ingenieros Electricistas, Mecánicos e Industriales",
+      "ordenCarrusel": 3,
+      "sigla": "CIEMI",
+      "sitioWeb": "https://ciemicr.org/",
+      "telefonoRegalias": "",
+      "textoCarrusel": "Explore el sitio web oficial del CIEMI",
+      "tipo": "colegio"
+    },
+    {
+      "id": "CIT",
+      "activo": true,
+      "actualizadoEn": "2026-11-04T19:30:00.000Z",
+      "arte2x": {
+        "url": "assets/colegios/CIT-arte-2027-2x.jpg"
+      },
+      "arte3x": {
+        "url": "assets/colegios/CIT-arte-2027-3x.jpg"
+      },
+      "arteAnio": 2027,
+      "arteOriginal": {
+        "url": "assets/colegios/CIT-arte-2027-original.jpg"
+      },
+      "color": "#30729C",
+      "correoRegalias": "",
+      "creadoEn": "2026-11-04T18:00:00.000Z",
+      "logo": {
+        "url": "assets/colegios/CIT-logo-blanco.png"
+      },
+      "logoColor": {
+        "url": "assets/colegios/CIT-logo-color.png"
+      },
+      "nombre": "Colegio de Ingenieros Topógrafos",
+      "ordenCarrusel": 4,
+      "sigla": "CIT",
+      "sitioWeb": "https://www.colegiotopografoscr.com/",
+      "telefonoRegalias": "",
+      "textoCarrusel": "Explore el sitio web oficial del CIT",
+      "tipo": "colegio"
+    },
+    {
+      "id": "CITEC",
+      "activo": true,
+      "actualizadoEn": "2026-11-04T19:30:00.000Z",
+      "arte2x": {
+        "url": "assets/colegios/CITEC-arte-2027-2x.jpg"
+      },
+      "arte3x": {
+        "url": "assets/colegios/CITEC-arte-2027-3x.jpg"
+      },
+      "arteAnio": 2027,
+      "arteOriginal": {
+        "url": "assets/colegios/CITEC-arte-2027-original.jpg"
+      },
+      "color": "#02A6A2",
+      "correoRegalias": "",
+      "creadoEn": "2026-11-04T18:00:00.000Z",
+      "logo": {
+        "url": "assets/colegios/CITEC-logo-blanco.png"
+      },
+      "logoColor": {
+        "url": "assets/colegios/CITEC-logo-color.png"
+      },
+      "nombre": "Colegio de Ingenieros Tecnólogos",
+      "ordenCarrusel": 5,
+      "sigla": "CITEC",
+      "sitioWeb": "https://www.citec.or.cr/",
+      "telefonoRegalias": "",
+      "textoCarrusel": "Explore el sitio web oficial del CITEC",
+      "tipo": "colegio"
+    },
+    {
+      "id": "CIVILES",
+      "activo": true,
+      "actualizadoEn": "2026-11-04T19:30:00.000Z",
+      "arte2x": {
+        "url": "assets/colegios/CIVILES-arte-2027-2x.jpg"
+      },
+      "arte3x": {
+        "url": "assets/colegios/CIVILES-arte-2027-3x.jpg"
+      },
+      "arteAnio": 2027,
+      "arteOriginal": {
+        "url": "assets/colegios/CIVILES-arte-2027-original.jpg"
+      },
+      "color": "#341578",
+      "correoRegalias": "",
+      "creadoEn": "2026-11-04T18:00:00.000Z",
+      "logo": {
+        "url": "assets/colegios/CIVILES-logo-blanco.png"
+      },
+      "logoColor": {
+        "url": "assets/colegios/CIVILES-logo-color.png"
+      },
+      "nombre": "Colegio de Ingenieros Civiles",
+      "ordenCarrusel": 1,
+      "sigla": "CIVILES",
+      "sitioWeb": "https://www.civiles.org/",
+      "telefonoRegalias": "",
+      "textoCarrusel": "Explore el sitio web oficial de CIVILES",
+      "tipo": "colegio"
+    },
+    {
+      "id": "MUTUALIDAD",
+      "activo": true,
+      "actualizadoEn": "2026-11-04T19:30:00.000Z",
+      "color": "#D97925",
+      "creadoEn": "2026-11-04T18:00:00.000Z",
+      "logo": {
+        "url": "assets/colegios/MUTUALIDAD-logo-blanco.png"
+      },
+      "logoColor": {
+        "url": "assets/colegios/MUTUALIDAD-logo-color.png"
+      },
+      "nombre": "Mutualidad CFIA",
+      "ordenCarrusel": 6,
+      "sigla": "MUTUALIDAD",
+      "sitioWeb": "https://mutualidadcfia.cr/",
+      "textoCarrusel": "Explore el sitio web oficial de Mutualidad CFIA",
+      "tipo": "mutualidad"
+    }
+  ],
   "tramites": [
     {
       "id": "bitacora-digital",
@@ -192,7 +368,7 @@ window.CFIA_DATOS = {
       "correos": [],
       "creadoEn": "2026-10-12T22:50:00.000Z",
       "direccion": "Contiguo al Indoor Club de Curridabat, San José, Costa Rica",
-      "distrito": "",
+      "distrito": "Curridabat",
       "horario": [
         {
           "dias": "Lunes a viernes",
@@ -307,15 +483,18 @@ window.CFIA_DATOS = {
       "actualizadoEn": "2026-10-25T16:00:00.000Z",
       "atributos": [
         {
-          "nombre": "Tallas",
+          "nombre": "Talla",
+          "tipo": "elige",
           "valor": "S, M, L, XL"
         },
         {
           "nombre": "Material",
+          "tipo": "info",
           "valor": "Algodón"
         },
         {
           "nombre": "Color",
+          "tipo": "info",
           "valor": "Gris"
         }
       ],
@@ -633,7 +812,10 @@ window.CFIA_DATOS = {
       "fechaEntrega": "",
       "modalidad": "sede",
       "numero": "RG-2026-105011",
-      "observaciones": "Talla M",
+      "observaciones": "",
+      "opcionesElegidas": {
+        "Talla": "M"
+      },
       "personaRetira": "Mariana Rodríguez Solís",
       "profesional": "Mariana Rodríguez Solís",
       "regalia": "ejemplo-camiseta",
@@ -653,6 +835,9 @@ window.CFIA_DATOS = {
       "modalidad": "sede",
       "numero": "RG-2026-105120",
       "observaciones": "No se retiró dentro del período.",
+      "opcionesElegidas": {
+        "Talla": "L"
+      },
       "personaRetira": "Esteban Vargas Solano",
       "profesional": "Esteban Vargas Solano",
       "regalia": "ejemplo-camiseta",
@@ -845,6 +1030,16 @@ window.CFIA_DATOS = {
   ],
   "auditoria": [
     {
+      "id": "carga-colegios",
+      "accion": "crear",
+      "cambios": [],
+      "fecha": "2026-11-04T18:00:00.000Z",
+      "modulo": "colegios",
+      "nota": "Carga inicial del catálogo de colegios: datos del carrusel y arte 2027 del aviso de regalías de cada colegio.",
+      "registroId": "",
+      "registroNombre": "Carga inicial de colegios"
+    },
+    {
       "id": "carga-inicial",
       "accion": "crear",
       "cambios": [],
@@ -853,6 +1048,40 @@ window.CFIA_DATOS = {
       "nota": "Se cargaron 5 trámites con WebView y la Sede Central CFIA a partir de las historias de usuario.",
       "registroId": "",
       "registroNombre": "Carga inicial de datos"
+    },
+    {
+      "id": "carga-logos-color",
+      "accion": "modificar",
+      "cambios": [
+        {
+          "antes": "",
+          "campo": "logoColor",
+          "despues": "Imagen cargada",
+          "etiqueta": "Logo a color"
+        }
+      ],
+      "fecha": "2026-11-04T19:30:00.000Z",
+      "modulo": "colegios",
+      "nota": "Se cargaron los logos a color de los cinco colegios y de la Mutualidad CFIA.",
+      "registroId": "",
+      "registroNombre": "Logos a color"
+    },
+    {
+      "id": "carga-logos",
+      "accion": "modificar",
+      "cambios": [
+        {
+          "antes": "",
+          "campo": "logo",
+          "despues": "Imagen cargada",
+          "etiqueta": "Logo (versión en blanco)"
+        }
+      ],
+      "fecha": "2026-11-04T19:00:00.000Z",
+      "modulo": "colegios",
+      "nota": "Se cargaron los logos de los cinco colegios y de la Mutualidad CFIA, obtenidos de las tarjetas del carrusel.",
+      "registroId": "",
+      "registroNombre": "Logos de colegios"
     },
     {
       "id": "ejemplo-carga-datos",

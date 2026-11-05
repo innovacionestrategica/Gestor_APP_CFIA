@@ -162,6 +162,9 @@ a.link{color:var(--text);text-decoration-color:var(--amarillo);text-underline-of
 .listed .li{display:flex;gap:8px;align-items:center}
 .listed .li input{flex:1}
 .attrs .li{display:grid;grid-template-columns:1fr 1.4fr 32px;gap:8px}
+.attrs3 .li{grid-template-columns:1fr 1.4fr 170px 32px}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.choices label{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
 .addrow{align-self:flex-start}
 .imgbox{display:flex;gap:14px;align-items:flex-start}
 .imgbox .ph{width:112px;height:84px;border-radius:8px;border:1px dashed var(--border);background:var(--surface-2) center/cover no-repeat;flex:none;display:grid;place-items:center;color:var(--muted);font-size:12px;text-align:center}

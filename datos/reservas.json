@@ -170,7 +170,10 @@
     "fechaEntrega": "",
     "modalidad": "sede",
     "numero": "RG-2026-105011",
-    "observaciones": "Talla M",
+    "observaciones": "",
+    "opcionesElegidas": {
+      "Talla": "M"
+    },
     "personaRetira": "Mariana Rodríguez Solís",
     "profesional": "Mariana Rodríguez Solís",
     "regalia": "ejemplo-camiseta",
@@ -190,6 +193,9 @@
     "modalidad": "sede",
     "numero": "RG-2026-105120",
     "observaciones": "No se retiró dentro del período.",
+    "opcionesElegidas": {
+      "Talla": "L"
+    },
     "personaRetira": "Esteban Vargas Solano",
     "profesional": "Esteban Vargas Solano",
     "regalia": "ejemplo-camiseta",
