@@ -28,14 +28,14 @@ Fuera de claude.ai, el gestor funciona en **modo demostración**: carga los dato
 | `assets/` | Logo CFIA a color y versión sobre fondo negro. `assets/colegios/` tiene los logos y el arte 2027 del aviso de regalías de cada colegio. `assets/ejemplos/` tiene dos comprobantes de pago de ejemplo. |
 | `dist/gestor_app_cfia.html` | Versión en un solo archivo, con los datos de ejemplo incluidos. |
 | `dist/gestor_app_cfia_claude.html` | Versión publicada en claude.ai, que guarda los datos con la API de artefactos. |
-| `plantilla-correo/` | Plantillas HTML de los correos: confirmación de reserva con retiro en sede y solicitud de envío por Correos de Costa Rica. |
+| `plantilla-correo/` | Plantillas HTML de los correos: confirmación de reserva con retiro en sede, solicitud de envío por Correos de Costa Rica y cambio de estado de la reserva («Entregada», «Cancelada» y «Liberada»). |
 
 ## Módulos
 
 | Módulo | Qué permite |
 |---|---|
 | Resumen | Indicadores, inventario de regalías, próximos eventos y últimos cambios. |
-| Colegios y Mutualidad | Catálogo único de los cinco colegios miembros y la Mutualidad CFIA: logo a color y en blanco, color de marca, sitio web y texto del carrusel, contacto para regalías y arte del aviso de regalías por campaña (tres tamaños). Cada colegio solo edita su contacto y su arte. |
+| Colegios y Mutualidad | Catálogo único de los cinco colegios miembros y la Mutualidad CFIA: logo a color y en blanco, color de marca, sitio web y texto del carrusel, imagen opcional de la tarjeta del carrusel (1200 × 564, 1029 × 483 y 686 × 322 px), contacto para regalías y arte del aviso de regalías por campaña (1200 × 1500, 1176 × 1470 y 784 × 980 px). Cada colegio solo edita su imagen del carrusel, su contacto y su arte. |
 | Trámites y servicios | Enlaces que el App abre en WebView o en el navegador. Cada trámite indica si es para **colegiados, empresas o ambos**. Se exporta a Excel según los filtros. |
 | Sedes | Sedes del CFIA donde se retiran las regalías: provincia, cantón y distrito (listas desplegables), dirección, horario, teléfonos y correos. No se asocian a un colegio. |
 | Avisos | Avisos emergentes sobre la pantalla de Inicio del App para informar eventos específicos. No tienen botones: se cierran con la X y, opcionalmente, abren un enlace en WebView al tocarlos. El Administrador CFIA y los departamentos eligen los colegios; un colegio publica solo para el suyo. Las regalías no se registran aquí: el App muestra su aviso automáticamente. |

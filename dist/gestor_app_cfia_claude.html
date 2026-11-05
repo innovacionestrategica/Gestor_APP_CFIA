@@ -618,6 +618,11 @@ const MODS = {
       {key:"textoCarrusel", label:"Texto de la tarjeta", type:"text", req:true, span:2, max:60, ph:"Explore el sitio web oficial del CACR", lock:() => !esAdmin()},
       {key:"ordenCarrusel", label:"Orden base en el carrusel", type:"number", req:true, min:1, lock:() => !esAdmin(), help:"En el App, el colegio del profesional se muestra primero y la Mutualidad CFIA al final."},
       {key:"activo", label:"Activo", type:"toggle", lock:() => !esAdmin()},
+      {sec:"Imagen de la tarjeta del carrusel"},
+      {key:"_avisoImgCarrusel", type:"info", when:() => true, text:() => "Opcional. Si se cargan los tres tamaños, el App muestra esta imagen como tarjeta completa del carrusel (al tocarla abre el sitio web). Si no, arma la tarjeta con el color, el texto, el logo en blanco y el botón «IR AL SITIO WEB». Proporción 2,13:1 (ancho de la tarjeta en el App: 343 pt)."},
+      {key:"imgCarrusel", label:"Imagen original · 1200 × 564 px", type:"image", dims:[1200,564], span:2, lock:r => !(esAdmin() || r.id === perfil()), help:"JPG o PNG."},
+      {key:"imgCarrusel3x", label:"Imagen @3x · 1029 × 483 px", type:"image", dims:[1029,483], span:2, lock:r => !(esAdmin() || r.id === perfil()), help:"JPG o PNG. Para pantallas de alta densidad."},
+      {key:"imgCarrusel2x", label:"Imagen @2x · 686 × 322 px", type:"image", dims:[686,322], span:2, lock:r => !(esAdmin() || r.id === perfil()), help:"JPG o PNG. Para pantallas de densidad estándar."},
       {sec:"Contacto para regalías", when:r => r.tipo !== "mutualidad"},
       {key:"telefonoRegalias", label:"Teléfono", type:"tel", ph:"0000-0000", when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil())},
       {key:"correoRegalias", label:"Correo electrónico", type:"email", ph:"regalias@colegio.cr", when:r => r.tipo !== "mutualidad", lock:r => !(esAdmin() || r.id === perfil()), help:"Se muestran en el correo de confirmación de retiro de regalías."},
@@ -635,7 +640,7 @@ const MODS = {
     columns:[
       {label:"", cell:r => imgSrc(r.logoColor) ? `<div class="thumb" style="background:#fff url('${esc(imgSrc(r.logoColor))}') center/80% no-repeat;border:1px solid var(--border)"></div>` : `<div class="thumb" style="background:${/^#[0-9a-f]{6}$/i.test(r.color||"") ? r.color : "var(--surface-2)"} ${imgSrc(r.logo) ? `url('${esc(imgSrc(r.logo))}') center/70% no-repeat` : ""}"></div>`},
       {label:"Colegio", cell:r => `<div class="t1">${esc(r.nombre)}</div><div class="sub"><span class="mono">${esc(r.id)}</span> · ${(r.tipo || "colegio") === "colegio" ? "Colegio miembro" : "Otra entidad del carrusel"}</div>`},
-      {label:"Carrusel", cell:r => `<div class="mono">Orden ${esc(r.ordenCarrusel)}</div><div class="sub">${esc(r.textoCarrusel)}</div>`},
+      {label:"Carrusel", cell:r => `<div class="mono">Orden ${esc(r.ordenCarrusel)}</div><div class="sub">${esc(r.textoCarrusel)}</div>${(r.imgCarrusel && r.imgCarrusel3x && r.imgCarrusel2x) ? `<span class="pill ok" style="margin-top:4px">Imagen de tarjeta</span>` : ""}`},
       {label:"Contacto", cell:r => r.tipo === "mutualidad" ? "—" : ([r.telefonoRegalias, r.correoRegalias].filter(Boolean).map(x => `<div class="sub">${esc(x)}</div>`).join("") || `<span class="sub">Sin contacto</span>`)},
       {label:"Arte de regalías", cell:r => r.tipo === "mutualidad" ? "—" : ((r.arteOriginal && r.arte3x && r.arte2x) ? pill([`${r.arteAnio || ""} · 3 tamaños`,"ok"]) : pill(["Pendiente","warn"]))},
       {label:"Estado", cell:r => pill(r.activo === false ? ["Inactivo",""] : ["Activo","ok"])}
@@ -655,6 +660,8 @@ const MODS = {
             <span class="b1" style="display:block;text-align:center;border-radius:6px;padding:8px;font-weight:600;font-size:11px;background:#FCB429">RESERVAR MI REGALÍA</span>
             <span style="display:block;text-align:center;font-weight:600;font-size:11px;margin-top:8px">NO VOLVER A MOSTRAR</span>
           </div></div></div></div></div>`;
+      const imgC = imgSrc(r.imgCarrusel2x) || imgSrc(r.imgCarrusel3x) || imgSrc(r.imgCarrusel);
+      if(imgC) return pop + `<h3 style="margin-top:18px">Tarjeta del carrusel (imagen)</h3><div style="aspect-ratio:686/322;border-radius:14px;background:url('${esc(imgC)}') center/cover no-repeat"></div>`;
       const card = `<h3 style="margin-top:18px">Tarjeta del carrusel</h3><div style="background:${color};border-radius:14px;padding:16px;color:#fff;display:flex;gap:12px;align-items:center;min-height:110px;font-family:'Poppins',Arial,sans-serif">
         <div style="flex:1"><div style="font-size:13px;font-weight:600;line-height:1.35">${esc(r.textoCarrusel || "Texto de la tarjeta")}</div><span style="display:inline-block;margin-top:10px;border:1.5px solid #fff;border-radius:8px;padding:5px 10px;font-size:10px;font-weight:600">IR AL SITIO WEB</span></div>
         <div style="width:90px;height:60px;background:${logo ? `url('${esc(logo)}') center/contain no-repeat` : "transparent"};${logo ? "" : "border:1px dashed rgba(255,255,255,.6);border-radius:6px;display:grid;place-items:center;font-size:10px"}">${logo ? "" : "Logo"}</div></div>`;
@@ -669,6 +676,8 @@ const MODS = {
       if(r.sitioWeb && !/^https:\/\//i.test(r.sitioWeb)) e.sitioWeb = "Debe iniciar con https://";
       if(r.telefonoRegalias && !/^\d{4}-?\d{4}$/.test(r.telefonoRegalias)) e.telefonoRegalias = "Use el formato 0000-0000.";
       if(r.correoRegalias && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.correoRegalias)) e.correoRegalias = "Ingrese un correo válido.";
+      const nc = [r.imgCarrusel, r.imgCarrusel3x, r.imgCarrusel2x].filter(x => imgSrc(x)).length;
+      if(nc && nc < 3) e.imgCarrusel = "Suba los tres tamaños de la imagen del carrusel (original, @3x y @2x).";
       const n = [r.arteOriginal, r.arte3x, r.arte2x].filter(x => imgSrc(x)).length;
       if(r.tipo !== "mutualidad" && n && n < 3) e.arteOriginal = "Suba los tres tamaños del arte (original, @3x y @2x).";
       if(r.tipo !== "mutualidad" && n && !r.arteAnio) e.arteAnio = "Indique el año de la campaña del arte.";
